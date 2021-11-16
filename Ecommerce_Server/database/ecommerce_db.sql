@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2021 at 11:28 AM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.6
+-- Generation Time: Nov 16, 2021 at 03:17 AM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,10 +34,18 @@ CREATE TABLE `banners` (
   `link` varchar(100) NOT NULL,
   `created` date NOT NULL,
   `creater_id` int(11) NOT NULL,
-  `updated` date NOT NULL,
-  `updater_id` int(11) NOT NULL,
+  `updated` date DEFAULT NULL,
+  `updater_id` int(11) DEFAULT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `banners`
+--
+
+INSERT INTO `banners` (`id`, `caption`, `description`, `link`, `created`, `creater_id`, `updated`, `updater_id`, `status`) VALUES
+(2, 'banner 1', 'des 1', 'link 1', '2021-11-01', 1, NULL, NULL, 0),
+(3, 'banner 1', 'des 1', 'link 1', '2021-11-01', 1, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -76,7 +84,7 @@ CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `parent_id` int(11) NOT NULL
+  `parent_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -226,6 +234,14 @@ CREATE TABLE `roles` (
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `status`) VALUES
+(1, 'user', 1),
+(2, 'manager', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -241,8 +257,8 @@ CREATE TABLE `services` (
   `duration` int(11) NOT NULL,
   `created` date NOT NULL,
   `created_id` int(11) NOT NULL,
-  `updated` date NOT NULL,
-  `updated_id` int(11) NOT NULL
+  `updated` date DEFAULT NULL,
+  `updated_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -343,10 +359,17 @@ CREATE TABLE `users` (
   `phone` varchar(20) NOT NULL,
   `email` varchar(100) NOT NULL,
   `created` date NOT NULL,
-  `updated` date NOT NULL,
+  `updated` date DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `role_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `fullname`, `birthday`, `phone`, `email`, `created`, `updated`, `status`, `role_id`) VALUES
+(1, 'manager1', '123', 'manager1', '2021-11-01', '123', 'manager@gmail.com', '2021-11-01', NULL, 1, 2);
 
 --
 -- Indexes for dumped tables
@@ -511,7 +534,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `banners`
 --
 ALTER TABLE `banners`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `branchs`
@@ -577,7 +600,7 @@ ALTER TABLE `promotions`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -619,7 +642,7 @@ ALTER TABLE `transaction_details`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
