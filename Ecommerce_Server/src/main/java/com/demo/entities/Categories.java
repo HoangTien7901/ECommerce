@@ -1,9 +1,5 @@
 package com.demo.entities;
-<<<<<<< HEAD
-// Generated Nov 16, 2021, 9:57:26 AM by Hibernate Tools 5.1.10.Final
-=======
 // Generated Nov 16, 2021, 9:02:55 AM by Hibernate Tools 5.1.10.Final
->>>>>>> 9fd1d1ca7d86be0f207fb63535de461072b91dc7
 
 import java.util.HashSet;
 import java.util.Set;
@@ -62,11 +58,7 @@ public class Categories implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-<<<<<<< HEAD
 	@JoinColumn(name = "parent_id")
-=======
-	@JoinColumn(name = "parent_id", nullable = false)
->>>>>>> 9fd1d1ca7d86be0f207fb63535de461072b91dc7
 	public Categories getCategories() {
 		return this.categories;
 	}
