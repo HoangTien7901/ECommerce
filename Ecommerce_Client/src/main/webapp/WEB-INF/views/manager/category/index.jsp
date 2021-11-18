@@ -88,6 +88,10 @@
 							href="${pageContext.request.contextPath }/manager/category/index"
 							class="nav-link active"><i class="far fa-circle nav-icon"></i>
 								<p>Category</p> </a></li>
+						<li class="nav-item menu-open"><a
+							href="${pageContext.request.contextPath }/manager/tag/index"
+							class="nav-link"><i class="far fa-circle nav-icon"></i>
+								<p>Tag</p> </a></li>
 					</ul>
 				</nav>
 				<!-- /.sidebar-menu -->
@@ -130,6 +134,10 @@
 											<i class="fas fa-expand"></i>
 										</button>
 										<!-- This will cause the card to collapse when clicked -->
+										<a
+											href="${pageContext.request.contextPath }/manager/category/add">
+											<button type="button" class="btn btn-primary">Add</button>
+										</a>
 									</div>
 								</div>
 

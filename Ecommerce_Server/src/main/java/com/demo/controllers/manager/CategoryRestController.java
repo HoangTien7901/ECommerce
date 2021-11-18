@@ -29,7 +29,7 @@ public class CategoryRestController {
 			
 			for (CategoryInfo item : items) {
 				if (item.getParentId() != null) {
-					item.setParentName(items.get(item.getParentId() - 1).getName());
+					item.setParentName(service.findInfoById(item.getParentId()).getName());
 				}
 			}
 			
@@ -39,10 +39,35 @@ public class CategoryRestController {
 		}
 	}
 	
+	@RequestMapping(value = "findAllExcept/{id}/{level}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Iterable<CategoryInfo>> findAllInfoExcept(@PathVariable("id") int id, @PathVariable("level") int level) {
+		try {
+			List<CategoryInfo> items = (List<CategoryInfo>) service.findAllActiveExcept(id, level);
+			
+			for (CategoryInfo item : items) {
+				if (item.getParentId() != null) {
+					item.setParentName(service.findInfoById(item.getParentId()).getName());
+				}
+			}
+
+			return new ResponseEntity<Iterable<CategoryInfo>>(items, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Iterable<CategoryInfo>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@RequestMapping(value = "findAllActive", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Iterable<CategoryInfo>> findAllActiveInfo() {
 		try {
-			return new ResponseEntity<Iterable<CategoryInfo>>(service.findAllActiveInfo(), HttpStatus.OK);
+			List<CategoryInfo> items = (List<CategoryInfo>) service.findAllActiveInfo();
+			
+			for (CategoryInfo item : items) {
+				if (item.getParentId() != null) {
+					item.setParentName(service.findInfoById(item.getParentId()).getName());
+				}
+			}
+			
+			return new ResponseEntity<Iterable<CategoryInfo>>(items, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Iterable<CategoryInfo>>(HttpStatus.BAD_REQUEST);
 		}

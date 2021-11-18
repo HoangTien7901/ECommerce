@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 16, 2021, 9:02:55 AM by Hibernate Tools 5.1.10.Final
+// Generated Nov 18, 2021, 3:02:24 PM by Hibernate Tools 5.1.10.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,22 +25,25 @@ public class Categories implements java.io.Serializable {
 	private Categories categories;
 	private String name;
 	private boolean status;
+	private int level;
 	private Set<Categories> categorieses = new HashSet<Categories>(0);
 	private Set<Products> productses = new HashSet<Products>(0);
 
 	public Categories() {
 	}
 
-	public Categories(String name, boolean status) {
+	public Categories(String name, boolean status, int level) {
 		this.name = name;
 		this.status = status;
+		this.level = level;
 	}
 
-	public Categories(Categories categories, String name, boolean status, Set<Categories> categorieses,
+	public Categories(Categories categories, String name, boolean status, int level, Set<Categories> categorieses,
 			Set<Products> productses) {
 		this.categories = categories;
 		this.name = name;
 		this.status = status;
+		this.level = level;
 		this.categorieses = categorieses;
 		this.productses = productses;
 	}
@@ -83,6 +86,15 @@ public class Categories implements java.io.Serializable {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	@Column(name = "level", nullable = false)
+	public int getLevel() {
+		return this.level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categories")

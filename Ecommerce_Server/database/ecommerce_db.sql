@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2021 at 05:17 AM
+-- Generation Time: Nov 18, 2021 at 11:12 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -114,18 +114,23 @@ CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `parent_id` int(11) DEFAULT NULL
+  `parent_id` int(11) DEFAULT NULL,
+  `level` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `status`, `parent_id`) VALUES
-(1, 'category 1', 1, NULL),
-(2, 'category 1.1', 0, 1),
-(3, 'category 2', 1, NULL),
-(4, 'category 1.2', 1, 1);
+INSERT INTO `categories` (`id`, `name`, `status`, `parent_id`, `level`) VALUES
+(1, 'category 1', 1, NULL, 1),
+(2, 'category 1.1', 1, 3, 2),
+(3, 'category 2', 1, NULL, 1),
+(4, 'category 1.2', 1, 1, 2),
+(6, 'category 1.1', 1, 1, 1),
+(9, 'category 3', 1, NULL, 1),
+(10, 'category 3.1', 1, 9, 2),
+(11, 'Category 4', 1, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -369,6 +374,18 @@ CREATE TABLE `tags` (
   `name` varchar(60) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tags`
+--
+
+INSERT INTO `tags` (`id`, `name`, `status`) VALUES
+(1, 'tag 1x', 0),
+(2, 'tag 2', 1),
+(3, 'tag 3', 0),
+(4, 'tag 4', 0),
+(5, 'tag 5', 1),
+(7, 'tag 6', 0);
 
 -- --------------------------------------------------------
 
@@ -637,7 +654,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `chat_chanels`
@@ -709,7 +726,7 @@ ALTER TABLE `stores`
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tag_products`

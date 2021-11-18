@@ -91,7 +91,7 @@
                with font-awesome or any other icon font library -->
 						<li class="nav-item menu-open"><a
 							href="${pageContext.request.contextPath }/manager/banner/index"
-							class="nav-link active"><i class="far fa-circle nav-icon"></i>
+							class="nav-link"><i class="far fa-circle nav-icon"></i>
 								<p>Banner</p> </a></li>
 						<li class="nav-item menu-open"><a
 							href="${pageContext.request.contextPath }/manager/feedback/index"
@@ -103,7 +103,7 @@
 								<p>Category</p> </a></li>
 						<li class="nav-item menu-open"><a
 							href="${pageContext.request.contextPath }/manager/tag/index"
-							class="nav-link"><i class="far fa-circle nav-icon"></i>
+							class="nav-link active"><i class="far fa-circle nav-icon"></i>
 								<p>Tag</p> </a></li>
 					</ul>
 				</nav>
@@ -125,7 +125,7 @@
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
 								<li class="breadcrumb-item"><a
-									href="${pageContext.request.contextPath }/manager/banner/index">${parentPageTitle }</a></li>
+									href="${pageContext.request.contextPath }/manager/tag/index">${parentPageTitle }</a></li>
 								<li class="breadcrumb-item active">${pageTitle }</li>
 							</ol>
 						</div>
@@ -147,39 +147,19 @@
 								<!-- /.card-header -->
 								<!-- form start -->
 								<s:form method="POST"
-									action="${pageContext.request.contextPath }/manager/banner/create"
-									modelAttribute="banner" enctype="multipart/form-data">
+									action="${pageContext.request.contextPath }/manager/tag/create"
+									modelAttribute="item">
 									<div class="card-body">
 										<div class="form-group">
-											<s:label path="caption">Caption</s:label>
-											<s:input cssClass="form-control" path="caption"
-												placeholder="Enter caption" />
+											<s:label path="name">Name</s:label>
+											<s:input cssClass="form-control" path="name"
+												placeholder="Enter name" />
 										</div>
-										<div class="form-group">
-											<s:label path="description">Description</s:label>
-											<s:input cssClass="form-control" path="description"
-												placeholder="Enter description" />
-										</div>
-										<div class="form-group">
-											<s:label path="link">Link</s:label>
-											<s:input cssClass="form-control" path="link"
-												placeholder="Enter link" />
-										</div>
-										<div class="form-group">
-											<label for="photo">Photo</label>
-											<div class="input-group">
-												<div class="custom-file">
-													<input type="file" class="custom-file-input" id="photo" name="photos"
-														accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" multiple="multiple">
-													<label class="custom-file-label" for="photo">Choose
-														file</label>
-												</div>
-											</div>
-										</div>
+
 										<div class="form-check">
 											<s:checkbox path="status" cssClass="form-check-input" />
 											<s:label path="status">Status</s:label>
-											<s:hidden path="creatorId" />
+											<s:hidden path="id" />
 										</div>
 									</div>
 									<!-- /.card-body -->
@@ -189,10 +169,8 @@
 										<button type="reset" class="btn btn-danger float-right">Reset</button>
 									</div>
 								</s:form>
-
 							</div>
 							<!-- /.card -->
-
 						</div>
 					</div>
 					<!-- /.row -->
@@ -232,11 +210,8 @@
 		src="${pageContext.request.contextPath }/resources/manager/dist/js/demo.js"></script>
 	<!-- Page specific script -->
 	<!-- bs-custom-file-input -->
-	<script src="${pageContext.request.contextPath }/resources/manager/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-	<script>
-		$(function() {
-			bsCustomFileInput.init();
-		});
-	</script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 </body>
 </html>
+

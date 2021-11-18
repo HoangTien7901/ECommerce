@@ -7,21 +7,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.demo.models.CategoryInfo;
+import com.demo.models.TagInfo;
 
-@Service("manager/categoryService")
-public class CategoryService implements ICategoryService {
+@Service("manager/tagService")
+public class TagService implements ITagService {
 	
-	private String BASE_URL = "http://localhost:9596/api/manager/category/";
+	private String BASE_URL = "http://localhost:9596/api/manager/tag/";
 
 	@Override
-	public ResponseEntity<Iterable<CategoryInfo>> findAllInfo() {
+	public ResponseEntity<Iterable<TagInfo>> findAllInfo() {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			return restTemplate.exchange(BASE_URL + "findAll",
 					HttpMethod.GET,
 					null , 
-					new ParameterizedTypeReference<Iterable<CategoryInfo>>() {} );
+					new ParameterizedTypeReference<Iterable<TagInfo>>() {} );
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return null;
@@ -29,13 +29,10 @@ public class CategoryService implements ICategoryService {
 	}
 	
 	@Override
-	public ResponseEntity<Iterable<CategoryInfo>> findAllExcept(int id, int level) {
+	public ResponseEntity<TagInfo> findInfoById(int id) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
-			return restTemplate.exchange(BASE_URL + "findAllExcept/" + id + "/" + level,
-					HttpMethod.GET,
-					null , 
-					new ParameterizedTypeReference<Iterable<CategoryInfo>>() {} );
+			return restTemplate.getForEntity(BASE_URL + "findInfoById/" + id, TagInfo.class);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return null;
@@ -43,30 +40,19 @@ public class CategoryService implements ICategoryService {
 	}
 
 	@Override
-	public ResponseEntity<CategoryInfo> findInfoById(int id) {
-		try {
-			RestTemplate restTemplate = new RestTemplate();
-			return restTemplate.getForEntity(BASE_URL + "findInfoById/" + id, CategoryInfo.class);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
-	}
-
-	@Override
-	public ResponseEntity<CategoryInfo> create(CategoryInfo object) {
+	public ResponseEntity<TagInfo> create(TagInfo object) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			
-			return restTemplate.postForEntity(BASE_URL + "create", object, CategoryInfo.class);
+			return restTemplate.postForEntity(BASE_URL + "create", object, TagInfo.class);
 		} catch (Exception e) {
 			System.out.println("Create object error: " + e.getMessage());
-			return new ResponseEntity<CategoryInfo>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<TagInfo>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@Override
-	public ResponseEntity<Void> update(CategoryInfo object) {
+	public ResponseEntity<Void> update(TagInfo object) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			restTemplate.put(BASE_URL + "update/" + object.getId(), object);

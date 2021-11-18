@@ -22,10 +22,15 @@ public class CategoryService implements ICategoryService {
 	public Iterable<CategoryInfo> findAllInfo() {
 		return repos.findAllInfo();
 	}
-	
+
 	@Override
 	public Iterable<CategoryInfo> findAllActiveInfo() {
 		return repos.findAllActiveInfo();
+	}
+
+	@Override
+	public Iterable<CategoryInfo> findAllActiveExcept(int id, int level) {
+		return repos.findAllActiveExcept(id, level);
 	}
 
 	@Override
@@ -43,9 +48,13 @@ public class CategoryService implements ICategoryService {
 
 		Categories categories = repos.findById(id).get();
 
-		if (object.getParentId() != null) {
+		if (object.getParentId() != 0) {
 			Categories parent = repos.findById(object.getParentId()).get();
 			categories.setCategories(parent);
+			categories.setLevel(parent.getLevel() + 1);
+		} else {
+			categories.setCategories(null);
+			categories.setLevel(1);
 		}
 
 		categories.setName(object.getName());
@@ -63,13 +72,17 @@ public class CategoryService implements ICategoryService {
 
 	@Override
 	public CategoryInfo add(CategoryInfo object) {
-		
+
 		Categories categories = new Categories();
 
-		if (object.getParentId() != null) {
+		if (object.getParentId() != 0) {
 			Categories parent = repos.findById(object.getParentId()).get();
 			categories.setCategories(parent);
-		}
+			categories.setLevel(parent.getLevel() + 1);
+		} else {
+			categories.setCategories(null);
+			categories.setLevel(1);
+		}  
 
 		categories.setName(object.getName());
 		categories.setStatus(object.isStatus());

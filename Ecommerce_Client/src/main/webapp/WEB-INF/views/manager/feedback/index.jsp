@@ -88,6 +88,10 @@
 							href="${pageContext.request.contextPath }/manager/category/index"
 							class="nav-link"><i class="far fa-circle nav-icon"></i>
 								<p>Category</p> </a></li>
+						<li class="nav-item menu-open"><a
+							href="${pageContext.request.contextPath }/manager/tag/index"
+							class="nav-link"><i class="far fa-circle nav-icon"></i>
+								<p>Tag</p> </a></li>
 					</ul>
 				</nav>
 				<!-- /.sidebar-menu -->

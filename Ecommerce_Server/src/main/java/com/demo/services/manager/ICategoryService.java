@@ -9,6 +9,8 @@ public interface ICategoryService {
 	
 	public Iterable<CategoryInfo> findAllActiveInfo();
 	
+	public Iterable<CategoryInfo> findAllActiveExcept(int id, int level);
+	
 	public CategoryInfo findInfoById(int id);
 	
 	public Categories findById(int id);

@@ -51,6 +51,7 @@ public class BannerController implements ServletContextAware {
 		BannerInfo banner = new BannerInfo();
 
 		banner.setCreatorId(1);
+		// change after login function
 
 		modelMap.put("banner", banner);
 		modelMap.put("pageTitle", "Add");
