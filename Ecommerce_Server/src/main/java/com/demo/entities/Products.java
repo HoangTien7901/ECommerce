@@ -1,4 +1,5 @@
 package com.demo.entities;
+// Generated Nov 17, 2021, 3:58:16 PM by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -43,6 +44,7 @@ public class Products implements java.io.Serializable {
 	private int ratingCount;
 	private double ratingAverage;
 	private boolean status;
+	private String banReason;
 	private Set<TagProducts> tagProductses = new HashSet<TagProducts>(0);
 	private Set<Carts> cartses = new HashSet<Carts>(0);
 	private Set<Images> imageses = new HashSet<Images>(0);
@@ -84,8 +86,8 @@ public class Products implements java.io.Serializable {
 			String description, String descriptionDetail, double originalPrice, double price, int quantity,
 			int inventory, Date created, Date updated, boolean isOutstanding, boolean isBestSelling, boolean isNew,
 			double discountPercent, double discountAmount, int ratingCount, double ratingAverage, boolean status,
-			Set<TagProducts> tagProductses, Set<Carts> cartses, Set<Images> imageses, Set<Transactions> transactionses,
-			Set<Comments> commentses) {
+			String banReason, Set<TagProducts> tagProductses, Set<Carts> cartses, Set<Images> imageses,
+			Set<Transactions> transactionses, Set<Comments> commentses) {
 		this.id = id;
 		this.branchs = branchs;
 		this.categories = categories;
@@ -108,6 +110,7 @@ public class Products implements java.io.Serializable {
 		this.ratingCount = ratingCount;
 		this.ratingAverage = ratingAverage;
 		this.status = status;
+		this.banReason = banReason;
 		this.tagProductses = tagProductses;
 		this.cartses = cartses;
 		this.imageses = imageses;
@@ -318,6 +321,15 @@ public class Products implements java.io.Serializable {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	@Column(name = "ban_reason", length = 300)
+	public String getBanReason() {
+		return this.banReason;
+	}
+
+	public void setBanReason(String banReason) {
+		this.banReason = banReason;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")

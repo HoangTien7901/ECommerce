@@ -18,6 +18,9 @@ public class BannerInfo {
 	private Date updated;
 	
 	private boolean status;
+	
+	private Integer creatorId;	
+	private Integer updatorId;
 
 	public int getId() {
 		return id;
@@ -75,13 +78,29 @@ public class BannerInfo {
 		this.status = status;
 	}
 	
+	public Integer getUpdatorId() {
+		return updatorId;
+	}
+
+	public void setUpdatorId(Integer updatorId) {
+		this.updatorId = updatorId;
+	}
+	
+	public Integer getCreatorId() {
+		return creatorId;
+	}
+
+	public void setCreatorId(Integer creatorId) {
+		this.creatorId = creatorId;
+	}
+
 	public BannerInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public BannerInfo(int id, String caption, String description, String link, Date created,
-			Date updated, boolean status) {
+	
+	public BannerInfo(int id, String caption, String description, String link, Date created, Date updated,
+			boolean status, Integer creatorId, Integer updatorId) {
 		super();
 		this.id = id;
 		this.caption = caption;
@@ -90,5 +109,7 @@ public class BannerInfo {
 		this.created = created;
 		this.updated = updated;
 		this.status = status;
+		this.creatorId = creatorId;
+		this.updatorId = updatorId;
 	}
 }

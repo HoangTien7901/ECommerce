@@ -13,52 +13,66 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.entities.Banners;
 import com.demo.models.BannerInfo;
+import com.demo.models.FeedbackInfo;
+import com.demo.models.ImageInfo;
 import com.demo.services.manager.IBannerService;
+import com.demo.services.manager.IFeedbackService;
+import com.demo.services.manager.IImageService;
 
 @RestController
-@RequestMapping("api/manager/banner")
-public class BannerRestController {
+@RequestMapping("api/manager/feedback")
+public class FeedbackRestController {
 	
 	@Autowired
-	private IBannerService service;
+	private IFeedbackService service;
 	
 	@RequestMapping(value = "findAll", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Iterable<BannerInfo>> findAllInfo() {
+	public ResponseEntity<Iterable<FeedbackInfo>> findAllInfo() {
 		try {
-			return new ResponseEntity<Iterable<BannerInfo>>(service.findAllInfo(), HttpStatus.OK);
+			return new ResponseEntity<Iterable<FeedbackInfo>>(service.findAllInfo(), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Iterable<BannerInfo>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Iterable<FeedbackInfo>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@RequestMapping(value = "findInfoById/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BannerInfo> findInfoById(@PathVariable("id") int id) {
+	public ResponseEntity<FeedbackInfo> findInfoById(@PathVariable("id") int id) {
 		try {
-			return new ResponseEntity<BannerInfo>(service.findInfoById(id), HttpStatus.OK);
+			return new ResponseEntity<FeedbackInfo>(service.findInfoById(id), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<BannerInfo>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<FeedbackInfo>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@RequestMapping(value= {"create"} , method = RequestMethod.POST,
 			produces = MimeTypeUtils.APPLICATION_JSON_VALUE , 
 			consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BannerInfo> create(@RequestBody BannerInfo banner) {
+	public ResponseEntity<FeedbackInfo> create(@RequestBody FeedbackInfo feedback) {
 		try {
-			return new ResponseEntity<BannerInfo>(service.add(banner), HttpStatus.OK);
+			return new ResponseEntity<FeedbackInfo>(service.add(feedback), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<BannerInfo>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<FeedbackInfo>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@RequestMapping(value= {"update/{id}"} , method = RequestMethod.PUT,
 			produces = MimeTypeUtils.APPLICATION_JSON_VALUE , 
 			consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BannerInfo> update(@PathVariable("id") int id, @RequestBody BannerInfo banner) {
+	public ResponseEntity<FeedbackInfo> update(@PathVariable("id") int id, @RequestBody FeedbackInfo feedback) {
 		try {
-			return new ResponseEntity<BannerInfo>(service.update(id, banner), HttpStatus.OK);
+			return new ResponseEntity<FeedbackInfo>(service.update(id, feedback), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<BannerInfo>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<FeedbackInfo>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value= {"toggleStatus/{id}"} , method = RequestMethod.PUT)
+	public ResponseEntity<Void> toggleStatus(@PathVariable("id") int id) {
+		try {
+			service.toggleStatus(id);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

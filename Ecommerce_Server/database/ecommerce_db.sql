@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2021 at 03:17 AM
+-- Generation Time: Nov 18, 2021 at 05:17 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -44,8 +44,38 @@ CREATE TABLE `banners` (
 --
 
 INSERT INTO `banners` (`id`, `caption`, `description`, `link`, `created`, `creater_id`, `updated`, `updater_id`, `status`) VALUES
-(2, 'banner 1', 'des 1', 'link 1', '2021-11-01', 1, NULL, NULL, 0),
-(3, 'banner 1', 'des 1', 'link 1', '2021-11-01', 1, NULL, NULL, 1);
+(2, 'banner 2xxx', 'des 2sss', 'link 2sss', '2021-11-10', 1, '2021-11-17', 1, 0),
+(3, 'banner 3zzs', 'des 3asdf', 'link 3', '2021-11-01', 1, NULL, NULL, 0),
+(5, 'new today', 'desc', 'saae', '2021-11-17', 1, NULL, NULL, 0),
+(6, 'asdfee', 'xxxx', 'xxxss', '2021-11-17', 1, '2021-11-17', 1, 0),
+(7, 'img 1', 'asdf', 'asdf', '2021-11-17', 1, NULL, NULL, 0),
+(10, 'img 2', 'asdf', 'asdf', '2021-11-17', 1, NULL, NULL, 0),
+(11, 'img 3', 'asdf', 'asdf', '2021-11-17', 1, NULL, NULL, 0),
+(12, 'img 4', 'asdf', 'asdf', '2021-11-17', 1, NULL, NULL, 0),
+(17, 'adfa', 'asdf', 'ddd', '2021-11-17', 1, NULL, NULL, 0),
+(18, 'aaa', 'ass', 'sdee', '2021-11-17', 1, NULL, NULL, 0),
+(19, 'new banner x', 'asdf', 'asdf', '2021-11-17', 1, NULL, NULL, 0),
+(20, 'new banner x', 'asdf', 'asdf', '2021-11-17', 1, NULL, NULL, 0),
+(21, 'banner new x', 'asdfasas', 'asdfasfd', '2021-11-17', 1, NULL, NULL, 0),
+(22, 'banner new x2', 'asdf', 'asdf', '2021-11-17', 1, NULL, NULL, 0),
+(23, 'new bannerx x', 'asdf', 'asdf', '2021-11-17', 1, NULL, NULL, 0),
+(24, 'new xx3s', 'asdf', 'asdf', '2021-11-17', 1, NULL, NULL, 0),
+(25, 'asdfzz', 'asdf', 'ss', '2021-11-17', 1, NULL, NULL, 0),
+(29, 'banner 2', 'des 2sss', 'link 2sss', '2021-11-17', 1, NULL, NULL, 0),
+(30, 'banner 2', 'des 2sss', 'link 2sss', '2021-11-17', 1, NULL, NULL, 0),
+(31, 'banner 110', 'des 2sss', 'link 2sss', '2021-11-17', 1, NULL, NULL, 0),
+(32, 'banner 2', 'des 2sss', 'link 2sss', '2021-11-17', 1, NULL, NULL, 0),
+(35, 'banner 2', 'des 2sss', 'link 2sss', '2021-11-18', 1, NULL, NULL, 0),
+(36, 'banner 2', 'des 2sss', 'link 2sss', '2021-11-18', 1, NULL, NULL, 0),
+(37, 'banner 2', 'des 2sss', 'link 2sss', '2021-11-18', 1, NULL, NULL, 0),
+(38, 'new cap', 'asdf', 'asdf', '2021-11-18', 1, NULL, NULL, 0),
+(39, 'banner sss', 'asdf', 'asd', '2021-11-18', 1, NULL, NULL, 0),
+(40, 'banner 2', 'des 2sss', 'link 2sss', '2021-11-18', 1, NULL, NULL, 0),
+(41, 'banner 2ss', 'des 2sss', 'link 2sss', '2021-11-18', 1, NULL, NULL, 0),
+(42, 'asdf', 'asdfasdf', 'asdfa', '2021-11-18', 1, NULL, NULL, 0),
+(43, 'banner 2xxx', 'des 2sss', 'link 2sss', '2021-11-18', 1, NULL, NULL, 0),
+(44, 'banner 2xcccc', 'des 2sss', 'link 2sss', '2021-11-18', 1, NULL, NULL, 0),
+(45, 'banner 2xxx', 'des 2sss', 'link 2sss', '2021-11-18', 1, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -86,6 +116,16 @@ CREATE TABLE `categories` (
   `status` tinyint(1) NOT NULL,
   `parent_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`, `status`, `parent_id`) VALUES
+(1, 'category 1', 1, NULL),
+(2, 'category 1.1', 0, 1),
+(3, 'category 2', 1, NULL),
+(4, 'category 1.2', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -147,15 +187,50 @@ CREATE TABLE `contacts` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `content` varchar(300) NOT NULL,
+  `created` date NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`id`, `user_id`, `content`, `created`, `status`) VALUES
+(1, 1, 'content 1', '2021-11-01', 0),
+(2, 1, 'content 2', '2021-11-01', 0),
+(3, 1, 'content 3', '2021-11-01', 1),
+(4, 1, 'content 4', '2021-11-01', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `images`
 --
 
 CREATE TABLE `images` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `banner_id` int(11) NOT NULL
+  `product_id` int(11) DEFAULT NULL,
+  `banner_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `images`
+--
+
+INSERT INTO `images` (`id`, `name`, `product_id`, `banner_id`) VALUES
+(3, '0da4727c524447cf875861c0440cc83c.png', NULL, 21),
+(4, 'ae071708f0674835b7997cac4fc91716.png', NULL, 41),
+(5, '0ffbdaabd44e483eb73d1ac91c7f2f51.png', NULL, 42),
+(6, '0f382e32aafb4525aa762911cc1374b4.png', NULL, 44),
+(7, '2fb1fbc9b9cd43e9bd4b9a03927e27cc.png', NULL, 45);
 
 -- --------------------------------------------------------
 
@@ -200,7 +275,8 @@ CREATE TABLE `products` (
   `discount_amount` double NOT NULL,
   `rating_count` int(11) NOT NULL,
   `rating_average` double NOT NULL,
-  `status` tinyint(1) NOT NULL
+  `status` tinyint(1) NOT NULL,
+  `ban_reason` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -278,7 +354,8 @@ CREATE TABLE `stores` (
   `created` date NOT NULL,
   `expiry` date NOT NULL,
   `updated` date NOT NULL,
-  `status` tinyint(1) NOT NULL
+  `status` tinyint(1) NOT NULL,
+  `ban_term` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -361,15 +438,16 @@ CREATE TABLE `users` (
   `created` date NOT NULL,
   `updated` date DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
-  `role_id` int(11) NOT NULL
+  `role_id` int(11) NOT NULL,
+  `ban_term` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `fullname`, `birthday`, `phone`, `email`, `created`, `updated`, `status`, `role_id`) VALUES
-(1, 'manager1', '123', 'manager1', '2021-11-01', '123', 'manager@gmail.com', '2021-11-01', NULL, 1, 2);
+INSERT INTO `users` (`id`, `username`, `password`, `fullname`, `birthday`, `phone`, `email`, `created`, `updated`, `status`, `role_id`, `ban_term`) VALUES
+(1, 'manager1', '123', 'manager1', '2021-11-01', '123', 'manager@gmail.com', '2021-11-01', NULL, 1, 2, NULL);
 
 --
 -- Indexes for dumped tables
@@ -433,6 +511,13 @@ ALTER TABLE `comments`
 --
 ALTER TABLE `contacts`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `images`
@@ -534,7 +619,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `banners`
 --
 ALTER TABLE `banners`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `branchs`
@@ -552,7 +637,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `chat_chanels`
@@ -579,10 +664,16 @@ ALTER TABLE `contacts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -688,6 +779,12 @@ ALTER TABLE `chat_messages`
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `images`

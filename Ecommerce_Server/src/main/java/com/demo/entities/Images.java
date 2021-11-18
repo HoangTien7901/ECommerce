@@ -44,7 +44,7 @@ public class Images implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "banner_id", nullable = false)
+	@JoinColumn(name = "banner_id")
 	public Banners getBanners() {
 		return this.banners;
 	}
@@ -54,7 +54,7 @@ public class Images implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id", nullable = false)
+	@JoinColumn(name = "product_id")
 	public Products getProducts() {
 		return this.products;
 	}

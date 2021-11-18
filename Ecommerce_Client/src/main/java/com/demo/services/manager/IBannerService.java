@@ -10,5 +10,9 @@ public interface IBannerService {
 
 	public ResponseEntity<BannerInfo> findInfoById(int id);
 
+	public ResponseEntity<BannerInfo> create(BannerInfo banner);
+	
 	public ResponseEntity<Void> update(BannerInfo banner);
+	
+	public ResponseEntity<Void> delete(int id);
 }

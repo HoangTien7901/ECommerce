@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 
@@ -79,11 +78,11 @@
                with font-awesome or any other icon font library -->
 						<li class="nav-item menu-open"><a
 							href="${pageContext.request.contextPath }/manager/banner/index"
-							class="nav-link active"><i class="far fa-circle nav-icon"></i>
+							class="nav-link"><i class="far fa-circle nav-icon"></i>
 								<p>Banner</p> </a></li>
 						<li class="nav-item menu-open"><a
 							href="${pageContext.request.contextPath }/manager/feedback/index"
-							class="nav-link"><i class="far fa-circle nav-icon"></i>
+							class="nav-link active"><i class="far fa-circle nav-icon"></i>
 								<p>Feedback</p> </a></li>
 						<li class="nav-item menu-open"><a
 							href="${pageContext.request.contextPath }/manager/category/index"
@@ -108,7 +107,7 @@
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item active">Banner</li>
+								<li class="breadcrumb-item active">${parentPageTitle }</li>
 							</ol>
 						</div>
 					</div>
@@ -131,10 +130,6 @@
 											<i class="fas fa-expand"></i>
 										</button>
 										<!-- This will cause the card to collapse when clicked -->
-										<a
-											href="${pageContext.request.contextPath }/manager/banner/add">
-											<button type="button" class="btn btn-primary">Add</button>
-										</a>
 									</div>
 								</div>
 
@@ -144,51 +139,46 @@
 										<thead>
 											<tr>
 												<th>Id</th>
-												<th>Caption</th>
-												<th>Description</th>
-												<th>Link</th>
+												<th>Sender</th>
+												<th>Content</th>
 												<th>Created date</th>
-												<th>Updated date</th>
 												<th>Status</th>
 												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="banner" items="${banners }">
+											<c:forEach var="item" items="${items }">
 												<tr>
-													<td>${banner.id }</td>
-													<td>${banner.caption }</td>
-													<td>${banner.description }</td>
-													<td>${banner.link }</td>
+													<td>${item.id }</td>
+													<td>${item.username }
+													<td>${item.content }</td>
 													<td><fmt:formatDate var="created"
-															value="${banner.created }" pattern="dd/MM/yyyy" />
+															value="${item.created }" pattern="dd/MM/yyyy" />
 														${created }</td>
-													<td><fmt:formatDate var="updated"
-															value="${banner.updated }" pattern="dd/MM/yyyy" />
-														${updated }</td>
-													<td>${banner.status }</td>
+													<td>${item.status ? "Done" : "Pending" }</td>
 													<td><a
-														href="${pageContext.request.contextPath }/manager/banner/edit/${banner.id }">
-															<button type="button" class="btn btn-primary">
+														href="${pageContext.request.contextPath }/manager/feedback/toggleStatus/${item.id }">
+															<button type="button" class="btn btn-primary"
+																title="Change status">
 																<i class="far fa-edit"></i>
 															</button>
 													</a> |
 														<button type="button" class="btn btn-danger buttonDelete"
 															data-toggle="modal" data-target="#modal-danger"
-															data-id="${banner.id }">
+															data-id="${item.id }">
 															<i class="far fa-trash-alt"></i>
-														</button>
+														</button> |
+														<button type="button" class="btn btn-primary">
+															Send mail?</button>
 												</tr>
 											</c:forEach>
 										</tbody>
 										<tfoot>
 											<tr>
 												<th>Id</th>
-												<th>Caption</th>
-												<th>Description</th>
-												<th>Link</th>
+												<th>Sender</th>
+												<th>Content</th>
 												<th>Created date</th>
-												<th>Updated date</th>
 												<th>Status</th>
 												<th>Action</th>
 											</tr>
@@ -239,7 +229,7 @@
 					<button type="button" class="btn btn-outline-light"
 						data-dismiss="modal">Cancel</button>
 					<a id="deleteLink"
-						data-link="${pageContext.request.contextPath }/manager/banner/delete/"
+						data-link="${pageContext.request.contextPath }/manager/feedback/delete/"
 						href="#">
 						<button type="button" class="btn btn-outline-light">Confirm</button>
 					</a>
@@ -296,7 +286,7 @@
 				var _href = $("#deleteLink").data("link");
 				$("#deleteLink").attr("href", _href + id);
 			});
-			
+
 			$('#dataTable').DataTable({
 				"paging" : true,
 				"lengthChange" : false,
@@ -305,7 +295,7 @@
 				"autoWidth" : false,
 				"responsive" : true,
 				"columnDefs" : [ {
-					'targets' : [ 7 ], /* column index, count from 0 */
+					'targets' : [ 5 ], /* column index, count from 0 */
 					'orderable' : false, /* true or false */
 				} ]
 			});

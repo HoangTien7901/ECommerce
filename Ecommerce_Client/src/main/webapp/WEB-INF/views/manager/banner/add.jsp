@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags/form"%>
+
 <html>
 <head>
 <meta charset="utf-8">
@@ -25,7 +29,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
-	
+
 	<div class="wrapper">
 		<!-- Navbar -->
 		<nav
@@ -39,19 +43,6 @@
 				<li class="nav-item d-none d-sm-inline-block"><a href="#"
 					class="nav-link">Contact</a></li>
 			</ul>
-
-			<!-- SEARCH FORM -->
-			<form class="form-inline ml-3">
-				<div class="input-group input-group-sm">
-					<input class="form-control form-control-navbar" type="search"
-						placeholder="Search" aria-label="Search">
-					<div class="input-group-append">
-						<button class="btn btn-navbar" type="submit">
-							<i class="fas fa-search"></i>
-						</button>
-					</div>
-				</div>
-			</form>
 		</nav>
 		<!-- /.navbar -->
 
@@ -98,18 +89,18 @@
 						data-widget="treeview" role="menu" data-accordion="false">
 						<!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-						<li class="nav-item menu-open"><a href="#"
-							class="nav-link active"> <i class="nav-icon fas fa-table"></i>
-								<p>
-									Tables <i class="fas fa-angle-left right"></i>
-								</p>
-						</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="../tables/data.html"
-									class="nav-link active"> <i class="far fa-circle nav-icon"></i>
-										<p>DataTables</p>
-								</a></li>
-							</ul></li>
+						<li class="nav-item menu-open"><a
+							href="${pageContext.request.contextPath }/manager/banner/index"
+							class="nav-link active"><i class="far fa-circle nav-icon"></i>
+								<p>Banner</p> </a></li>
+						<li class="nav-item menu-open"><a
+							href="${pageContext.request.contextPath }/manager/feedback/index"
+							class="nav-link"><i class="far fa-circle nav-icon"></i>
+								<p>Feedback</p> </a></li>
+						<li class="nav-item menu-open"><a
+							href="${pageContext.request.contextPath }/manager/category/index"
+							class="nav-link"><i class="far fa-circle nav-icon"></i>
+								<p>Category</p> </a></li>
 					</ul>
 				</nav>
 				<!-- /.sidebar-menu -->
@@ -124,12 +115,14 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1>Page Title</h1>
+							<h1>${parentPageTitle }</h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="#">Parent Page</a></li>
-								<li class="breadcrumb-item active">Current Page</li>
+								<li class="breadcrumb-item"><a href="#">Home</a></li>
+								<li class="breadcrumb-item"><a
+									href="${pageContext.request.contextPath }/manager/banner/index">${parentPageTitle }</a></li>
+								<li class="breadcrumb-item active">${pageTitle }</li>
 							</ol>
 						</div>
 					</div>
@@ -137,7 +130,74 @@
 				<!-- /.container-fluid -->
 			</section>
 
-			
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<!-- general form elements -->
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">${pageTitle }</h3>
+								</div>
+								<!-- /.card-header -->
+								<!-- form start -->
+								<s:form method="POST"
+									action="${pageContext.request.contextPath }/manager/banner/create"
+									modelAttribute="banner" enctype="multipart/form-data">
+									<div class="card-body">
+										<div class="form-group">
+											<s:label path="caption">Caption</s:label>
+											<s:input cssClass="form-control" path="caption"
+												placeholder="Enter caption" />
+										</div>
+										<div class="form-group">
+											<s:label path="description">Description</s:label>
+											<s:input cssClass="form-control" path="description"
+												placeholder="Enter description" />
+										</div>
+										<div class="form-group">
+											<s:label path="link">Link</s:label>
+											<s:input cssClass="form-control" path="link"
+												placeholder="Enter link" />
+										</div>
+										<div class="form-group">
+											<label for="photo">Photo</label>
+											<div class="input-group">
+												<div class="custom-file">
+													<input type="file" class="custom-file-input" id="photo" name="photos"
+														accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" multiple="multiple">
+													<label class="custom-file-label" for="photo">Choose
+														file</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-check">
+											<s:checkbox path="status" cssClass="form-check-input" />
+											<s:label path="status">Status</s:label>
+											<s:hidden path="creatorId" />
+										</div>
+									</div>
+									<!-- /.card-body -->
+
+									<div class="card-footer">
+										<button type="submit" class="btn btn-primary">Submit</button>
+										<button type="reset" class="btn btn-danger float-right">Reset</button>
+									</div>
+								</s:form>
+
+							</div>
+							<!-- /.card -->
+
+						</div>
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- /.content -->
+
+
 		</div>
 		<!-- /.content-wrapper -->
 		<footer class="main-footer">
@@ -156,42 +216,23 @@
 		<!-- /.control-sidebar -->
 	</div>
 	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>
+		src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>
 	<!-- Bootstrap 4 -->
 	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- DataTables  & Plugins -->
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables/jquery.dataTables.min.js"></script>
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/jszip/jszip.min.js"></script>
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/pdfmake/pdfmake.min.js"></script>
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/pdfmake/vfs_fonts.js"></script>
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+		src="${pageContext.request.contextPath }/resources/manager/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- AdminLTE App -->
 	<script
-			src="${pageContext.request.contextPath }/resources/manager/dist/js/adminlte.min.js"></script>
+		src="${pageContext.request.contextPath }/resources/manager/dist/js/adminlte.min.js"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script
-			src="${pageContext.request.contextPath }/resources/manager/dist/js/demo.js"></script>
+		src="${pageContext.request.contextPath }/resources/manager/dist/js/demo.js"></script>
 	<!-- Page specific script -->
+	<!-- bs-custom-file-input -->
+	<script src="${pageContext.request.contextPath }/resources/manager/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+	<script>
+		$(function() {
+			bsCustomFileInput.init();
+		});
+	</script>
 </body>
 </html>
-								

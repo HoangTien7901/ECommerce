@@ -13,52 +13,54 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.entities.Banners;
 import com.demo.models.BannerInfo;
+import com.demo.models.ImageInfo;
 import com.demo.services.manager.IBannerService;
+import com.demo.services.manager.IImageService;
 
 @RestController
-@RequestMapping("api/manager/banner")
-public class BannerRestController {
+@RequestMapping("api/manager/image")
+public class ImageRestController {
 	
 	@Autowired
-	private IBannerService service;
+	private IImageService service;
 	
 	@RequestMapping(value = "findAll", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Iterable<BannerInfo>> findAllInfo() {
+	public ResponseEntity<Iterable<ImageInfo>> findAllInfo() {
 		try {
-			return new ResponseEntity<Iterable<BannerInfo>>(service.findAllInfo(), HttpStatus.OK);
+			return new ResponseEntity<Iterable<ImageInfo>>(service.findAllInfo(), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Iterable<BannerInfo>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Iterable<ImageInfo>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@RequestMapping(value = "findInfoById/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BannerInfo> findInfoById(@PathVariable("id") int id) {
+	public ResponseEntity<ImageInfo> findInfoById(@PathVariable("id") int id) {
 		try {
-			return new ResponseEntity<BannerInfo>(service.findInfoById(id), HttpStatus.OK);
+			return new ResponseEntity<ImageInfo>(service.findInfoById(id), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<BannerInfo>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<ImageInfo>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@RequestMapping(value= {"create"} , method = RequestMethod.POST,
 			produces = MimeTypeUtils.APPLICATION_JSON_VALUE , 
 			consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BannerInfo> create(@RequestBody BannerInfo banner) {
+	public ResponseEntity<ImageInfo> create(@RequestBody ImageInfo image) {
 		try {
-			return new ResponseEntity<BannerInfo>(service.add(banner), HttpStatus.OK);
+			return new ResponseEntity<ImageInfo>(service.add(image), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<BannerInfo>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<ImageInfo>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@RequestMapping(value= {"update/{id}"} , method = RequestMethod.PUT,
 			produces = MimeTypeUtils.APPLICATION_JSON_VALUE , 
 			consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BannerInfo> update(@PathVariable("id") int id, @RequestBody BannerInfo banner) {
+	public ResponseEntity<ImageInfo> update(@PathVariable("id") int id, @RequestBody ImageInfo image) {
 		try {
-			return new ResponseEntity<BannerInfo>(service.update(id, banner), HttpStatus.OK);
+			return new ResponseEntity<ImageInfo>(service.update(id, image), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<BannerInfo>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<ImageInfo>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

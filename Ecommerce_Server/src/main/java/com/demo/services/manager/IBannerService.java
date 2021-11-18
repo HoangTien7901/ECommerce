@@ -12,5 +12,9 @@ public interface IBannerService {
 	public Banners findById(int id);
 	
 	public BannerInfo update(int id, BannerInfo banner);
+	
+	public void delete(int id);
+	
+	public BannerInfo add(BannerInfo banner);
 
 }

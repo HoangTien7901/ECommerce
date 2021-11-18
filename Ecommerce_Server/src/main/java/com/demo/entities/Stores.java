@@ -1,4 +1,5 @@
 package com.demo.entities;
+// Generated Nov 17, 2021, 3:58:16 PM by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -35,6 +36,7 @@ public class Stores implements java.io.Serializable {
 	private Date expiry;
 	private Date updated;
 	private boolean status;
+	private Date banTerm;
 	private Set<ChatChanels> chatChanelses = new HashSet<ChatChanels>(0);
 	private Set<Products> productses = new HashSet<Products>(0);
 	private Set<Notifications> notificationses = new HashSet<Notifications>(0);
@@ -59,8 +61,9 @@ public class Stores implements java.io.Serializable {
 	}
 
 	public Stores(Users users, String name, String phone, String email, String address, String logo, Date created,
-			Date expiry, Date updated, boolean status, Set<ChatChanels> chatChanelses, Set<Products> productses,
-			Set<Notifications> notificationses, Set<ChatMessages> chatMessageses, Set<Transactions> transactionses) {
+			Date expiry, Date updated, boolean status, Date banTerm, Set<ChatChanels> chatChanelses,
+			Set<Products> productses, Set<Notifications> notificationses, Set<ChatMessages> chatMessageses,
+			Set<Transactions> transactionses) {
 		this.users = users;
 		this.name = name;
 		this.phone = phone;
@@ -71,6 +74,7 @@ public class Stores implements java.io.Serializable {
 		this.expiry = expiry;
 		this.updated = updated;
 		this.status = status;
+		this.banTerm = banTerm;
 		this.chatChanelses = chatChanelses;
 		this.productses = productses;
 		this.notificationses = notificationses;
@@ -182,6 +186,16 @@ public class Stores implements java.io.Serializable {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ban_term", length = 10)
+	public Date getBanTerm() {
+		return this.banTerm;
+	}
+
+	public void setBanTerm(Date banTerm) {
+		this.banTerm = banTerm;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stores")

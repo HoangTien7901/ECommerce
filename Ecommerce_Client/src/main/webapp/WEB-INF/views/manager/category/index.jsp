@@ -2,8 +2,7 @@
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags/form"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
 <meta charset="utf-8">
@@ -26,6 +25,7 @@
 <!-- Theme style -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/manager/dist/css/adminlte.min.css">
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
@@ -70,19 +70,6 @@
 					</div>
 				</div>
 
-				<!-- SidebarSearch Form -->
-				<div class="form-inline">
-					<div class="input-group" data-widget="sidebar-search">
-						<input class="form-control form-control-sidebar" type="search"
-							placeholder="Search" aria-label="Search">
-						<div class="input-group-append">
-							<button class="btn btn-sidebar">
-								<i class="fas fa-search fa-fw"></i>
-							</button>
-						</div>
-					</div>
-				</div>
-
 				<!-- Sidebar Menu -->
 				<nav class="mt-2">
 					<ul class="nav nav-pills nav-sidebar flex-column"
@@ -91,7 +78,7 @@
                with font-awesome or any other icon font library -->
 						<li class="nav-item menu-open"><a
 							href="${pageContext.request.contextPath }/manager/banner/index"
-							class="nav-link active"><i class="far fa-circle nav-icon"></i>
+							class="nav-link"><i class="far fa-circle nav-icon"></i>
 								<p>Banner</p> </a></li>
 						<li class="nav-item menu-open"><a
 							href="${pageContext.request.contextPath }/manager/feedback/index"
@@ -99,7 +86,7 @@
 								<p>Feedback</p> </a></li>
 						<li class="nav-item menu-open"><a
 							href="${pageContext.request.contextPath }/manager/category/index"
-							class="nav-link"><i class="far fa-circle nav-icon"></i>
+							class="nav-link active"><i class="far fa-circle nav-icon"></i>
 								<p>Category</p> </a></li>
 					</ul>
 				</nav>
@@ -120,8 +107,7 @@
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item"><a href="${pageContext.request.contextPath }/manager/banner/index">${parentPageTitle }</a></li>
-								<li class="breadcrumb-item active">${pageTitle }</li>
+								<li class="breadcrumb-item active">${parentPageTitle }</li>
 							</ol>
 						</div>
 					</div>
@@ -133,70 +119,78 @@
 			<section class="content">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-12">
-							<!-- general form elements -->
-							<div class="card card-primary">
+						<div class="col-12">
+							<div class="card">
 								<div class="card-header">
 									<h3 class="card-title">${pageTitle }</h3>
+									<div class="card-tools">
+										<!-- This will cause the card to maximize when clicked -->
+										<button type="button" class="btn btn-tool"
+											data-card-widget="maximize">
+											<i class="fas fa-expand"></i>
+										</button>
+										<!-- This will cause the card to collapse when clicked -->
+									</div>
 								</div>
-								<!-- /.card-header -->
-								<!-- form start -->
-								<s:form method="POST" action="${pageContext.request.contextPath }/manager/banner/save"
-									modelAttribute="banner" enctype="multipart/form-data">
-									<div class="card-body">
-										<div class="form-group">
-											<s:label path="caption">Caption</s:label> <s:input
-												cssClass="form-control" path="caption"
-												placeholder="Enter caption"/>
-										</div>
-										<div class="form-group">
-											<s:label path="description">Description</s:label> <s:input
-												cssClass="form-control" path="description"
-												placeholder="Enter description"/>
-										</div>
-										<div class="form-group">
-											<s:label path="link">Link</s:label> <s:input
-												cssClass="form-control" path="link"
-												placeholder="Enter link"/>
-										</div>
-										<div class="form-group">
-											<label for="photo">Photo</label>
-											<div class="input-group">
-												<div class="custom-file">
-													<input type="file" class="custom-file-input" id="photo" name="photos"
-														accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" multiple="multiple">
-													<label class="custom-file-label" for="photo">Choose
-														file</label>
-												</div>
-											</div>
-										</div>
-										<div class="form-check">
-											<s:checkbox path="status" cssClass="form-check-input"/>
-											<s:label path="status">Status</s:label>
-											<s:hidden path="id"/>
-											<s:hidden path="creatorId"/>
-										</div>
-									</div>
-									<!-- /.card-body -->
 
-									<div class="card-footer">
-										<button type="submit" class="btn btn-primary">Submit</button>
-										<button type="reset" class="btn btn-danger float-right">Reset</button>
-									</div>
-								</s:form> 
+								<!-- /.card-header -->
+								<div class="card-body">
+									<table id="dataTable" class="table table-bordered table-hover">
+										<thead>
+											<tr>
+												<th>Id</th>
+												<th>Name</th>
+												<th>Parent category</th>
+												<th>Status</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="item" items="${items }">
+												<tr>
+													<td>${item.id }</td>
+													<td>${item.name }</td>
+													<td>${item.parentName }</td>
+													<td>${item.status ? "Enable" : "Disable" }</td>
+													<td><a
+														href="${pageContext.request.contextPath }/manager/category/edit/${item.id }">
+															<button type="button" class="btn btn-primary">
+																<i class="far fa-edit"></i>
+															</button>
+													</a> |
+														<button type="button" class="btn btn-danger buttonDelete"
+															data-toggle="modal" data-target="#modal-danger"
+															data-id="${item.id }">
+															<i class="far fa-trash-alt"></i>
+														</button>
+												</tr>
+											</c:forEach>
+										</tbody>
+										<tfoot>
+											<tr>
+												<th>Id</th>
+												<th>Name</th>
+												<th>Parent category</th>
+												<th>Status</th>
+												<th>Action</th>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
+								<!-- /.card-body -->
 
 							</div>
 							<!-- /.card -->
-
 						</div>
+						<!-- /.col -->
 					</div>
 					<!-- /.row -->
 				</div>
 				<!-- /.container-fluid -->
+
+
 			</section>
 			<!-- /.content -->
-
-
 		</div>
 		<!-- /.content-wrapper -->
 		<footer class="main-footer">
@@ -208,17 +202,67 @@
 			</strong> All rights reserved.
 		</footer>
 
-		<!-- Control Sidebar -->
-		<aside class="control-sidebar control-sidebar-dark">
-			<!-- Control sidebar content goes here -->
-		</aside>
-		<!-- /.control-sidebar -->
 	</div>
+
+	<div class="modal fade" id="modal-danger">
+		<div class="modal-dialog">
+			<div class="modal-content bg-danger">
+				<div class="modal-header">
+					<h4 class="modal-title">Confirm delete</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure?</p>
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-outline-light"
+						data-dismiss="modal">Cancel</button>
+					<a id="deleteLink"
+						data-link="${pageContext.request.contextPath }/manager/category/delete/"
+						href="#">
+						<button type="button" class="btn btn-outline-light">Confirm</button>
+					</a>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
 	<script
 		src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>
 	<!-- Bootstrap 4 -->
 	<script
 		src="${pageContext.request.contextPath }/resources/manager/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- DataTables  & Plugins -->
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/datatables/jquery.dataTables.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/jszip/jszip.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/pdfmake/pdfmake.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/pdfmake/vfs_fonts.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 	<!-- AdminLTE App -->
 	<script
 		src="${pageContext.request.contextPath }/resources/manager/dist/js/adminlte.min.js"></script>
@@ -226,14 +270,29 @@
 	<script
 		src="${pageContext.request.contextPath }/resources/manager/dist/js/demo.js"></script>
 	<!-- Page specific script -->
-	<!-- bs-custom-file-input -->
-	<script src="${pageContext.request.contextPath }/resources/manager/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 	<script>
 		$(function() {
-			bsCustomFileInput.init();
+			$(".buttonDelete").click(function() {
+				var id = $(this).data('id');
+				console.log("id: " + id);
+				var _href = $("#deleteLink").data("link");
+				$("#deleteLink").attr("href", _href + id);
+			});
+
+			$('#dataTable').DataTable({
+				"paging" : true,
+				"lengthChange" : false,
+				"ordering" : true,
+				"info" : true,
+				"autoWidth" : false,
+				"responsive" : true,
+				"columnDefs" : [ {
+					'targets' : [ 4 ], /* column index, count from 0 */
+					'orderable' : false, /* true or false */
+				} ]
+			});
 		});
 	</script>
-
 </body>
 </html>
 
