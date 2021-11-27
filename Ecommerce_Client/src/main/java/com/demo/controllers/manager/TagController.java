@@ -28,6 +28,9 @@ public class TagController {
 		ResponseEntity<Iterable<TagInfo>> responseEntity = tagService.findAllInfo();
 		if (responseEntity != null) {
 			if (responseEntity.getStatusCode() == HttpStatus.OK) {
+				modelMap.put("title", "Manage tag");
+				modelMap.put("tagActive", "active");
+				
 				modelMap.put("items", responseEntity.getBody());
 				modelMap.put("pageTitle", "Tag list");
 				modelMap.put("parentPageTitle", "Tag");
@@ -44,6 +47,9 @@ public class TagController {
 		
 		if (responseEntity != null) {
 			if (responseEntity.getStatusCode() == HttpStatus.OK) {
+				modelMap.put("title", "Edit tag");
+				modelMap.put("tagActive", "active");
+				
 				modelMap.put("item", result);
 				modelMap.put("pageTitle", "Edit");
 				modelMap.put("parentPageTitle", "Tag");
@@ -76,6 +82,9 @@ public class TagController {
 		
 		TagInfo item = new TagInfo();
 
+		modelMap.put("title", "Add tag");
+		modelMap.put("tagActive", "active");
+		
 		modelMap.put("item", item);
 		modelMap.put("pageTitle", "Add");
 		modelMap.put("parentPageTitle", "Tag");

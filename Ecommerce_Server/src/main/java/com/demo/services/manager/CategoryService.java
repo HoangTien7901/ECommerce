@@ -58,6 +58,7 @@ public class CategoryService implements ICategoryService {
 		}
 
 		categories.setName(object.getName());
+		categories.setDiscountPercent(object.getDiscount_percent());
 		categories.setStatus(object.isStatus());
 
 		categories = repos.save(categories);
@@ -85,6 +86,7 @@ public class CategoryService implements ICategoryService {
 		}  
 
 		categories.setName(object.getName());
+		categories.setDiscountPercent(object.getDiscount_percent());
 		categories.setStatus(object.isStatus());
 
 		categories = repos.save(categories);

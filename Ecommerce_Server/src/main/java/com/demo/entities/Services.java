@@ -1,4 +1,5 @@
 package com.demo.entities;
+// Generated Nov 23, 2021, 8:37:11 AM by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -33,6 +34,7 @@ public class Services implements java.io.Serializable {
 	private int duration;
 	private Date created;
 	private Date updated;
+	private Set<StoreServices> storeServiceses = new HashSet<StoreServices>(0);
 	private Set<Transactions> transactionses = new HashSet<Transactions>(0);
 
 	public Services() {
@@ -51,7 +53,7 @@ public class Services implements java.io.Serializable {
 
 	public Services(Users usersByCreatedId, Users usersByUpdatedId, String name, String description,
 			double originalPrice, double price, int duration, Date created, Date updated,
-			Set<Transactions> transactionses) {
+			Set<StoreServices> storeServiceses, Set<Transactions> transactionses) {
 		this.usersByCreatedId = usersByCreatedId;
 		this.usersByUpdatedId = usersByUpdatedId;
 		this.name = name;
@@ -61,6 +63,7 @@ public class Services implements java.io.Serializable {
 		this.duration = duration;
 		this.created = created;
 		this.updated = updated;
+		this.storeServiceses = storeServiceses;
 		this.transactionses = transactionses;
 	}
 
@@ -159,6 +162,15 @@ public class Services implements java.io.Serializable {
 
 	public void setUpdated(Date updated) {
 		this.updated = updated;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "services")
+	public Set<StoreServices> getStoreServiceses() {
+		return this.storeServiceses;
+	}
+
+	public void setStoreServiceses(Set<StoreServices> storeServiceses) {
+		this.storeServiceses = storeServiceses;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "services")

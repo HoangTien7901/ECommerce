@@ -26,28 +26,15 @@ public class FeedbackController {
 		ResponseEntity<Iterable<FeedbackInfo>> responseEntity = feedbackService.findAllInfo();
 		if (responseEntity != null) {
 			if (responseEntity.getStatusCode() == HttpStatus.OK) {
+				modelMap.put("title", "Manage feedback");
+				modelMap.put("feedbackActive", "active");
+				
 				modelMap.put("items", responseEntity.getBody());
 				modelMap.put("pageTitle", "Feedback list");
 				modelMap.put("parentPageTitle", "Feedback");
 			}
 		}
 		return "manager/feedback/index";
-	}
-
-	@RequestMapping(value = { "edit/{id}" }, method = RequestMethod.GET)
-	public String edit(@PathVariable("id") int id, ModelMap modelMap) {
-		ResponseEntity<FeedbackInfo> responseEntity = feedbackService.findInfoById(id);
-
-		FeedbackInfo result = responseEntity.getBody();
-
-		if (responseEntity != null) {
-			if (responseEntity.getStatusCode() == HttpStatus.OK) {
-				modelMap.put("item", result);
-				modelMap.put("pageTitle", "Edit");
-				modelMap.put("parentPageTitle", "Feedback");
-			}
-		}
-		return "manager/feedback/edit";
 	}
 
 	@RequestMapping(value = { "save" }, method = RequestMethod.POST)

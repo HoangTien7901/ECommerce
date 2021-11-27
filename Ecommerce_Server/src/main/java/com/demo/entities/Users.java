@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 17, 2021, 3:58:16 PM by Hibernate Tools 5.1.10.Final
+// Generated Nov 23, 2021, 8:37:11 AM by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -35,11 +35,13 @@ public class Users implements java.io.Serializable {
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date birthday;
+	
 	private String phone;
 	private String email;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date created;
+	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date updated;
 	
@@ -48,7 +50,6 @@ public class Users implements java.io.Serializable {
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date banTerm;
 	private Set<ChatChanels> chatChanelses = new HashSet<ChatChanels>(0);
-	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
 	private Set<TransactionDetails> transactionDetailses = new HashSet<TransactionDetails>(0);
 	private Set<Notifications> notificationses = new HashSet<Notifications>(0);
 	private Set<Carts> cartses = new HashSet<Carts>(0);
@@ -78,10 +79,10 @@ public class Users implements java.io.Serializable {
 
 	public Users(Roles roles, String username, String password, String fullname, Date birthday, String phone,
 			String email, Date created, Date updated, boolean status, Date banTerm, Set<ChatChanels> chatChanelses,
-			Set<Feedback> feedbacks, Set<TransactionDetails> transactionDetailses, Set<Notifications> notificationses,
-			Set<Carts> cartses, Set<Services> servicesesForCreatedId, Set<Banners> bannersesForCreaterId,
-			Set<Comments> commentses, Set<Banners> bannersesForUpdaterId, Set<Services> servicesesForUpdatedId,
-			Set<Stores> storeses, Set<ChatMessages> chatMessageses) {
+			Set<TransactionDetails> transactionDetailses, Set<Notifications> notificationses, Set<Carts> cartses,
+			Set<Services> servicesesForCreatedId, Set<Banners> bannersesForCreaterId, Set<Comments> commentses,
+			Set<Banners> bannersesForUpdaterId, Set<Services> servicesesForUpdatedId, Set<Stores> storeses,
+			Set<ChatMessages> chatMessageses) {
 		this.roles = roles;
 		this.username = username;
 		this.password = password;
@@ -94,7 +95,6 @@ public class Users implements java.io.Serializable {
 		this.status = status;
 		this.banTerm = banTerm;
 		this.chatChanelses = chatChanelses;
-		this.feedbacks = feedbacks;
 		this.transactionDetailses = transactionDetailses;
 		this.notificationses = notificationses;
 		this.cartses = cartses;
@@ -230,15 +230,6 @@ public class Users implements java.io.Serializable {
 
 	public void setChatChanelses(Set<ChatChanels> chatChanelses) {
 		this.chatChanelses = chatChanelses;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
-	public Set<Feedback> getFeedbacks() {
-		return this.feedbacks;
-	}
-
-	public void setFeedbacks(Set<Feedback> feedbacks) {
-		this.feedbacks = feedbacks;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")

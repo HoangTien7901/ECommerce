@@ -1,4 +1,5 @@
 package com.demo.entities;
+// Generated Nov 23, 2021, 8:37:11 AM by Hibernate Tools 5.1.10.Final
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +24,10 @@ public class Images implements java.io.Serializable {
 	private String name;
 
 	public Images() {
+	}
+
+	public Images(String name) {
+		this.name = name;
 	}
 
 	public Images(Banners banners, Products products, String name) {

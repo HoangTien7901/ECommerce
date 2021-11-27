@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 17, 2021, 3:58:16 PM by Hibernate Tools 5.1.10.Final
+// Generated Nov 23, 2021, 9:30:28 AM by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -39,6 +39,7 @@ public class Stores implements java.io.Serializable {
 	private Date banTerm;
 	private Set<ChatChanels> chatChanelses = new HashSet<ChatChanels>(0);
 	private Set<Products> productses = new HashSet<Products>(0);
+	private Set<StoreServices> storeServiceses = new HashSet<StoreServices>(0);
 	private Set<Notifications> notificationses = new HashSet<Notifications>(0);
 	private Set<ChatMessages> chatMessageses = new HashSet<ChatMessages>(0);
 	private Set<Transactions> transactionses = new HashSet<Transactions>(0);
@@ -47,7 +48,7 @@ public class Stores implements java.io.Serializable {
 	}
 
 	public Stores(Users users, String name, String phone, String email, String address, String logo, Date created,
-			Date expiry, Date updated, boolean status) {
+			boolean status) {
 		this.users = users;
 		this.name = name;
 		this.phone = phone;
@@ -55,15 +56,13 @@ public class Stores implements java.io.Serializable {
 		this.address = address;
 		this.logo = logo;
 		this.created = created;
-		this.expiry = expiry;
-		this.updated = updated;
 		this.status = status;
 	}
 
 	public Stores(Users users, String name, String phone, String email, String address, String logo, Date created,
 			Date expiry, Date updated, boolean status, Date banTerm, Set<ChatChanels> chatChanelses,
-			Set<Products> productses, Set<Notifications> notificationses, Set<ChatMessages> chatMessageses,
-			Set<Transactions> transactionses) {
+			Set<Products> productses, Set<StoreServices> storeServiceses, Set<Notifications> notificationses,
+			Set<ChatMessages> chatMessageses, Set<Transactions> transactionses) {
 		this.users = users;
 		this.name = name;
 		this.phone = phone;
@@ -77,6 +76,7 @@ public class Stores implements java.io.Serializable {
 		this.banTerm = banTerm;
 		this.chatChanelses = chatChanelses;
 		this.productses = productses;
+		this.storeServiceses = storeServiceses;
 		this.notificationses = notificationses;
 		this.chatMessageses = chatMessageses;
 		this.transactionses = transactionses;
@@ -160,7 +160,7 @@ public class Stores implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "expiry", nullable = false, length = 10)
+	@Column(name = "expiry", length = 10)
 	public Date getExpiry() {
 		return this.expiry;
 	}
@@ -170,7 +170,7 @@ public class Stores implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "updated", nullable = false, length = 10)
+	@Column(name = "updated", length = 10)
 	public Date getUpdated() {
 		return this.updated;
 	}
@@ -214,6 +214,15 @@ public class Stores implements java.io.Serializable {
 
 	public void setProductses(Set<Products> productses) {
 		this.productses = productses;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stores")
+	public Set<StoreServices> getStoreServiceses() {
+		return this.storeServiceses;
+	}
+
+	public void setStoreServiceses(Set<StoreServices> storeServiceses) {
+		this.storeServiceses = storeServiceses;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stores")

@@ -29,6 +29,9 @@ public class CategoryController {
 		ResponseEntity<Iterable<CategoryInfo>> responseEntity = categoryService.findAllInfo();
 		if (responseEntity != null) {
 			if (responseEntity.getStatusCode() == HttpStatus.OK) {
+				modelMap.put("title", "Manage category");
+				modelMap.put("categoryActive", "active");
+				
 				modelMap.put("items", responseEntity.getBody());
 				modelMap.put("pageTitle", "Category list");
 				modelMap.put("parentPageTitle", "Category");
@@ -52,6 +55,9 @@ public class CategoryController {
 		
 		if (responseEntity != null) {
 			if (responseEntity.getStatusCode() == HttpStatus.OK) {
+				modelMap.put("title", "Edit category");
+				modelMap.put("categoryActive", "active");
+				
 				modelMap.put("item", result);
 				modelMap.put("pageTitle", "Edit");
 				modelMap.put("parentPageTitle", "Category");
@@ -84,6 +90,9 @@ public class CategoryController {
 		
 		CategoryInfo item = new CategoryInfo();
 
+		modelMap.put("title", "Add category");
+		modelMap.put("categoryActive", "active");
+		
 		modelMap.put("item", item);
 		modelMap.put("pageTitle", "Add");
 		modelMap.put("parentPageTitle", "Category");

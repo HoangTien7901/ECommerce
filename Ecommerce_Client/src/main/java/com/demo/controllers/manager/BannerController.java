@@ -2,6 +2,7 @@ package com.demo.controllers.manager;
 
 import javax.servlet.ServletContext;
 
+import org.apache.jasper.tagplugins.jstl.core.If;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,9 @@ public class BannerController implements ServletContextAware {
 		ResponseEntity<Iterable<BannerInfo>> responseEntity = bannerService.findAllInfo();
 		if (responseEntity != null) {
 			if (responseEntity.getStatusCode() == HttpStatus.OK) {
+				modelMap.put("title", "Manage banner");
+				modelMap.put("bannerActive", "active");
+				
 				modelMap.put("banners", responseEntity.getBody());
 				modelMap.put("pageTitle", "Banner list");
 				modelMap.put("parentPageTitle", "Banner");
@@ -53,6 +57,9 @@ public class BannerController implements ServletContextAware {
 		banner.setCreatorId(1);
 		// change after login function
 
+		modelMap.put("title", "Add banner");
+		modelMap.put("bannerActive", "active");
+		
 		modelMap.put("banner", banner);
 		modelMap.put("pageTitle", "Add");
 		modelMap.put("parentPageTitle", "Banner");
@@ -64,10 +71,8 @@ public class BannerController implements ServletContextAware {
 	public String create(@ModelAttribute("banner") BannerInfo banner, @RequestParam("photos") MultipartFile[] photos) {
 
 		ResponseEntity<BannerInfo> responseEntity = bannerService.create(banner);
-		System.out.println("Client 1: status " + banner.isStatus());
 		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
 			BannerInfo result = responseEntity.getBody();
-			System.out.println("Client 2: result " + result == null ? "null" : result.getCaption());
 			
 			int bannerId = result.getId();
 			for (MultipartFile photo : photos) {
@@ -99,6 +104,9 @@ public class BannerController implements ServletContextAware {
 
 		if (responseEntity != null) {
 			if (responseEntity.getStatusCode() == HttpStatus.OK) {
+				modelMap.put("title", "Edit banner");
+				modelMap.put("bannerActive", "active");
+				
 				modelMap.put("banner", banner);
 				modelMap.put("pageTitle", "Edit");
 				modelMap.put("parentPageTitle", "Banner");
@@ -125,18 +133,21 @@ public class BannerController implements ServletContextAware {
 			BannerInfo result = responseEntity.getBody();
 			int bannerId = result.getId();
 			for (MultipartFile photo : photos) {
-				String fileName = FileUploadHelper.upload(photo, servletContext);
+				
+				if (!photo.isEmpty()) {
+					String fileName = FileUploadHelper.upload(photo, servletContext);
 
-				ImageInfo img = new ImageInfo();
-				img.setName(fileName);
-				img.setBannerId(bannerId);
-				
-				ResponseEntity<ImageInfo> responseEntity2 = imageService.create(img);
-				
-				if (responseEntity2 != null && responseEntity2.getStatusCode() == HttpStatus.OK) {
-					// success
-				} else {
-					// failed
+					ImageInfo img = new ImageInfo();
+					img.setName(fileName);
+					img.setBannerId(bannerId);
+					
+					ResponseEntity<ImageInfo> responseEntity2 = imageService.create(img);
+					
+					if (responseEntity2 != null && responseEntity2.getStatusCode() == HttpStatus.OK) {
+						// success
+					} else {
+						// failed
+					}
 				}
 			}
 		} else {

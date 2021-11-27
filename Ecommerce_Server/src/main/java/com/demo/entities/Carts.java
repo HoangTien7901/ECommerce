@@ -1,4 +1,5 @@
 package com.demo.entities;
+// Generated Nov 23, 2021, 8:37:11 AM by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -28,7 +29,7 @@ public class Carts implements java.io.Serializable {
 	private int quantity;
 	private double price;
 	
-	@JsonFormat(pattern = "dd/MM/yyyy", timezone = "Brazil/East")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date created;
 
 	public Carts() {

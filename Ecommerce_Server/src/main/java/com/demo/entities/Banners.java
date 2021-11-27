@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 16, 2021, 9:02:55 AM by Hibernate Tools 5.1.10.Final
+// Generated Nov 23, 2021, 8:37:11 AM by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -38,7 +38,6 @@ public class Banners implements java.io.Serializable {
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date updated;
-	
 	private boolean status;
 	private Set<Images> imageses = new HashSet<Images>(0);
 
