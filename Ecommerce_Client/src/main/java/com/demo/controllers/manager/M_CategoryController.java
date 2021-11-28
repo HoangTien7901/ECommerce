@@ -19,7 +19,7 @@ import com.demo.services.manager.ICategoryService;
 
 @Controller
 @RequestMapping("manager/category")
-public class CategoryController {
+public class M_CategoryController {
 
 	@Autowired
 	private ICategoryService categoryService;

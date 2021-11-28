@@ -17,7 +17,7 @@ import com.demo.services.manager.ICategoryService;
 
 @RestController
 @RequestMapping("api/manager/category")
-public class CategoryRestController {
+public class M_CategoryRestController {
 	
 	@Autowired
 	private ICategoryService service;

@@ -153,7 +153,7 @@ public class StoreController implements ServletContextAware {
 				modelMap.put("storeName", result.getName());
 				
 				modelMap.put("title", "Ban store");
-				modelMap.put("userActive", "active");
+				modelMap.put("storeActive", "active");
 
 				modelMap.put("pageTitle", "Ban");
 				modelMap.put("parentPageTitle", "Store");

@@ -93,9 +93,9 @@
 														pattern="dd/MM/yyyy" />
 													${updated }
 													</td>
-													<td>${item.outstanding ? "True" : "False" }</td>
-													<td>${item.bestSelling ? "True" : "False" }</td>
-													<td>${item.newProduct ? "True" : "False" }</td>
+													<td>${item.isOutstanding ? "True" : "False" }</td>
+													<td>${item.isBestSelling ? "True" : "False" }</td>
+													<td>${item.isNewProduct ? "True" : "False" }</td>
 													<td>${item.status ? "Enable" : "Disable" }</td>
 													<td>
 														<a

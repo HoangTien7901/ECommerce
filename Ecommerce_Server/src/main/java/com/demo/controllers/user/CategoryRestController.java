@@ -16,7 +16,7 @@ import com.demo.models.CategoryInfor;
 import com.demo.services.user.CategoryService;
 
 @RestController
-@RequestMapping(value = {"api/category"})
+@RequestMapping(value = {"api/user/category"})
 public class CategoryRestController {
 
 	@Autowired

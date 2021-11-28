@@ -58,10 +58,12 @@ public class ProductService implements IProductService {
 		object.setDescriptionDetail(_object.getDescriptionDetail());
 		object.setUpdated(new Date());
 
-		object.setIsOutstanding(_object.isOutstanding());
-		object.setIsBestSelling(_object.isBestSelling());
-		object.setIsNew(_object.isNewProduct());
-
+		object.setIsOutstanding(_object.getIsOutstanding());
+		object.setIsBestSelling(_object.getIsBestSelling());
+		object.setIsNew(_object.getIsNewProduct());
+		
+		object.setSaleOffPercent(_object.getSaleOffPercent());
+		
 		object.setStatus(_object.isStatus());
 		if (_object.isStatus()) {
 			object.setBanReason(null);

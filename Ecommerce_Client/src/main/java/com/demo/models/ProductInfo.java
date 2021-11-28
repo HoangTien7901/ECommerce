@@ -5,6 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ProductInfo {
+
 	private int id;
 	private Integer branchId;
 	private String branchName;
@@ -16,17 +17,24 @@ public class ProductInfo {
 	private String avatar;
 	private String description;
 	private String descriptionDetail;
-
-	private boolean isOutstanding;
-	private boolean isBestSelling;
-	private boolean isNewProduct;
-
+	private double originalPrice;
+	private Double saleOffPercent;
+	private double price;
+	private int quantity;
+	private int inventory;
+	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date created;
-
+	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date updated;
-
+	private Boolean isOutstanding;
+	private Boolean isBestSelling;
+	private Boolean isNewProduct;
+	private double discountPercent;
+	private double discountAmount;
+	private int ratingCount;
+	private double ratingAverage;
 	private boolean status;
 	private String banReason;
 	private Boolean isLocked;
@@ -95,28 +103,44 @@ public class ProductInfo {
 		this.descriptionDetail = descriptionDetail;
 	}
 
-	public boolean isOutstanding() {
-		return isOutstanding;
+	public double getOriginalPrice() {
+		return originalPrice;
 	}
 
-	public void setOutstanding(boolean isOutstanding) {
-		this.isOutstanding = isOutstanding;
+	public void setOriginalPrice(double originalPrice) {
+		this.originalPrice = originalPrice;
 	}
 
-	public boolean isBestSelling() {
-		return isBestSelling;
+	public double getSaleOffPercent() {
+		return saleOffPercent;
 	}
 
-	public void setBestSelling(boolean isBestSelling) {
-		this.isBestSelling = isBestSelling;
+	public void setSaleOffPercent(double saleOffPercent) {
+		this.saleOffPercent = saleOffPercent;
 	}
 
-	public boolean isNewProduct() {
-		return isNewProduct;
+	public double getPrice() {
+		return price;
 	}
 
-	public void setNewProduct(boolean isNewProduct) {
-		this.isNewProduct = isNewProduct;
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public int getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(int inventory) {
+		this.inventory = inventory;
 	}
 
 	public Date getCreated() {
@@ -133,6 +157,62 @@ public class ProductInfo {
 
 	public void setUpdated(Date updated) {
 		this.updated = updated;
+	}
+
+	public Boolean getIsOutstanding() {
+		return isOutstanding;
+	}
+
+	public void setIsOutstanding(Boolean isOutstanding) {
+		this.isOutstanding = isOutstanding;
+	}
+
+	public Boolean getIsBestSelling() {
+		return isBestSelling;
+	}
+
+	public void setIsBestSelling(Boolean isBestSelling) {
+		this.isBestSelling = isBestSelling;
+	}
+
+	public Boolean getIsNew() {
+		return isNewProduct;
+	}
+
+	public void setIsNew(Boolean isNew) {
+		this.isNewProduct = isNew;
+	}
+
+	public double getDiscountPercent() {
+		return discountPercent;
+	}
+
+	public void setDiscountPercent(double discountPercent) {
+		this.discountPercent = discountPercent;
+	}
+
+	public double getDiscountAmount() {
+		return discountAmount;
+	}
+
+	public void setDiscountAmount(double discountAmount) {
+		this.discountAmount = discountAmount;
+	}
+
+	public int getRatingCount() {
+		return ratingCount;
+	}
+
+	public void setRatingCount(int ratingCount) {
+		this.ratingCount = ratingCount;
+	}
+
+	public double getRatingAverage() {
+		return ratingAverage;
+	}
+
+	public void setRatingAverage(double ratingAverage) {
+		this.ratingAverage = ratingAverage;
 	}
 
 	public boolean isStatus() {
@@ -158,7 +238,7 @@ public class ProductInfo {
 	public void setIsLocked(Boolean isLocked) {
 		this.isLocked = isLocked;
 	}
-	
+
 	public String getBranchName() {
 		return branchName;
 	}
@@ -183,28 +263,84 @@ public class ProductInfo {
 		this.storeName = storeName;
 	}
 
-	public ProductInfo(int id, Integer branchId, Integer categoryId, Integer storeId, String name, String avatar,
-			String description, String descriptionDetail, boolean isOutstanding, boolean isBestSelling, boolean isNew,
-			Date created, Date updated, boolean status, String banReason, Boolean isLocked) {
+	public Boolean getIsNewProduct() {
+		return isNewProduct;
+	}
+
+	public void setIsNewProduct(Boolean isNewProduct) {
+		this.isNewProduct = isNewProduct;
+	}
+
+	public ProductInfo(int id, int branchsID, int categoryID, int storesID, String name, String avatar,
+			String description, String descriptionDetail, double originalPrice, double saleOffPercent, double price,
+			int quantity, int inventory, Date created, Date updated, Boolean isOutstanding, Boolean isBestSelling,
+			Boolean isNew, double discountPercent, double discountAmount, int ratingCount, double ratingAverage,
+			boolean status, String banReason, Boolean isLocked) {
 		super();
 		this.id = id;
-		this.branchId = branchId;
-		this.categoryId = categoryId;
-		this.storeId = storeId;
+		this.branchId = branchsID;
+		this.categoryId = categoryID;
+		this.storeId = storesID;
 		this.name = name;
 		this.avatar = avatar;
 		this.description = description;
 		this.descriptionDetail = descriptionDetail;
+		this.originalPrice = originalPrice;
+		this.saleOffPercent = saleOffPercent;
+		this.price = price;
+		this.quantity = quantity;
+		this.inventory = inventory;
+		this.created = created;
+		this.updated = updated;
 		this.isOutstanding = isOutstanding;
 		this.isBestSelling = isBestSelling;
 		this.isNewProduct = isNew;
-		this.created = created;
-		this.updated = updated;
+		this.discountPercent = discountPercent;
+		this.discountAmount = discountAmount;
+		this.ratingCount = ratingCount;
+		this.ratingAverage = ratingAverage;
 		this.status = status;
 		this.banReason = banReason;
 		this.isLocked = isLocked;
 	}
 	
+	public ProductInfo(int id, Integer branchId, String branchName, Integer categoryId, String categoryName,
+			Integer storeId, String storeName, String name, String avatar,
+			String description, String descriptionDetail, double originalPrice, double saleOffPercent, double price,
+			int quantity, int inventory, Date created, Date updated, Boolean isOutstanding, Boolean isBestSelling,
+			Boolean isNew, double discountPercent, double discountAmount, int ratingCount, double ratingAverage,
+			boolean status, String banReason, Boolean isLocked) {
+		super();
+		this.id = id;
+		this.branchId = branchId;
+		this.branchName = branchName;
+		this.categoryId = categoryId;
+		this.categoryName = categoryName;
+		this.storeId = storeId;
+		this.storeName = storeName;
+		this.name = name;
+		this.avatar = avatar;
+		this.description = description;
+		this.descriptionDetail = descriptionDetail;
+		this.originalPrice = originalPrice;
+		this.saleOffPercent = saleOffPercent;
+		this.price = price;
+		this.quantity = quantity;
+		this.inventory = inventory;
+		this.created = created;
+		this.updated = updated;
+		this.isOutstanding = isOutstanding;
+		this.isBestSelling = isBestSelling;
+		this.isNewProduct = isNew;
+		this.discountPercent = discountPercent;
+		this.discountAmount = discountAmount;
+		this.ratingCount = ratingCount;
+		this.ratingAverage = ratingAverage;
+		this.status = status;
+		this.banReason = banReason;
+		this.isLocked = isLocked;
+	}
+
 	public ProductInfo(int id, Integer branchId, String branchName, Integer categoryId, String categoryName,
 			Integer storeId, String storeName, String name, String avatar, String description, String descriptionDetail,
 			boolean isOutstanding, boolean isBestSelling, boolean isNew, Date created, Date updated, boolean status,
@@ -230,10 +366,10 @@ public class ProductInfo {
 		this.banReason = banReason;
 		this.isLocked = isLocked;
 	}
+	
 
 	public ProductInfo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }

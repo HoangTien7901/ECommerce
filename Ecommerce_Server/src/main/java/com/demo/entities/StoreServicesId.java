@@ -1,9 +1,5 @@
 package com.demo.entities;
-<<<<<<< HEAD
-// Generated Nov 21, 2021, 9:53:03 AM by Hibernate Tools 5.1.10.Final
-=======
 // Generated Nov 23, 2021, 8:37:11 AM by Hibernate Tools 5.1.10.Final
->>>>>>> feature/manager
 
 import java.util.Date;
 import javax.persistence.Column;

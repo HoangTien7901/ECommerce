@@ -24,7 +24,7 @@ import com.demo.services.manager.IUserService;
 
 @RestController
 @RequestMapping("api/manager/user")
-public class UserRestController {
+public class M_UserRestController {
 	
 	@Autowired
 	private IUserService service;

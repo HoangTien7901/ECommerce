@@ -112,22 +112,23 @@
 										</div>
 										
 										<div class="form-check">
-											<s:checkbox path="outstanding" cssClass="form-check-input" />
-											<label for="outstanding1">Is outstanding</label>
+											<s:checkbox path="isOutstanding" cssClass="form-check-input" />
+											<label for="isOutstanding1">Is outstanding</label>
 										</div>
 
 										<div class="form-check">
-											<s:checkbox path="bestSelling" cssClass="form-check-input" />
-											<label for="bestSelling1">Is best selling</label>
+											<s:checkbox path="isBestSelling" cssClass="form-check-input" />
+											<label for="isBestSelling1">Is best selling</label>
 										</div>
 										
 										<div class="form-check">
-											<s:checkbox path="newProduct" cssClass="form-check-input" />
-											<label for="newProduct1">Is new product</label>
+											<s:checkbox path="isNewProduct" cssClass="form-check-input" />
+											<label for="isNewProduct1">Is new product</label>
 											<s:hidden path="id" />
 											<s:hidden path="status" />
 											<s:hidden path="avatar" />
 											<s:hidden path="banReason" />
+											<s:hidden path="saleOffPercent" />
 										</div>
 									</div>
 									<!-- /.card-body -->

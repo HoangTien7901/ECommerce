@@ -13,10 +13,10 @@ import com.demo.models.ProductInfo;
 
 public interface IProductRepository extends CrudRepository<Products, Integer> {
 
-	@Query("select new com.demo.models.ProductInfo(id, branchs.id, branchs.name, categories.id, categories.name, stores.id, stores.name, name, avatar, description, descriptionDetail, isOutstanding, isBestSelling, isNew, created, updated, status, banReason, isLocked) from Products")
+	@Query("select new com.demo.models.ProductInfo(id, branchs.id, branchs.name, categories.id, categories.name, stores.id, stores.name, name, avatar, description, descriptionDetail, originalPrice, saleOffPercent, price, quantity, inventory, created, updated, isOutstanding, isBestSelling, isNew, discountPercent, discountAmount, ratingCount, ratingAverage, status, banReason, isLocked) from Products ")
 	public Iterable<ProductInfo> findAllInfo();
 	
-	@Query("select new com.demo.models.ProductInfo(id, branchs.id, branchs.name, categories.id, categories.name, stores.id, stores.name, name, avatar, description, descriptionDetail, isOutstanding, isBestSelling, isNew, created, updated, status, banReason, isLocked) from Products where id = :id")
+	@Query("select new com.demo.models.ProductInfo(id, branchs.id, branchs.name, categories.id, categories.name, stores.id, stores.name, name, avatar, description, descriptionDetail, originalPrice, saleOffPercent, price, quantity, inventory, created, updated, isOutstanding, isBestSelling, isNew, discountPercent, discountAmount, ratingCount, ratingAverage, status, banReason, isLocked) from Products where id = :id")
 	public ProductInfo findInfoById(@Param("id") int id);
 	
 	@Modifying
