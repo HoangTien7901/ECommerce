@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 16, 2021, 9:02:55 AM by Hibernate Tools 5.1.10.Final
+// Generated Nov 24, 2021, 4:00:57 PM by Hibernate Tools 5.1.10.Final
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +35,7 @@ public class Transactions implements java.io.Serializable {
 	}
 
 	public Transactions(Products products, Services services, Stores stores, TransactionDetails transactionDetails,
-			double price, int quantity, double tax, double total, boolean status, String cancelReason) {
+			double price, int quantity, double tax, double total, boolean status) {
 		this.products = products;
 		this.services = services;
 		this.stores = stores;
@@ -45,7 +45,6 @@ public class Transactions implements java.io.Serializable {
 		this.tax = tax;
 		this.total = total;
 		this.status = status;
-		this.cancelReason = cancelReason;
 	}
 
 	public Transactions(Products products, Services services, Stores stores, TransactionDetails transactionDetails,
@@ -86,7 +85,7 @@ public class Transactions implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "service_id", nullable = false)
+	@JoinColumn(name = "service_id")
 	public Services getServices() {
 		return this.services;
 	}
@@ -169,7 +168,7 @@ public class Transactions implements java.io.Serializable {
 		this.status = status;
 	}
 
-	@Column(name = "cancel_reason", nullable = false, length = 500)
+	@Column(name = "cancel_reason", length = 500)
 	public String getCancelReason() {
 		return this.cancelReason;
 	}
