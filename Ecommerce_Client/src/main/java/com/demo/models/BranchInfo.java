@@ -30,7 +30,7 @@ public class BranchInfo {
 		this.logo = logo;
 	}
 
-	public BranchInfo() {
+public BranchInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -41,5 +41,4 @@ public class BranchInfo {
 		this.name = name;
 		this.logo = logo;
 	}
-
 }

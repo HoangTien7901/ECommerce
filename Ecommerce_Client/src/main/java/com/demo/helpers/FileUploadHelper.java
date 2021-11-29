@@ -10,14 +10,28 @@ import javax.servlet.ServletContext;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUploadHelper {
+
 	public static String upload(MultipartFile multipartFile, ServletContext servletContext) {
 		try {
-			String filename = generateFilename(multipartFile.getOriginalFilename());
+			String fileName = generateFileName(multipartFile.getOriginalFilename());
 			byte[] bytes = multipartFile.getBytes();
-			Path path = Paths.get(servletContext.getRealPath("/uploads/images/" + filename));
+			Path path = Paths.get(servletContext.getRealPath("/uploads/images/" + fileName));
 			Files.write(path, bytes);
-			
-			return filename;
+			return fileName;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public static String uploads(MultipartFile[] multipartFiles, ServletContext servletContext) {
+		try {
+			for(MultipartFile multipartFile : multipartFiles) {
+				String fileName = generateFileName(multipartFile.getOriginalFilename());
+				byte[] bytes = multipartFile.getBytes();
+				Path path = Paths.get(servletContext.getRealPath("/uploads/images/" + fileName));
+				Files.write(path, bytes);
+			}
+			return "OK";
 		} catch (Exception e) {
 			return null;
 		}
