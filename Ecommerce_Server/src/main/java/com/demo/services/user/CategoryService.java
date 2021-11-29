@@ -1,13 +1,13 @@
 package com.demo.services.user;
 
-import com.demo.entities.Categories;
-import com.demo.models.CategoryInfo;
+import java.util.List;
+
+import com.demo.models.CategoryInfor;
 
 public interface CategoryService {
+
+	public List<CategoryInfor> getAll();
 	
-	public Iterable<CategoryInfo> findAll();
+	public List<CategoryInfor> getByParent(int id);
 	
-	public CategoryInfo find(int id);
-	
-	public Categories findById(int id);
 }

@@ -1,17 +1,25 @@
 package com.demo.services.user;
 
+
 import java.util.List;
 
 import com.demo.entities.Products;
 import com.demo.models.ProductInfo;
 
 public interface ProductService {
+
+	public List<ProductInfo> findAllProduct();
 	
-	public Iterable<ProductInfo> findByStoreId(int storeId);
+	public ProductInfo findProductById(int id);
 	
-	public boolean delete(int id);
+	public List<ProductInfo> topProduct();
 	
-	public boolean delete(List<Integer> ids);
+	public List<ProductInfo> bestSell();
 	
-	public Products create(Products product);
+	public List<ProductInfo> SearchByKeyword (String keyword );
+	
+	public List<ProductInfo> SearchByMinMax (double min , double max);
+	
+	public Products save(Products products);
+	
 }

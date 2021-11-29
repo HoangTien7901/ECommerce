@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 29, 2021, 10:03:26 AM by Hibernate Tools 5.1.10.Final
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +25,7 @@ public class Categories implements java.io.Serializable {
 	private Categories categories;
 	private double discountPercent;
 	private String name;
+	private double discountPercent;
 	private boolean status;
 	private int level;
 	private Set<Categories> categorieses = new HashSet<Categories>(0);
@@ -36,15 +37,17 @@ public class Categories implements java.io.Serializable {
 	public Categories(double discountPercent, String name, boolean status, int level) {
 		this.discountPercent = discountPercent;
 		this.name = name;
+		this.discountPercent = discountPercent;
 		this.status = status;
 		this.level = level;
 	}
 
 	public Categories(Categories categories, double discountPercent, String name, boolean status, int level,
-			Set<Categories> categorieses, Set<Products> productses) {
+  Set<Categories> categorieses, Set<Products> productses) {
 		this.categories = categories;
 		this.discountPercent = discountPercent;
 		this.name = name;
+		this.discountPercent = discountPercent;
 		this.status = status;
 		this.level = level;
 		this.categorieses = categorieses;
@@ -89,6 +92,15 @@ public class Categories implements java.io.Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Column(name = "discount_percent", nullable = false, precision = 22, scale = 0)
+	public double getDiscountPercent() {
+		return this.discountPercent;
+	}
+
+	public void setDiscountPercent(double discountPercent) {
+		this.discountPercent = discountPercent;
 	}
 
 	@Column(name = "status", nullable = false)

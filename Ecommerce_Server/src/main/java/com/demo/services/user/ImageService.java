@@ -1,9 +1,14 @@
 package com.demo.services.user;
 
-import com.demo.entities.Images;
+import java.util.List;
+import com.demo.models.ImagesInfor;
 
 public interface ImageService {
-
-	public Images create(Images image);
+	
+	public List<ImagesInfor> findAllImages();
+	
+	public List<ImagesInfor> imageByIdProduct(int id);
+	
 	
 }
+

@@ -1,6 +1,4 @@
 package com.demo.models;
-// Generated Nov 24, 2021, 4:10:46 PM by Hibernate Tools 5.1.10.Final
-
 import java.util.Date;
 
 /**
@@ -113,8 +111,4 @@ public class UserInfo{
 	public void setBanTerm(Date banTerm) {
 		this.banTerm = banTerm;
 	}
-	
-	
-	
-
 }

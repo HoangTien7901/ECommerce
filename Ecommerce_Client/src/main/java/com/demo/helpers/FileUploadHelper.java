@@ -37,11 +37,10 @@ public class FileUploadHelper {
 		}
 	}
 	
-	private static String generateFileName(String fileName) {
+	private static String generateFilename(String filename) {
 		String name = UUID.randomUUID().toString().replace("-", "");
-		//abc,gif.txt.png
-		int index = fileName.lastIndexOf(".");
-		String ext = fileName.substring(index);
+		int index = filename.lastIndexOf(".");
+		String ext = filename.substring(index);
 		return name + ext;
 	}
 }

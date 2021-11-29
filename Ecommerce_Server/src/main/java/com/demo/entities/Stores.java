@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 29, 2021, 11:12:41 AM by Hibernate Tools 5.1.10.Final
+
 
 import java.util.Date;
 import java.util.HashSet;
@@ -34,6 +34,7 @@ public class Stores implements java.io.Serializable {
 	private String email;
 	private String address;
 	private String logo;
+  @JsonFormat(pattern = "dd/MM/yyyy")
 	private Date created;
 	private Date expiry;
 	private Date updated;
@@ -65,7 +66,7 @@ public class Stores implements java.io.Serializable {
 	}
 
 	public Stores(Users users, String name, String phone, String email, String address, String logo, Date created,
-			Date expiry, Date updated, boolean status, Date banTerm, String paypalAccount,
+      Date expiry, Date updated, boolean status, Date banTerm, String paypalAccount,
 			Set<ChatChanels> chatChanelses, Set<Products> productses, Set<StoreServices> storeServiceses,
 			Set<Notifications> notificationses, Set<ChatMessages> chatMessageses, Set<Transactions> transactionses) {
 		this.users = users;
@@ -79,7 +80,7 @@ public class Stores implements java.io.Serializable {
 		this.updated = updated;
 		this.status = status;
 		this.banTerm = banTerm;
-		this.paypalAccount = paypalAccount;
+    this.paypalAccount = paypalAccount;
 		this.chatChanelses = chatChanelses;
 		this.productses = productses;
 		this.storeServiceses = storeServiceses;
@@ -204,7 +205,7 @@ public class Stores implements java.io.Serializable {
 		this.banTerm = banTerm;
 	}
 
-	@Column(name = "paypal_account", nullable = false, length = 100)
+@Column(name = "paypal_account", nullable = false, length = 100)
 	public String getPaypalAccount() {
 		return this.paypalAccount;
 	}
@@ -212,7 +213,7 @@ public class Stores implements java.io.Serializable {
 	public void setPaypalAccount(String paypalAccount) {
 		this.paypalAccount = paypalAccount;
 	}
-
+  
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stores")
 	public Set<ChatChanels> getChatChanelses() {
 		return this.chatChanelses;

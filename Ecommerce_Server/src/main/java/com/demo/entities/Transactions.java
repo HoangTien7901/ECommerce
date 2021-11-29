@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 29, 2021, 10:03:26 AM by Hibernate Tools 5.1.10.Final
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,6 +35,9 @@ public class Transactions implements java.io.Serializable {
 	public Transactions() {
 	}
 
+public Transactions(Products products, Services services, Stores stores, TransactionDetails transactionDetails,
+			double price, int quantity, double tax, double total, boolean status) {
+=======
 	public Transactions(Orders orders, Products products, Stores stores, TransactionDetails transactionDetails,
 			double price, int quantity, double tax, double total, boolean status) {
 		this.orders = orders;
