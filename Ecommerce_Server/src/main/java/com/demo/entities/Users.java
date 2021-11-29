@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 23, 2021, 8:37:11 AM by Hibernate Tools 5.1.10.Final
+
 
 import java.util.Date;
 import java.util.HashSet;
@@ -38,15 +38,12 @@ public class Users implements java.io.Serializable {
 	
 	private String phone;
 	private String email;
-	
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private Date created;
-	
+
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date updated;
 	
 	private boolean status;
-	
+
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date banTerm;
 	private Set<ChatChanels> chatChanelses = new HashSet<ChatChanels>(0);

@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 23, 2021, 8:37:11 AM by Hibernate Tools 5.1.10.Final
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -85,7 +85,7 @@ public class Transactions implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "service_id", nullable = false)
+	@JoinColumn(name = "service_id")
 	public Services getServices() {
 		return this.services;
 	}

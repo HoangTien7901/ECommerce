@@ -32,10 +32,8 @@ public class Banners implements java.io.Serializable {
 	private String caption;
 	private String description;
 	private String link;
-
-	@JsonFormat(pattern = "dd/MM/yyyy")
+  @JsonFormat(pattern = "dd/MM/yyyy")
 	private Date created;
-	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date updated;
 	private boolean status;

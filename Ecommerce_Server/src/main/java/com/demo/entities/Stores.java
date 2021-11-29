@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 23, 2021, 9:30:28 AM by Hibernate Tools 5.1.10.Final
+
 
 import java.util.Date;
 import java.util.HashSet;
@@ -34,17 +34,7 @@ public class Stores implements java.io.Serializable {
 	private String email;
 	private String address;
 	private String logo;
-	
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private Date created;
-	
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private Date expiry;
-	
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private Date updated;
-	private boolean status;
-	
+
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date banTerm;
 	private Set<ChatChanels> chatChanelses = new HashSet<ChatChanels>(0);
@@ -70,10 +60,7 @@ public class Stores implements java.io.Serializable {
 	}
 
 	public Stores(Users users, String name, String phone, String email, String address, String logo, Date created,
-			Date expiry, Date updated, boolean status, Date banTerm, Set<ChatChanels> chatChanelses, Set<Products> productses,
-			Set<StoreServices> storeServiceses, Set<Notifications> notificationses, Set<ChatMessages> chatMessageses,
-			Set<Transactions> transactionses) {
-			
+
 		this.users = users;
 		this.name = name;
 		this.phone = phone;

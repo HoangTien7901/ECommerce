@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 23, 2021, 8:37:11 AM by Hibernate Tools 5.1.10.Final
+
 
 import java.util.Date;
 import java.util.HashSet;
@@ -19,6 +19,7 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+
 @Entity
 @Table(name = "products", catalog = "ecommerce_db")
 public class Products implements java.io.Serializable {
@@ -36,13 +37,7 @@ public class Products implements java.io.Serializable {
 	private double price;
 	private int quantity;
 	private int inventory;
-	
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private Date created;
-	
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private Date updated;
-	
+
 	private Boolean isOutstanding;
 	private Boolean isBestSelling;
 	private Boolean isNew;
