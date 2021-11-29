@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 16, 2021, 9:02:55 AM by Hibernate Tools 5.1.10.Final
+// Generated Nov 29, 2021, 10:03:26 AM by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -34,27 +34,26 @@ public class Services implements java.io.Serializable {
 	private int duration;
 	private Date created;
 	private Date updated;
+	private Set<StoreServices> storeServiceses = new HashSet<StoreServices>(0);
 	private Set<Transactions> transactionses = new HashSet<Transactions>(0);
 
 	public Services() {
 	}
 
-	public Services(Users usersByCreatedId, Users usersByUpdatedId, String name, String description,
-			double originalPrice, double price, int duration, Date created, Date updated) {
+	public Services(Users usersByCreatedId, String name, String description, double originalPrice, double price,
+			int duration, Date created) {
 		this.usersByCreatedId = usersByCreatedId;
-		this.usersByUpdatedId = usersByUpdatedId;
 		this.name = name;
 		this.description = description;
 		this.originalPrice = originalPrice;
 		this.price = price;
 		this.duration = duration;
 		this.created = created;
-		this.updated = updated;
 	}
 
 	public Services(Users usersByCreatedId, Users usersByUpdatedId, String name, String description,
 			double originalPrice, double price, int duration, Date created, Date updated,
-			Set<Transactions> transactionses) {
+			Set<StoreServices> storeServiceses, Set<Transactions> transactionses) {
 		this.usersByCreatedId = usersByCreatedId;
 		this.usersByUpdatedId = usersByUpdatedId;
 		this.name = name;
@@ -64,6 +63,7 @@ public class Services implements java.io.Serializable {
 		this.duration = duration;
 		this.created = created;
 		this.updated = updated;
+		this.storeServiceses = storeServiceses;
 		this.transactionses = transactionses;
 	}
 
@@ -90,7 +90,7 @@ public class Services implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "updated_id", nullable = false)
+	@JoinColumn(name = "updated_id")
 	public Users getUsersByUpdatedId() {
 		return this.usersByUpdatedId;
 	}
@@ -155,13 +155,22 @@ public class Services implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "updated", nullable = false, length = 10)
+	@Column(name = "updated", length = 10)
 	public Date getUpdated() {
 		return this.updated;
 	}
 
 	public void setUpdated(Date updated) {
 		this.updated = updated;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "services")
+	public Set<StoreServices> getStoreServiceses() {
+		return this.storeServiceses;
+	}
+
+	public void setStoreServiceses(Set<StoreServices> storeServiceses) {
+		this.storeServiceses = storeServiceses;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "services")

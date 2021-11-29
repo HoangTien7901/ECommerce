@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 16, 2021, 9:02:55 AM by Hibernate Tools 5.1.10.Final
+// Generated Nov 29, 2021, 10:03:26 AM by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -27,16 +27,29 @@ public class Notifications implements java.io.Serializable {
 	private String content;
 	private Date created;
 	private boolean isRead;
+	private boolean isAllUser;
+	private boolean isAllStore;
 
 	public Notifications() {
 	}
 
-	public Notifications(Stores stores, Users users, String content, Date created, boolean isRead) {
+	public Notifications(String content, Date created, boolean isRead, boolean isAllUser, boolean isAllStore) {
+		this.content = content;
+		this.created = created;
+		this.isRead = isRead;
+		this.isAllUser = isAllUser;
+		this.isAllStore = isAllStore;
+	}
+
+	public Notifications(Stores stores, Users users, String content, Date created, boolean isRead, boolean isAllUser,
+			boolean isAllStore) {
 		this.stores = stores;
 		this.users = users;
 		this.content = content;
 		this.created = created;
 		this.isRead = isRead;
+		this.isAllUser = isAllUser;
+		this.isAllStore = isAllStore;
 	}
 
 	@Id
@@ -52,7 +65,7 @@ public class Notifications implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "store_id", nullable = false)
+	@JoinColumn(name = "store_id")
 	public Stores getStores() {
 		return this.stores;
 	}
@@ -62,7 +75,7 @@ public class Notifications implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;
 	}
@@ -90,13 +103,31 @@ public class Notifications implements java.io.Serializable {
 		this.created = created;
 	}
 
-	@Column(name = "isRead", nullable = false)
+	@Column(name = "is_read", nullable = false)
 	public boolean isIsRead() {
 		return this.isRead;
 	}
 
 	public void setIsRead(boolean isRead) {
 		this.isRead = isRead;
+	}
+
+	@Column(name = "is_all_user", nullable = false)
+	public boolean isIsAllUser() {
+		return this.isAllUser;
+	}
+
+	public void setIsAllUser(boolean isAllUser) {
+		this.isAllUser = isAllUser;
+	}
+
+	@Column(name = "is_all_store", nullable = false)
+	public boolean isIsAllStore() {
+		return this.isAllStore;
+	}
+
+	public void setIsAllStore(boolean isAllStore) {
+		this.isAllStore = isAllStore;
 	}
 
 }

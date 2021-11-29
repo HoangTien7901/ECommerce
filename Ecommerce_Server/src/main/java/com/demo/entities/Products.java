@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 16, 2021, 9:02:55 AM by Hibernate Tools 5.1.10.Final
+// Generated Nov 29, 2021, 10:03:26 AM by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -7,6 +7,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,7 +24,7 @@ import javax.persistence.TemporalType;
 @Table(name = "products", catalog = "ecommerce_db")
 public class Products implements java.io.Serializable {
 
-	private int id;
+	private Integer id;
 	private Branchs branchs;
 	private Categories categories;
 	private Stores stores;
@@ -31,33 +33,35 @@ public class Products implements java.io.Serializable {
 	private String description;
 	private String descriptionDetail;
 	private double originalPrice;
+	private Double saleOffPercent;
 	private double price;
 	private int quantity;
 	private int inventory;
 	private Date created;
 	private Date updated;
-	private boolean isOutstanding;
-	private boolean isBestSelling;
-	private boolean isNew;
+	private Boolean isOutstanding;
+	private Boolean isBestSelling;
+	private Boolean isNew;
 	private double discountPercent;
 	private double discountAmount;
 	private int ratingCount;
 	private double ratingAverage;
 	private boolean status;
-	private Set<TagProducts> tagProductses = new HashSet<TagProducts>(0);
+	private String banReason;
+	private Boolean isLocked;
 	private Set<Carts> cartses = new HashSet<Carts>(0);
 	private Set<Images> imageses = new HashSet<Images>(0);
-	private Set<Transactions> transactionses = new HashSet<Transactions>(0);
 	private Set<Comments> commentses = new HashSet<Comments>(0);
+	private Set<TagProducts> tagProductses = new HashSet<TagProducts>(0);
+	private Set<Transactions> transactionses = new HashSet<Transactions>(0);
 
 	public Products() {
 	}
 
-	public Products(int id, Branchs branchs, Categories categories, Stores stores, String name, String avatar,
+	public Products(Branchs branchs, Categories categories, Stores stores, String name, String avatar,
 			String description, String descriptionDetail, double originalPrice, double price, int quantity,
-			int inventory, Date created, Date updated, boolean isOutstanding, boolean isBestSelling, boolean isNew,
-			double discountPercent, double discountAmount, int ratingCount, double ratingAverage, boolean status) {
-		this.id = id;
+			int inventory, Date created, double discountPercent, double discountAmount, int ratingCount,
+			double ratingAverage, boolean status) {
 		this.branchs = branchs;
 		this.categories = categories;
 		this.stores = stores;
@@ -70,10 +74,6 @@ public class Products implements java.io.Serializable {
 		this.quantity = quantity;
 		this.inventory = inventory;
 		this.created = created;
-		this.updated = updated;
-		this.isOutstanding = isOutstanding;
-		this.isBestSelling = isBestSelling;
-		this.isNew = isNew;
 		this.discountPercent = discountPercent;
 		this.discountAmount = discountAmount;
 		this.ratingCount = ratingCount;
@@ -81,13 +81,12 @@ public class Products implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public Products(int id, Branchs branchs, Categories categories, Stores stores, String name, String avatar,
-			String description, String descriptionDetail, double originalPrice, double price, int quantity,
-			int inventory, Date created, Date updated, boolean isOutstanding, boolean isBestSelling, boolean isNew,
-			double discountPercent, double discountAmount, int ratingCount, double ratingAverage, boolean status,
-			Set<TagProducts> tagProductses, Set<Carts> cartses, Set<Images> imageses, Set<Transactions> transactionses,
-			Set<Comments> commentses) {
-		this.id = id;
+	public Products(Branchs branchs, Categories categories, Stores stores, String name, String avatar,
+			String description, String descriptionDetail, double originalPrice, Double saleOffPercent, double price,
+			int quantity, int inventory, Date created, Date updated, Boolean isOutstanding, Boolean isBestSelling,
+			Boolean isNew, double discountPercent, double discountAmount, int ratingCount, double ratingAverage,
+			boolean status, String banReason, Boolean isLocked, Set<Carts> cartses, Set<Images> imageses,
+			Set<Comments> commentses, Set<TagProducts> tagProductses, Set<Transactions> transactionses) {
 		this.branchs = branchs;
 		this.categories = categories;
 		this.stores = stores;
@@ -96,6 +95,7 @@ public class Products implements java.io.Serializable {
 		this.description = description;
 		this.descriptionDetail = descriptionDetail;
 		this.originalPrice = originalPrice;
+		this.saleOffPercent = saleOffPercent;
 		this.price = price;
 		this.quantity = quantity;
 		this.inventory = inventory;
@@ -109,21 +109,24 @@ public class Products implements java.io.Serializable {
 		this.ratingCount = ratingCount;
 		this.ratingAverage = ratingAverage;
 		this.status = status;
-		this.tagProductses = tagProductses;
+		this.banReason = banReason;
+		this.isLocked = isLocked;
 		this.cartses = cartses;
 		this.imageses = imageses;
-		this.transactionses = transactionses;
 		this.commentses = commentses;
+		this.tagProductses = tagProductses;
+		this.transactionses = transactionses;
 	}
 
 	@Id
+	@GeneratedValue(strategy = IDENTITY)
 
 	@Column(name = "id", unique = true, nullable = false)
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -202,6 +205,15 @@ public class Products implements java.io.Serializable {
 		this.originalPrice = originalPrice;
 	}
 
+	@Column(name = "sale_off_percent", precision = 22, scale = 0)
+	public Double getSaleOffPercent() {
+		return this.saleOffPercent;
+	}
+
+	public void setSaleOffPercent(Double saleOffPercent) {
+		this.saleOffPercent = saleOffPercent;
+	}
+
 	@Column(name = "price", nullable = false, precision = 22, scale = 0)
 	public double getPrice() {
 		return this.price;
@@ -240,7 +252,7 @@ public class Products implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "updated", nullable = false, length = 10)
+	@Column(name = "updated", length = 10)
 	public Date getUpdated() {
 		return this.updated;
 	}
@@ -249,30 +261,30 @@ public class Products implements java.io.Serializable {
 		this.updated = updated;
 	}
 
-	@Column(name = "isOutstanding", nullable = false)
-	public boolean isIsOutstanding() {
+	@Column(name = "is_outstanding")
+	public Boolean getIsOutstanding() {
 		return this.isOutstanding;
 	}
 
-	public void setIsOutstanding(boolean isOutstanding) {
+	public void setIsOutstanding(Boolean isOutstanding) {
 		this.isOutstanding = isOutstanding;
 	}
 
-	@Column(name = "isBest_selling", nullable = false)
-	public boolean isIsBestSelling() {
+	@Column(name = "is_best_selling")
+	public Boolean getIsBestSelling() {
 		return this.isBestSelling;
 	}
 
-	public void setIsBestSelling(boolean isBestSelling) {
+	public void setIsBestSelling(Boolean isBestSelling) {
 		this.isBestSelling = isBestSelling;
 	}
 
-	@Column(name = "isNew", nullable = false)
-	public boolean isIsNew() {
+	@Column(name = "is_new")
+	public Boolean getIsNew() {
 		return this.isNew;
 	}
 
-	public void setIsNew(boolean isNew) {
+	public void setIsNew(Boolean isNew) {
 		this.isNew = isNew;
 	}
 
@@ -321,13 +333,22 @@ public class Products implements java.io.Serializable {
 		this.status = status;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
-	public Set<TagProducts> getTagProductses() {
-		return this.tagProductses;
+	@Column(name = "ban_reason", length = 65535)
+	public String getBanReason() {
+		return this.banReason;
 	}
 
-	public void setTagProductses(Set<TagProducts> tagProductses) {
-		this.tagProductses = tagProductses;
+	public void setBanReason(String banReason) {
+		this.banReason = banReason;
+	}
+
+	@Column(name = "is_locked")
+	public Boolean getIsLocked() {
+		return this.isLocked;
+	}
+
+	public void setIsLocked(Boolean isLocked) {
+		this.isLocked = isLocked;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
@@ -349,21 +370,30 @@ public class Products implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
-	public Set<Transactions> getTransactionses() {
-		return this.transactionses;
-	}
-
-	public void setTransactionses(Set<Transactions> transactionses) {
-		this.transactionses = transactionses;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
 	public Set<Comments> getCommentses() {
 		return this.commentses;
 	}
 
 	public void setCommentses(Set<Comments> commentses) {
 		this.commentses = commentses;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
+	public Set<TagProducts> getTagProductses() {
+		return this.tagProductses;
+	}
+
+	public void setTagProductses(Set<TagProducts> tagProductses) {
+		this.tagProductses = tagProductses;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
+	public Set<Transactions> getTransactionses() {
+		return this.transactionses;
+	}
+
+	public void setTransactionses(Set<Transactions> transactionses) {
+		this.transactionses = transactionses;
 	}
 
 }

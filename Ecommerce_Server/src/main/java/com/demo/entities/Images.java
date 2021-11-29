@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 16, 2021, 9:02:55 AM by Hibernate Tools 5.1.10.Final
+// Generated Nov 29, 2021, 10:03:26 AM by Hibernate Tools 5.1.10.Final
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +26,10 @@ public class Images implements java.io.Serializable {
 	public Images() {
 	}
 
+	public Images(String name) {
+		this.name = name;
+	}
+
 	public Images(Banners banners, Products products, String name) {
 		this.banners = banners;
 		this.products = products;
@@ -45,7 +49,7 @@ public class Images implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "banner_id", nullable = false)
+	@JoinColumn(name = "banner_id")
 	public Banners getBanners() {
 		return this.banners;
 	}
@@ -55,7 +59,7 @@ public class Images implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id", nullable = false)
+	@JoinColumn(name = "product_id")
 	public Products getProducts() {
 		return this.products;
 	}

@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 16, 2021, 9:02:55 AM by Hibernate Tools 5.1.10.Final
+// Generated Nov 29, 2021, 10:03:26 AM by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -38,15 +38,13 @@ public class Banners implements java.io.Serializable {
 	public Banners() {
 	}
 
-	public Banners(Users usersByCreaterId, Users usersByUpdaterId, String caption, String description, String link,
-			Date created, Date updated, boolean status) {
+	public Banners(Users usersByCreaterId, String caption, String description, String link, Date created,
+			boolean status) {
 		this.usersByCreaterId = usersByCreaterId;
-		this.usersByUpdaterId = usersByUpdaterId;
 		this.caption = caption;
 		this.description = description;
 		this.link = link;
 		this.created = created;
-		this.updated = updated;
 		this.status = status;
 	}
 
@@ -86,7 +84,7 @@ public class Banners implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "updater_id", nullable = false)
+	@JoinColumn(name = "updater_id")
 	public Users getUsersByUpdaterId() {
 		return this.usersByUpdaterId;
 	}
@@ -133,7 +131,7 @@ public class Banners implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "updated", nullable = false, length = 10)
+	@Column(name = "updated", length = 10)
 	public Date getUpdated() {
 		return this.updated;
 	}

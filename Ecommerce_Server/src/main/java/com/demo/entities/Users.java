@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Nov 16, 2021, 9:02:55 AM by Hibernate Tools 5.1.10.Final
+// Generated Nov 29, 2021, 10:03:26 AM by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -36,6 +36,7 @@ public class Users implements java.io.Serializable {
 	private Date created;
 	private Date updated;
 	private boolean status;
+	private Date banTerm;
 	private Set<ChatChanels> chatChanelses = new HashSet<ChatChanels>(0);
 	private Set<TransactionDetails> transactionDetailses = new HashSet<TransactionDetails>(0);
 	private Set<Notifications> notificationses = new HashSet<Notifications>(0);
@@ -65,7 +66,7 @@ public class Users implements java.io.Serializable {
 	}
 
 	public Users(Roles roles, String username, String password, String fullname, Date birthday, String phone,
-			String email, Date created, Date updated, boolean status, Set<ChatChanels> chatChanelses,
+			String email, Date created, Date updated, boolean status, Date banTerm, Set<ChatChanels> chatChanelses,
 			Set<TransactionDetails> transactionDetailses, Set<Notifications> notificationses, Set<Carts> cartses,
 			Set<Services> servicesesForCreatedId, Set<Banners> bannersesForCreaterId, Set<Comments> commentses,
 			Set<Banners> bannersesForUpdaterId, Set<Services> servicesesForUpdatedId, Set<Stores> storeses,
@@ -80,6 +81,7 @@ public class Users implements java.io.Serializable {
 		this.created = created;
 		this.updated = updated;
 		this.status = status;
+		this.banTerm = banTerm;
 		this.chatChanelses = chatChanelses;
 		this.transactionDetailses = transactionDetailses;
 		this.notificationses = notificationses;
@@ -197,6 +199,16 @@ public class Users implements java.io.Serializable {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ban_term", length = 10)
+	public Date getBanTerm() {
+		return this.banTerm;
+	}
+
+	public void setBanTerm(Date banTerm) {
+		this.banTerm = banTerm;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
