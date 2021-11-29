@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE tiles-definitions PUBLIC  
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+       
+<tiles-definitions>  
+
+    <!-- Base Define -->
+    <definition name="templateStore"  
+        template="/WEB-INF/views/template/templateStore.jsp">  
+        <put-attribute name="content" value="" />
+        <put-list-attribute name="javascripts"></put-list-attribute>
+    	<put-list-attribute name="stylesheets"></put-list-attribute>
+    </definition>  
+
+    <!-- Home Page  -->
+    <definition name="store.index" extends="templateStore">  
+        <put-attribute name="content" value="/WEB-INF/views/store/index.jsp" /> 
+    </definition> 
+    <!-- Profile Page  -->
+    <definition name="store.profile" extends="templateStore">  
+        <put-attribute name="content" value="/WEB-INF/views/store/profile.jsp" /> 
+    </definition> 
+    <!-- Add Page  -->
+    <definition name="store.product.add" extends="templateStore">  
+        <put-attribute name="content" value="/WEB-INF/views/store/product/add.jsp" />  
+        <put-list-attribute name="stylesheets" inherit="true">
+	        <add-attribute value="/resources/stores/plugins/select2/css/select2.min.css" />
+	        <add-attribute value="/resources/stores/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" />
+	        <add-attribute value="/resources/stores/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css" />
+	        <add-attribute value="/resources/stores/plugins/bs-stepper/css/bs-stepper.min.css" />
+	        <add-attribute value="/resources/stores/plugins/dropzone/min/dropzone.min.css" />
+	        <add-attribute value="/resources/stores/assets/plugin/upload-images/jquery.imagesloader.css" />
+	        <add-attribute value="https://www.jqueryscript.net/css/jquerysctipttop.css" />
+	        <add-attribute value="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" />
+	    </put-list-attribute>
+	    <put-list-attribute name="javascripts" inherit="true">
+	        <add-attribute value="/resources/stores/plugins/select2/js/select2.full.min.js" />
+	        <add-attribute value="/resources/stores/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js" />
+	        <add-attribute value="/resources/stores/plugins/moment/moment.min.js" />
+	        <add-attribute value="/resources/stores/plugins/inputmask/jquery.inputmask.min.js" />
+	        <add-attribute value="/resources/stores/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js" />
+	        <add-attribute value="/resources/stores/plugins/bootstrap-switch/js/bootstrap-switch.min.js" />
+	        <add-attribute value="/resources/stores/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js" />	        
+	        <add-attribute value="/resources/stores/plugins/bs-stepper/js/bs-stepper.min.js" />
+	        <add-attribute value="/resources/stores/plugins/dropzone/min/dropzone.min.js" />
+	        <add-attribute value="/resources/stores/assets/js/custom.select2.js" />
+	        <add-attribute value="/resources/stores/assets/plugin/upload-images/jquery.imagesloader-1.0.1.js" />
+	        <add-attribute value="/resources/stores/assets/js/custom.product.js" />
+	        <add-attribute value="/resources/stores/assets/js/site.upload.images.js" />
+	    </put-list-attribute>
+    </definition> 
+    <!-- Product Page  -->
+    <!-- DataTables -->
+    <definition name="store.product.index" extends="templateStore">  
+        <put-attribute name="content" value="/WEB-INF/views/store/product/index.jsp" />  
+        <put-list-attribute name="stylesheets" inherit="true">
+	        <add-attribute value="/resources/stores/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+	        <add-attribute value="/resources/stores/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
+	        <add-attribute value="/resources/stores/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+	        <add-attribute value="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" />
+	        <add-attribute value="/resources/stores/assets/css/site.css" />
+	    </put-list-attribute>
+	    <put-list-attribute name="javascripts" inherit="true">
+	        <add-attribute value="/resources/stores/plugins/datatables-buttons/js/buttons.html5.min.js" />
+	        <add-attribute value="/resources/stores/plugins/datatables-buttons/js/buttons.print.min.js" />
+	        <add-attribute value="/resources/stores/plugins/datatables-buttons/js/buttons.colVis.min.js" />
+	        <add-attribute value="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js" />
+	        <add-attribute value="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js" />
+	        <add-attribute value="/resources/stores/assets/js/custom.datatable.product.js" />
+	        <add-attribute value="/resources/stores/assets/js/site.js" />
+	        <add-attribute value="/resources/stores/assets/js/site.setting.js" />
+	    </put-list-attribute>
+    </definition> 
+    
+    <!-- Order Page -->
+    <definition name="store.order.index" extends="templateStore">  
+        <put-attribute name="content" value="/WEB-INF/views/store/order/index.jsp" />  
+        <put-list-attribute name="stylesheets" inherit="true">
+	        <add-attribute value="/resources/stores/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+	        <add-attribute value="/resources/stores/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
+	        <add-attribute value="/resources/stores/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+	        <add-attribute value="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" />
+	        <add-attribute value="/resources/stores/assets/css/site.css" />
+	    </put-list-attribute>
+	    <put-list-attribute name="javascripts" inherit="true">
+	        <add-attribute value="/resources/stores/plugins/datatables-buttons/js/buttons.html5.min.js" />
+	        <add-attribute value="/resources/stores/plugins/datatables-buttons/js/buttons.print.min.js" />
+	        <add-attribute value="/resources/stores/plugins/datatables-buttons/js/buttons.colVis.min.js" />
+	        <add-attribute value="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js" />
+	        <add-attribute value="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js" />
+	        <add-attribute value="/resources/stores/assets/js/custom.datatable.order.js" />
+	        <add-attribute value="/resources/stores/assets/js/site.js" />
+	        <add-attribute value="/resources/stores/assets/js/site.setting.js" />
+	    </put-list-attribute>
+    </definition> 
+    
+</tiles-definitions> 
