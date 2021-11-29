@@ -43,8 +43,7 @@ public class Users implements java.io.Serializable {
 	private Date updated;
 	
 	private boolean status;
-
-	@JsonFormat(pattern = "dd/MM/yyyy")
+  @JsonFormat(pattern = "dd/MM/yyyy")
 	private Date banTerm;
 	private Set<ChatChanels> chatChanelses = new HashSet<ChatChanels>(0);
 	private Set<TransactionDetails> transactionDetailses = new HashSet<TransactionDetails>(0);

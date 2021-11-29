@@ -1,6 +1,5 @@
 package com.demo.entities;
 
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,7 +36,8 @@ public class Products implements java.io.Serializable {
 	private double price;
 	private int quantity;
 	private int inventory;
-
+  private Date created;
+	private Date updated;
 	private Boolean isOutstanding;
 	private Boolean isBestSelling;
 	private Boolean isNew;

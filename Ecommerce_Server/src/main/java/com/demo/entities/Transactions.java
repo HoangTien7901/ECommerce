@@ -19,6 +19,7 @@ import javax.persistence.Table;
 public class Transactions implements java.io.Serializable {
 
 	private Integer id;
+	private Orders orders;
 	private Products products;
 	private Services services;
 	private Stores stores;
@@ -34,10 +35,13 @@ public class Transactions implements java.io.Serializable {
 	public Transactions() {
 	}
 
-	public Transactions(Products products, Services services, Stores stores, TransactionDetails transactionDetails,
+public Transactions(Products products, Services services, Stores stores, TransactionDetails transactionDetails,
 			double price, int quantity, double tax, double total, boolean status) {
+=======
+	public Transactions(Orders orders, Products products, Stores stores, TransactionDetails transactionDetails,
+			double price, int quantity, double tax, double total, boolean status) {
+		this.orders = orders;
 		this.products = products;
-		this.services = services;
 		this.stores = stores;
 		this.transactionDetails = transactionDetails;
 		this.price = price;
@@ -47,8 +51,10 @@ public class Transactions implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public Transactions(Products products, Services services, Stores stores, TransactionDetails transactionDetails,
-			double price, int quantity, double tax, double total, String note, boolean status, String cancelReason) {
+	public Transactions(Orders orders, Products products, Services services, Stores stores,
+			TransactionDetails transactionDetails, double price, int quantity, double tax, double total, String note,
+			boolean status, String cancelReason) {
+		this.orders = orders;
 		this.products = products;
 		this.services = services;
 		this.stores = stores;
@@ -72,6 +78,16 @@ public class Transactions implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_id", nullable = false)
+	public Orders getOrders() {
+		return this.orders;
+	}
+
+	public void setOrders(Orders orders) {
+		this.orders = orders;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

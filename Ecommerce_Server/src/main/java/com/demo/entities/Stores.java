@@ -34,9 +34,14 @@ public class Stores implements java.io.Serializable {
 	private String email;
 	private String address;
 	private String logo;
-
+  @JsonFormat(pattern = "dd/MM/yyyy")
+	private Date created;
+	private Date expiry;
+	private Date updated;
+	private boolean status;
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date banTerm;
+	private String paypalAccount;
 	private Set<ChatChanels> chatChanelses = new HashSet<ChatChanels>(0);
 	private Set<Products> productses = new HashSet<Products>(0);
 	private Set<StoreServices> storeServiceses = new HashSet<StoreServices>(0);
@@ -48,7 +53,7 @@ public class Stores implements java.io.Serializable {
 	}
 
 	public Stores(Users users, String name, String phone, String email, String address, String logo, Date created,
-			boolean status) {
+			boolean status, String paypalAccount) {
 		this.users = users;
 		this.name = name;
 		this.phone = phone;
@@ -57,10 +62,13 @@ public class Stores implements java.io.Serializable {
 		this.logo = logo;
 		this.created = created;
 		this.status = status;
+		this.paypalAccount = paypalAccount;
 	}
 
 	public Stores(Users users, String name, String phone, String email, String address, String logo, Date created,
-
+      Date expiry, Date updated, boolean status, Date banTerm, String paypalAccount,
+			Set<ChatChanels> chatChanelses, Set<Products> productses, Set<StoreServices> storeServiceses,
+			Set<Notifications> notificationses, Set<ChatMessages> chatMessageses, Set<Transactions> transactionses) {
 		this.users = users;
 		this.name = name;
 		this.phone = phone;
@@ -72,6 +80,7 @@ public class Stores implements java.io.Serializable {
 		this.updated = updated;
 		this.status = status;
 		this.banTerm = banTerm;
+    this.paypalAccount = paypalAccount;
 		this.chatChanelses = chatChanelses;
 		this.productses = productses;
 		this.storeServiceses = storeServiceses;
@@ -196,6 +205,15 @@ public class Stores implements java.io.Serializable {
 		this.banTerm = banTerm;
 	}
 
+@Column(name = "paypal_account", nullable = false, length = 100)
+	public String getPaypalAccount() {
+		return this.paypalAccount;
+	}
+
+	public void setPaypalAccount(String paypalAccount) {
+		this.paypalAccount = paypalAccount;
+	}
+  
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stores")
 	public Set<ChatChanels> getChatChanelses() {
 		return this.chatChanelses;

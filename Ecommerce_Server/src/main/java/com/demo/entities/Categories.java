@@ -34,15 +34,16 @@ public class Categories implements java.io.Serializable {
 	public Categories() {
 	}
 
-
+	public Categories(double discountPercent, String name, boolean status, int level) {
+		this.discountPercent = discountPercent;
 		this.name = name;
 		this.discountPercent = discountPercent;
 		this.status = status;
 		this.level = level;
 	}
 
-
-			Set<Categories> categorieses, Set<Products> productses) {
+	public Categories(Categories categories, double discountPercent, String name, boolean status, int level,
+  Set<Categories> categorieses, Set<Products> productses) {
 		this.categories = categories;
 		this.discountPercent = discountPercent;
 		this.name = name;
@@ -66,7 +67,7 @@ public class Categories implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-
+	@JoinColumn(name = "parent_id")
 	public Categories getCategories() {
 		return this.categories;
 	}
