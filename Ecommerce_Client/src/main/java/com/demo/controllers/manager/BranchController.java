@@ -1,17 +1,13 @@
 package com.demo.controllers.manager;
 
 
-import java.util.List;
-
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,16 +68,20 @@ public class BranchController implements ServletContextAware {
 
 	@RequestMapping(value = { "save" }, method = RequestMethod.POST)
 	public String save(@RequestParam("id") int id, @RequestParam("name") String name, 
-			@RequestParam(value = "logo") MultipartFile logo) {
+			@RequestParam(value = "logo", required = false) MultipartFile logo) {
 		ResponseEntity<BranchInfo> response = branchService.findInfoById(id);
 		
 		if (response != null && response.getStatusCode() == HttpStatus.OK) {
 			BranchInfo object = response.getBody();
 			object.setName(name);
 			
-			if (logo.getSize() > 0) {
+			if (!logo.isEmpty()) {
 				String fileName = FileUploadHelper.upload(logo, servletContext);
 				object.setLogo(fileName);
+			} else {
+				if (object.getLogo().isEmpty()) {
+					object.setLogo("defaultLogo.png");
+				}
 			}
 			
 			ResponseEntity<Void> response2 = branchService.update(object);
@@ -111,12 +111,17 @@ public class BranchController implements ServletContextAware {
 	}
 	
 	@RequestMapping(value = { "create" }, method = RequestMethod.POST)
-	public String create(@RequestParam("name") String name, @RequestParam("logo")  MultipartFile logo) {
+	public String create(@RequestParam("name") String name, @RequestParam(name = "logo", required = false)  MultipartFile logo) {
 		BranchInfo item = new BranchInfo();
 		item.setName(name);
 		
-		String fileName = FileUploadHelper.upload(logo, servletContext);
-		item.setLogo(fileName);
+		if (!logo.isEmpty()) {
+			String fileName = FileUploadHelper.upload(logo, servletContext);
+			item.setLogo(fileName);
+		} else {
+			item.setLogo("defaultLogo.png");
+		}
+		
 		ResponseEntity<BranchInfo> responseEntity = branchService.create(item);
 		
 		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {

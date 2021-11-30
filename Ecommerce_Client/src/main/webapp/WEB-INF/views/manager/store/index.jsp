@@ -64,11 +64,7 @@
 												<tr>
 													<td>${varStatus.getCount() }</td>
 													<td>${item.userName }
-													
-												
 												<td>${item.name }
-													
-												
 												<td>${item.phone }</td>
 													<td>${item.email }</td>
 													<td>

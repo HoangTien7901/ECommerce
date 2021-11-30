@@ -47,6 +47,7 @@
 											<s:label path="content">Content</s:label>
 											<s:textarea cssClass="form-control" path="content" rows="5"
 											cols="30" placeholder="Enter content" />
+											<s:errors path="content" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">
@@ -69,6 +70,7 @@
 										<div class="form-check">
 											<s:hidden path="id" />
 										</div>
+										<input type="hidden" name="editType" value="${editType }">
 									</div>
 									<!-- /.card-body -->
 

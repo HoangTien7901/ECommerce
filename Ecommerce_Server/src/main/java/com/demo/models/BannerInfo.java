@@ -21,6 +21,8 @@ public class BannerInfo {
 	
 	private Integer creatorId;	
 	private Integer updatorId;
+	
+	private Iterable<ImageInfo> imgs;
 
 	public int getId() {
 		return id;
@@ -92,6 +94,14 @@ public class BannerInfo {
 
 	public void setCreatorId(Integer creatorId) {
 		this.creatorId = creatorId;
+	}
+	
+	public Iterable<ImageInfo> getImgs() {
+		return imgs;
+	}
+
+	public void setImgs(Iterable<ImageInfo> imgs) {
+		this.imgs = imgs;
 	}
 
 	public BannerInfo() {

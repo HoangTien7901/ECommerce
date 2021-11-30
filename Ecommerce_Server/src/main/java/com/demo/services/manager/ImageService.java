@@ -67,5 +67,15 @@ public class ImageService implements IImageService {
 	@Override
 	public void delete(int id) {
 		imgRepos.delete(imgRepos.findById(id).get());
+	}
+	
+	@Override
+	public void deleteAllByBannerId(int id) {
+		imgRepos.deleteByBannersId(id);
+	}
+
+	@Override
+	public Iterable<ImageInfo> findAllInfoByBannerId(int id) {
+		return imgRepos.findAllInfoByBannerId(id);
 	}	
 }

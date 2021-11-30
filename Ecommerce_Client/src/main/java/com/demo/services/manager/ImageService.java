@@ -30,6 +30,20 @@ public class ImageService implements IImageService {
 	}
 	
 	@Override
+	public ResponseEntity<Iterable<ImageInfo>> findAllInfoByBannerId(int id) {
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			return restTemplate.exchange(BASE_URL + "findAllByBannerId/" + id,
+					HttpMethod.GET,
+					null , 
+					new ParameterizedTypeReference<Iterable<ImageInfo>>() {} );
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	@Override
 	public ResponseEntity<ImageInfo> findInfoById(int id) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
@@ -70,6 +84,18 @@ public class ImageService implements IImageService {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			restTemplate.delete(BASE_URL + "delete/" + id);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@Override
+	public ResponseEntity<Void> deleteByBannerId(int id) {
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.delete(BASE_URL + "deleteByBannerId/" + id);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

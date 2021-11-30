@@ -19,16 +19,33 @@
 	href="${pageContext.request.contextPath }/resources/manager/dist/css/adminlte.min.css">
 
 <!-- codemirror -->
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.min.css" />
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/theme/blackboard.min.css">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/theme/monokai.min.css">
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/xml/xml.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.min.css" />
+<link rel="stylesheet"
+	href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/theme/blackboard.min.css">
+<link rel="stylesheet"
+	href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/theme/monokai.min.css">
+<script type="text/javascript"
+	src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/xml/xml.min.js"></script>
+
+<!-- Ekko Lightbox -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/manager/plugins/ekko-lightbox/ekko-lightbox.css">
 
 <!-- add summernote -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.min.js"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.min.js"></script>
+
+<!-- dropzonejs -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/manager/plugins/dropzone/min/dropzone.min.css">
 
 <!-- DataTables -->
 <link rel="stylesheet"
@@ -49,10 +66,6 @@
 			<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" data-widget="pushmenu"
 					href="#" role="button"><i class="fas fa-bars"></i></a></li>
-				<li class="nav-item d-none d-sm-inline-block"><a
-					href="../../index3.html" class="nav-link">Home</a></li>
-				<li class="nav-item d-none d-sm-inline-block"><a href="#"
-					class="nav-link">Contact</a></li>
 			</ul>
 		</nav>
 		<!-- /.navbar -->
@@ -64,7 +77,7 @@
 				src="${pageContext.request.contextPath }/resources/manager/dist/img/AdminLTELogo.png"
 				alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
 				style="opacity: .8"> <span
-				class="brand-text font-weight-light">AdminLTE 3</span>
+				class="brand-text font-weight-light">Manager</span>
 			</a>
 
 			<!-- Sidebar -->
@@ -85,53 +98,82 @@
 				<nav class="mt-2">
 					<ul class="nav nav-pills nav-sidebar flex-column"
 						data-widget="treeview" role="menu" data-accordion="false">
-						<!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-						<li class="nav-item menu-open"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/banner/index"
 							class="nav-link ${bannerActive }"><i
 								class="far fa-circle nav-icon"></i>
 								<p>Banner</p> </a></li>
-						<li class="nav-item menu-open"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/feedback/index"
 							class="nav-link ${feedbackActive }"><i
 								class="far fa-circle nav-icon"></i>
 								<p>Feedback</p> </a></li>
-						<li class="nav-item menu-open"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/category/index"
 							class="nav-link ${categoryActive }"><i
 								class="far fa-circle nav-icon"></i>
 								<p>Category</p> </a></li>
-						<li class="nav-item menu-open"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/tag/index"
 							class="nav-link ${tagActive }"><i
 								class="far fa-circle nav-icon"></i>
 								<p>Tag</p> </a></li>
-						<li class="nav-item menu-open"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/branch/index"
 							class="nav-link ${branchActive }"><i
 								class="far fa-circle nav-icon"></i>
 								<p>Branch</p> </a></li>
-						<li class="nav-item menu-open"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/notification/index"
 							class="nav-link ${notificationActive }"><i
 								class="far fa-circle nav-icon"></i>
 								<p>Notification</p> </a></li>
-						<li class="nav-item menu-open"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/product/index"
 							class="nav-link ${productActive }"><i
 								class="far fa-circle nav-icon"></i>
 								<p>Product</p> </a></li>
-						<li class="nav-item menu-open"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/store/index"
 							class="nav-link ${storeActive }"><i
 								class="far fa-circle nav-icon"></i>
 								<p>Store</p> </a></li>
-						<li class="nav-item menu-open"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/user/index"
 							class="nav-link ${userActive }"><i
 								class="far fa-circle nav-icon"></i>
 								<p>User</p> </a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/manager/service/index"
+							class="nav-link ${serviceActive }"><i
+								class="far fa-circle nav-icon"></i>
+								<p>Service</p> </a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/manager/contact/index"
+							class="nav-link ${contactActive }"><i
+								class="far fa-circle nav-icon"></i>
+								<p>Contact</p> </a></li>
+						<li class="nav-item ${adminOpen ? 'menu-open' : '' }"><a href="#" class="nav-link"> <i
+								class="nav-icon fas fa-table"></i>
+								<p>
+									Admin <i class="fas fa-angle-left right"></i>
+								</p></a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item menu-open"><a
+									href="${pageContext.request.contextPath }/manager/transaction/index"
+									class="nav-link ${transactionActive }"><i
+										class="far fa-circle nav-icon"></i>
+								<p>Sales and report</p> </a></li>
+							</ul>
+							<ul class="nav nav-treeview">
+								<li class="nav-item menu-open"><a
+									href="${pageContext.request.contextPath }/manager/system/index"
+									class="nav-link ${systemActive }"><i
+										class="far fa-circle nav-icon"></i>
+								<p>System</p> </a></li>
+							</ul>
+						</li>
+
 
 					</ul>
 				</nav>

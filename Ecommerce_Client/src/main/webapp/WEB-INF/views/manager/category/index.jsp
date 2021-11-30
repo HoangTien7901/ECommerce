@@ -194,8 +194,9 @@
 				"autoWidth" : false,
 				"responsive" : true,
 				"columnDefs" : [ {
-					'targets' : [ 4 ], /* column index, count from 0 */
+					'targets' : [ 5 ], /* column index, count from 0 */
 					'orderable' : false, /* true or false */
+					'className' : 'all'
 				} ]
 			});
 		});

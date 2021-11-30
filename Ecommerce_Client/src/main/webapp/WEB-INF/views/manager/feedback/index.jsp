@@ -71,16 +71,21 @@
 													href="${pageContext.request.contextPath }/manager/feedback/toggleStatus/${item.id }">
 															<button type="button" class="btn btn-primary"
 															title="Change status">
-																<i class="far fa-edit"></i>
+																<i class="${item.status ? 'far fa-edit' : 'fas fa-check' }"></i>
 															</button>
-													</a> |
+													</a>
 														<button type="button" class="btn btn-danger buttonDelete"
 														data-toggle="modal" data-target="#modal-danger"
 														data-id="${item.id }">
 															<i class="far fa-trash-alt"></i>
-														</button> |
-														<button type="button" class="btn btn-primary">
-															Send mail?</button>
+														</button>
+														<a
+													href="${pageContext.request.contextPath }/manager/feedback/sendMail/${item.id }">
+															<button type="button" class="btn btn-primary"
+															title="Reply">
+																<i class="fas fa-reply"></i>
+															</button>
+													</a>
 												
 											</tr>
 											</c:forEach>

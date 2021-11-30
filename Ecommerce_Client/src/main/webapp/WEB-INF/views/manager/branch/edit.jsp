@@ -38,7 +38,7 @@
 								</div>
 								<!-- /.card-header -->
 								<!-- form start -->
-								<form method="POST"
+								<form method="POST" id="form"
 								action="${pageContext.request.contextPath }/manager/branch/save"
 								enctype="multipart/form-data">
 									<div class="card-body">
@@ -108,6 +108,10 @@
 	
 	<!-- Page specific script -->
 	
+	<!-- jquery-validation -->
+	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery-validation/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery-validation/additional-methods.min.js"></script>
+	
 	<!-- bs-custom-file-input -->
 	<script
 			src="${pageContext.request.contextPath }/resources/manager/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
@@ -117,6 +121,11 @@
 	
 	<script>
 	$(document).ready(function() {
+		// add new method for jqueyr validation
+		$.validator.methods.string = function( value, element ) {
+			  return this.optional( element ) || /^(?![\s.]+$)[a-zA-Z\s.]*$/.test( value );
+			}
+		
 		$(document).on('click', '[data-toggle="lightbox"]',
 				function(event) {
 					event.preventDefault();
@@ -141,6 +150,41 @@
 			  // read the image file as a data URL.
 			  reader.readAsDataURL(this.files[0]);
 			});
+		
+		$.validator.setDefaults({
+		    submitHandler: function () {
+		    	$('#form')[0].submit();
+		    }
+		  });
+		  $('#form').validate({
+			  rules: {
+			      name: {
+			        required: true,
+			        minlength: 3,
+			        maxlength: 100,
+			        string: true,
+			      }
+			    },
+			    messages: {
+			      name: {
+			        required: "This field is required.",
+			        minLength: "Please enter a value between 3 and 100 characters long.",
+			        maxLength: "Please enter a value between 3 and 100 characters long.",
+			        string: "This field can only contain alphabetic characters."
+			      }
+			    },
+		    errorElement: 'span',
+		    errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+		    highlight: function (element, errorClass, validClass) {
+		      $(element).addClass('is-invalid');
+		    },
+		    unhighlight: function (element, errorClass, validClass) {
+		      $(element).removeClass('is-invalid');
+		    }
+		  });
 	});
 	</script>
 	</jsp:attribute>

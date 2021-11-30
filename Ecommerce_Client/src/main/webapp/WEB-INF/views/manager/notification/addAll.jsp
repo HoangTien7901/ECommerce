@@ -47,6 +47,7 @@
 											<s:label path="content">Content</s:label>
 											<s:textarea cssClass="form-control" path="content" rows="5"
 											cols="30" placeholder="Enter content" />
+											<s:errors path="content" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										<div class="form-group">
 											<label>Recipient</label>
@@ -63,6 +64,7 @@
 											</div>
 										</div>
 										</div> 
+										<input type="hidden" name="addType" value="${addType }">
 									</div>
 									<!-- /.card-body -->
 
@@ -80,7 +82,6 @@
 				<!-- /.container-fluid -->
 			</section>
 			<!-- /.content -->
-	
 	<!-- jQuery -->		
 	<script
 			src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>

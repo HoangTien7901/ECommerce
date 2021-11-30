@@ -9,12 +9,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,10 +68,11 @@ public class StoreController implements ServletContextAware {
 		StoreInfo result = responseEntity.getBody();
 
 		ResponseEntity<Iterable<UserInfo>> responseEntityForSelect = userService.findAllInfoActive();
-		if (responseEntityForSelect != null) {
-			if (responseEntityForSelect.getStatusCode() == HttpStatus.OK) {
-				modelMap.put("users", (List<UserInfo>) responseEntityForSelect.getBody());
-			}
+		if (!(responseEntityForSelect == null || responseEntityForSelect.getStatusCode() != HttpStatus.OK)) {
+			modelMap.put("users", (List<UserInfo>) responseEntityForSelect.getBody());
+		} else {
+			System.out.println(
+					"Client - Get users result " + (responseEntityForSelect == null ? "null" : responseEntityForSelect.getStatusCode()));
 		}
 
 		if (responseEntity != null) {
@@ -87,32 +90,51 @@ public class StoreController implements ServletContextAware {
 	}
 	
 	@RequestMapping(value = { "save" }, method = RequestMethod.POST)
-	public String save(ModelMap modelMap, @ModelAttribute("item") StoreInfo item, @RequestParam("newLogo") MultipartFile newLogo) {
-		
-		// upload new avatar
-		if (!newLogo.isEmpty()) {
-			try {
-				// delete old image
-				Path fileToDeletePath = Paths.get("src/main/webapp/uploads/images/" + item.getLogo());
-				Files.delete(fileToDeletePath);
-			} catch (Exception e) {
-				System.out.println("Delete old product's avatar error: " + e.getMessage());
-			}
-			
-			String fileName = FileUploadHelper.upload(newLogo, servletContext);
-			item.setLogo(fileName);
-		}
-
-		ResponseEntity<Void> responseEntity = storeService.update(item);
-		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-//			StoreInfo result = responseEntity.getBody();
-
+	public String save(ModelMap modelMap, @ModelAttribute("item") @Valid StoreInfo item, BindingResult errors, @RequestParam(name = "newLogo", required = false) MultipartFile newLogo) {
+		ResponseEntity<Iterable<UserInfo>> responseEntityForSelect = userService.findAllInfoActive();
+		if (!(responseEntityForSelect == null || responseEntityForSelect.getStatusCode() != HttpStatus.OK)) {
+			modelMap.put("users", (List<UserInfo>) responseEntityForSelect.getBody());
 		} else {
 			System.out.println(
-					"Client - Update store result" + responseEntity == null ? "null" : responseEntity.getStatusCode());
+					"Client - Get users result " + (responseEntityForSelect == null ? "null" : responseEntityForSelect.getStatusCode()));
 		}
+		
+		if (errors.hasErrors()) {
+			modelMap.put("title", "Edit store");
+			modelMap.put("storeActive", "active");
 
-		return "redirect:/manager/store/index";
+			modelMap.put("img", item.getLogo());
+			modelMap.put("pageTitle", "Edit");
+			modelMap.put("parentPageTitle", "Store");
+			
+			return "manager/store/edit";
+		} else {
+			// upload new avatar
+			if (!newLogo.isEmpty()) {
+				try {
+					// delete old image
+					Path fileToDeletePath = Paths.get("src/main/webapp/uploads/images/" + item.getLogo());
+					Files.delete(fileToDeletePath);
+				} catch (Exception e) {
+					System.out.println("Delete old product's avatar error: " + e.getMessage());
+				}
+				
+				String fileName = FileUploadHelper.upload(newLogo, servletContext);
+				item.setLogo(fileName);
+			}
+				
+			ResponseEntity<Void> responseEntity = storeService.update(item);
+			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
+//				StoreInfo result = responseEntity.getBody();
+
+			} else {
+				System.out.println(
+						"Client - Update store result" + responseEntity == null ? "null" : responseEntity.getStatusCode());
+			}
+
+			return "redirect:/manager/store/index";
+		}
+		
 	}
 
 	@RequestMapping(value = { "delete/{id}" }, method = RequestMethod.GET)

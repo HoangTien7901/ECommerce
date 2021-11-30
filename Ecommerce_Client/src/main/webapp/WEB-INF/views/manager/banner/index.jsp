@@ -60,6 +60,7 @@
 												<th>Updated date</th>
 												<th>Status</th>
 												<th>Action</th>
+												<th>Photos</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -75,18 +76,37 @@
 													<td><fmt:formatDate var="updated"
 														value="${banner.updated }" pattern="dd/MM/yyyy" />
 														${updated }</td>
-													<td>${banner.status }</td>
+													<td>${banner.status ? "Active" : "Deactive"}</td>
 													<td><a
 													href="${pageContext.request.contextPath }/manager/banner/edit/${banner.id }">
 															<button type="button" class="btn btn-primary">
 																<i class="far fa-edit"></i>
 															</button>
-													</a> |
+													</a>
 														<button type="button" class="btn btn-danger buttonDelete"
 														data-toggle="modal" data-target="#modal-danger"
 														data-id="${banner.id }">
 															<i class="far fa-trash-alt"></i>
 														</button>
+													<a
+													href="${pageContext.request.contextPath }/manager/banner/changePhotos/${banner.id }">
+															<button type="button" class="btn btn-primary">
+																<i class="far fa-images"></i>
+															</button>
+													</a>
+													</td>
+													<td>
+														<br>
+														<div class="row">
+														<c:forEach var="bannerImg" items="${banner.imgs }" varStatus="i">
+															 <div class="col-sm-2">
+                    											<a href="${pageContext.request.contextPath }/uploads/images/${bannerImg.name }" data-toggle="lightbox" data-title="Banner ${varStatus.getCount() }'s image ${i.getCount() }" data-gallery="gallery${banner.id }">
+                      												<img src="${pageContext.request.contextPath }/uploads/images/${bannerImg.name }" class="img-fluid mb-2" alt="Banner ${varStatus.getCount() }'s image ${i.getCount() }"/>
+                    											</a>
+                  											</div>														
+														</c:forEach>
+														</div>
+													</td>
 												
 											</tr>
 											</c:forEach>
@@ -101,6 +121,7 @@
 												<th>Updated date</th>
 												<th>Status</th>
 												<th>Action</th>
+												<th>Photos</th>
 											</tr>
 										</tfoot>
 									</table>
@@ -186,6 +207,9 @@
 	<script
 			src="${pageContext.request.contextPath }/resources/manager/dist/js/demo.js"></script>
 	<!-- Page specific script -->
+	
+	<!-- Ekko Lightbox -->
+	<script src="${pageContext.request.contextPath }/resources/manager/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 	<script>
 		$(function() {
 			$(".buttonDelete").click(function() {
@@ -202,11 +226,24 @@
 				"info" : true,
 				"autoWidth" : false,
 				"responsive" : true,
-				"columnDefs" : [ {
+				"columnDefs" : [ 
+				{
 					'targets' : [ 7 ], /* column index, count from 0 */
 					'orderable' : false, /* true or false */
-				} ]
+					'className' : 'all',
+				}, 
+				{
+					'targets' : [8],
+					'className' : 'none',
+				}]
 			});
+			
+			$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+			      event.preventDefault();
+			      $(this).ekkoLightbox({
+			        alwaysShowClose: true
+			      });
+			    });
 		});
 	</script>
 			

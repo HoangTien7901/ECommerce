@@ -1,9 +1,17 @@
 package com.demo.models;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 public class TagInfo {
 	
 	private int id;
+	
+	@NotNull
+	@Length(min = 4, max = 100)
 	private String name;
+	
 	private boolean status;
 
 	public int getId() {

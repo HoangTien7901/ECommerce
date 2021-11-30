@@ -3,6 +3,7 @@ package com.demo.models;
 public class BranchInfo {
 
 	private int id;
+	
 	private String name;
 	private String logo;
 

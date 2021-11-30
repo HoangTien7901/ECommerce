@@ -5,12 +5,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.servlet.ServletContext;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,7 @@ import com.demo.services.manager.IBranchService;
 import com.demo.services.manager.ICategoryService;
 import com.demo.services.manager.IProductService;
 import com.demo.services.manager.IStoreService;
+import com.demo.services.manager.ISystemService;
 
 @Controller
 @RequestMapping("manager/product")
@@ -38,6 +41,9 @@ public class ProductController implements ServletContextAware {
 
 	@Autowired
 	private IProductService productService;
+	
+	@Autowired
+	private ISystemService systemService;
 	
 	@Autowired
 	private IStoreService storeService;
@@ -75,10 +81,10 @@ public class ProductController implements ServletContextAware {
 		ResponseEntity<Iterable<CategoryInfo>> categoryRespone = categoryService.findAllInfo();
 		ResponseEntity<Iterable<BranchInfo>> branchRespone = branchService.findAllInfo();
 		
-		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-			if (storeRespone != null && storeRespone.getStatusCode() == HttpStatus.OK) {
-				if (categoryRespone != null && categoryRespone.getStatusCode() == HttpStatus.OK) {
-					if (branchRespone != null && branchRespone.getStatusCode() == HttpStatus.OK) {
+		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
+			if (!(storeRespone == null || storeRespone.getStatusCode() != HttpStatus.OK)) {
+				if (!(categoryRespone == null || categoryRespone.getStatusCode() != HttpStatus.OK)) {
+					if (!(branchRespone == null || branchRespone.getStatusCode() != HttpStatus.OK)) {
 						modelMap.put("stores", storeRespone.getBody());
 						modelMap.put("categories", categoryRespone.getBody());
 						modelMap.put("branches", branchRespone.getBody());
@@ -151,31 +157,75 @@ public class ProductController implements ServletContextAware {
 	}
 
 	@RequestMapping(value = { "save" }, method = RequestMethod.POST)
-	public String save(@ModelAttribute("item") ProductInfo item, @RequestParam("newAvatar") MultipartFile newAvatar) {		
-		// upload new avatar
-		if (!newAvatar.isEmpty()) {
-			try {
-				// delete old image
-			    Path fileToDeletePath = Paths.get("src/main/webapp/uploads/images/" + item.getAvatar());
-			    Files.delete(fileToDeletePath);
-			    
-			    String fileName = FileUploadHelper.upload(newAvatar, servletContext);
-				item.setAvatar(fileName); 
-			} catch (Exception e) {
-				System.out.println("Delete old product's avatar error: " + e.getMessage());
-			}
-		}
+	public String save(@ModelAttribute("item") @Valid ProductInfo item, BindingResult errors, @RequestParam(name = "newAvatar", required = false) MultipartFile newAvatar, ModelMap modelMap) {	
+		ResponseEntity<com.demo.models.System> systemResponse = systemService.getSystem();
+		com.demo.models.System system = systemResponse.getBody();
 		
-		ResponseEntity<Void> responseEntity = productService.update(item);
-		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
+		if (errors.hasErrors()) {
+			ResponseEntity<Iterable<StoreInfo>> storeRespone = storeService.findAllInfo();
+			ResponseEntity<Iterable<CategoryInfo>> categoryRespone = categoryService.findAllInfo();
+			ResponseEntity<Iterable<BranchInfo>> branchRespone = branchService.findAllInfo();
 			
-//			send out notification
-		} else {
-			System.out.println("Client - Update product result" + responseEntity == null ? "null"
-					: responseEntity.getStatusCode());
-		}
+			if (!(storeRespone == null || storeRespone.getStatusCode() != HttpStatus.OK)) {
+				if (!(categoryRespone == null || categoryRespone.getStatusCode() != HttpStatus.OK)) {
+					if (!(branchRespone == null || branchRespone.getStatusCode() != HttpStatus.OK)) {
+						modelMap.put("stores", storeRespone.getBody());
+						modelMap.put("categories", categoryRespone.getBody());
+						modelMap.put("branches", branchRespone.getBody());
+						
+						modelMap.put("title", "Edit product");
+						modelMap.put("productActive", "active");
+						
+						modelMap.put("img", item.getAvatar());
 
-		return "redirect:/manager/product/index";
+						modelMap.put("pageTitle", "Edit");
+						modelMap.put("parentPageTitle", "Product");
+					} else {
+						System.out.println("Client - Update get branches result" + (branchRespone == null ? "null"
+								: branchRespone.getStatusCode()));
+					}
+				} else {
+					System.out.println("Client - Update get categories result" + (categoryRespone == null ? "null"
+							: categoryRespone.getStatusCode()));
+				}
+			} else {
+				System.out.println("Client - Update get stores result" + (storeRespone == null ? "null"
+						: storeRespone.getStatusCode()));
+			}
+			
+			return "manager/product/edit";
+		} else {
+			// upload new avatar
+			if (!newAvatar.isEmpty()) {
+				if (newAvatar.getSize() / 1024 / 1024 > system.getMaxBannerPhotoSize()) {
+					 
+					// #################### file size alert
+					
+				} else {
+					try {
+						// delete old image
+					    Path fileToDeletePath = Paths.get("src/main/webapp/uploads/images/" + item.getAvatar());
+					    Files.delete(fileToDeletePath);
+					    
+					    String fileName = FileUploadHelper.upload(newAvatar, servletContext);
+						item.setAvatar(fileName); 
+					} catch (Exception e) {
+						System.out.println("Delete old product's avatar error: " + e.getMessage());
+					}
+				}
+			}
+			
+			ResponseEntity<Void> responseEntity = productService.update(item);
+			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
+				
+//				send out notification
+			} else {
+				System.out.println("Client - Update product result" + responseEntity == null ? "null"
+						: responseEntity.getStatusCode());
+			}
+
+			return "redirect:/manager/product/index";
+		}
 	}
 
 	@RequestMapping(value = { "delete/{id}" }, method = RequestMethod.GET)

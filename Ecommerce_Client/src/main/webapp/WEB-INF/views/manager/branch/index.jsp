@@ -78,7 +78,7 @@
 															<button type="button" class="btn btn-primary">
 																<i class="far fa-edit"></i>
 															</button>
-													</a> |
+													</a>
 														<button type="button" class="btn btn-danger buttonDelete"
 														data-toggle="modal" data-target="#modal-danger"
 														data-id="${item.id }">
@@ -129,7 +129,7 @@
 					<button type="button" class="btn btn-outline-light"
 							data-dismiss="modal">Cancel</button>
 					<a id="deleteLink"
-							data-link="${pageContext.request.contextPath }/manager/tag/delete/"
+							data-link="${pageContext.request.contextPath }/manager/branch/delete/"
 							href="#">
 						<button type="button" class="btn btn-outline-light">Confirm</button>
 					</a>
@@ -200,6 +200,7 @@
 				"columnDefs" : [ {
 					'targets' : [ 3 ], /* column index, count from 0 */
 					'orderable' : false, /* true or false */
+					'className' : 'all',
 				} ]
 			});
 			

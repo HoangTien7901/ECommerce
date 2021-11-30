@@ -41,35 +41,25 @@
 								<!-- form start -->
 								<s:form method="POST"
 								action="${pageContext.request.contextPath }/manager/banner/create"
-								modelAttribute="banner" enctype="multipart/form-data">
+								modelAttribute="banner">
 									<div class="card-body">
 										<div class="form-group">
 											<s:label path="caption">Caption</s:label>
 											<s:input cssClass="form-control" path="caption"
 											placeholder="Enter caption" />
+											<s:errors path="caption" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										<div class="form-group">
 											<s:label path="description">Description</s:label>
 											<s:input cssClass="form-control" path="description"
 											placeholder="Enter description" />
+											<s:errors path="description" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										<div class="form-group">
 											<s:label path="link">Link</s:label>
 											<s:input cssClass="form-control" path="link"
 											placeholder="Enter link" />
-										</div>
-										<div class="form-group">
-											<label for="photo">Photo</label>
-											<div class="input-group">
-												<div class="custom-file">
-													<input type="file" class="custom-file-input" id="photo"
-													name="photos"
-													accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
-													multiple="multiple">
-													<label class="custom-file-label" for="photo">Choose
-														file</label>
-												</div>
-											</div>
+											<s:errors path="link" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										<div class="form-check">
 											<s:checkbox path="status" cssClass="form-check-input" />
@@ -108,14 +98,6 @@
 	<script
 			src="${pageContext.request.contextPath }/resources/manager/dist/js/demo.js"></script>
 	<!-- Page specific script -->
-	<!-- bs-custom-file-input -->
-	<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-	<script>
-		$(function() {
-			bsCustomFileInput.init();
-		});
-	</script>
 			
 	</jsp:attribute>
 </mt:managertemplate>

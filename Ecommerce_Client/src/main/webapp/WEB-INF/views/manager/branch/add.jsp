@@ -2,7 +2,6 @@
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- <%@ taglib prefix="s" uri="http://www.springframework.org/tags/form"%> --%>
 
 <%@ taglib prefix="mt" tagdir="/WEB-INF/tags"%>
 <mt:managertemplate title="${title }">
@@ -39,7 +38,7 @@
 								</div>
 								<!-- /.card-header -->
 								<!-- form start -->
-								<form method="POST"
+								<form method="POST" id="form"
 								action="${pageContext.request.contextPath }/manager/branch/create" enctype="multipart/form-data">
 									<div class="card-body">
 										<div class="form-group">
@@ -58,7 +57,6 @@
 													<label class="custom-file-label" for="logo">Choose
 														file</label>
 												</div>
-												
 											</div>
 										</div>
 										
@@ -97,6 +95,9 @@
 	<script
 			src="${pageContext.request.contextPath }/resources/manager/dist/js/demo.js"></script>
 	<!-- Page specific script -->
+	<!-- jquery-validation -->
+	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery-validation/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery-validation/additional-methods.min.js"></script>
 	<!-- bs-custom-file-input -->
 	<script
 			src="${pageContext.request.contextPath }/resources/manager/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
@@ -105,8 +106,13 @@
 			src="${pageContext.request.contextPath }/resources/manager/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 	
 	<script>
-	$(document).ready(function() {
-		$(document).on('click', '[data-toggle="lightbox"]',
+		$(document).ready(function() {
+			// add new method for jqueyr validation
+			$.validator.methods.string = function( value, element ) {
+				  return this.optional( element ) || /^(?![\s.]+$)[a-zA-Z\s.]*$/.test( value );
+				}
+			
+			$(document).on('click', '[data-toggle="lightbox"]',
 				function(event) {
 					event.preventDefault();
 					$(this).ekkoLightbox({
@@ -130,6 +136,43 @@
 			  // read the image file as a data URL.
 			  reader.readAsDataURL(this.files[0]);
 			});
+		
+			$.validator.setDefaults({
+		    submitHandler: function () {
+		    	$('#form')[0].submit();
+		    }
+		  });
+		  $('#form').validate({
+		    rules: {
+		      name: {
+		        required: true,
+		        minlength: 3,
+		        maxlength: 100,
+		        string: true,
+		      }
+		    },
+		    messages: {
+		      name: {
+		        required: "This field is required.",
+		        minLength: "Please enter a value between 3 and 100 characters long.",
+		        maxLength: "Please enter a value between 3 and 100 characters long.",
+		        string: "This field can only contain alphabetic characters."
+		      }
+		    },
+		    errorElement: 'span',
+		    errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+		    highlight: function (element, errorClass, validClass) {
+		      $(element).addClass('is-invalid');
+		    },
+		    unhighlight: function (element, errorClass, validClass) {
+		      $(element).removeClass('is-invalid');
+		    }
+		  });
+		  
+		  
 	});
 	</script>
 	</jsp:attribute>

@@ -2,6 +2,10 @@ package com.demo.models;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class NotificationInfo {
@@ -11,6 +15,9 @@ public class NotificationInfo {
 	private String storeName;
 	private Integer userId;
 	private String userName;
+	
+	@NotNull
+	@Length(min = 10, max = 500)
 	private String content;
 	
 	private boolean isAllUser;

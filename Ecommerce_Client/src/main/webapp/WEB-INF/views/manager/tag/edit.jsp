@@ -48,6 +48,7 @@
 											<s:label path="name">Name</s:label>
 											<s:input cssClass="form-control" path="name"
 											placeholder="Enter name" />
+											<s:errors path="name" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 
 										<div class="form-check">

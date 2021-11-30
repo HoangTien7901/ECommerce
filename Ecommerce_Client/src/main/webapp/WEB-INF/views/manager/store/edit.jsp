@@ -45,6 +45,7 @@
 											<s:label path="name">Store's name</s:label>
 											<s:input cssClass="form-control" path="name"
 											placeholder="Enter store's name" />
+											<s:errors path="name" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">
@@ -58,12 +59,14 @@
 											<s:label path="phone">Phone</s:label>
 											<s:input cssClass="form-control" path="phone"
 											placeholder="Enter phone number" />
+											<s:errors path="phone" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">
 											<s:label path="email">Email</s:label>
 											<s:input cssClass="form-control" path="email"
 											placeholder="Enter email" />
+											<s:errors path="email" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">

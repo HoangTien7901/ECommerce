@@ -28,16 +28,14 @@ public class Transactions implements java.io.Serializable {
 	private double tax;
 	private double total;
 	private String note;
-	private boolean status;
+	private String status;
 	private String cancelReason;
 
 	public Transactions() {
 	}
 
-	public Transactions(Products products, Services services, Stores stores, TransactionDetails transactionDetails,
-			double price, int quantity, double tax, double total, boolean status) {
-		this.products = products;
-		this.services = services;
+	public Transactions(Stores stores, TransactionDetails transactionDetails, double price, int quantity, double tax,
+			double total, String status) {
 		this.stores = stores;
 		this.transactionDetails = transactionDetails;
 		this.price = price;
@@ -48,7 +46,7 @@ public class Transactions implements java.io.Serializable {
 	}
 
 	public Transactions(Products products, Services services, Stores stores, TransactionDetails transactionDetails,
-			double price, int quantity, double tax, double total, String note, boolean status, String cancelReason) {
+			double price, int quantity, double tax, double total, String note, String status, String cancelReason) {
 		this.products = products;
 		this.services = services;
 		this.stores = stores;
@@ -75,7 +73,7 @@ public class Transactions implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id", nullable = false)
+	@JoinColumn(name = "product_id")
 	public Products getProducts() {
 		return this.products;
 	}
@@ -85,7 +83,7 @@ public class Transactions implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "service_id", nullable = false)
+	@JoinColumn(name = "service_id")
 	public Services getServices() {
 		return this.services;
 	}
@@ -159,12 +157,12 @@ public class Transactions implements java.io.Serializable {
 		this.note = note;
 	}
 
-	@Column(name = "status", nullable = false)
-	public boolean isStatus() {
+	@Column(name = "status", nullable = false, length = 50)
+	public String getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

@@ -2,13 +2,29 @@ package com.demo.models;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class BannerInfo {
 
 	private int id;
+	
+	@NotEmpty
+	@Length(min = 5, max = 250)
+	@Pattern(regexp = "^(?![\s.]+$)[a-zA-Z\s.]*$", message = "This field can only contain alphabetic characters.")
 	private String caption;
+	
+	@NotEmpty
+	@Length(min = 5, max = 500)
 	private String description;
+	
+	@NotEmpty
+	@URL
 	private String link;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
@@ -22,6 +38,8 @@ public class BannerInfo {
 	private Integer creatorId;	
 	private Integer updatorId;
 
+	private Iterable<ImageInfo> imgs;
+	
 	public int getId() {
 		return id;
 	}
@@ -92,6 +110,14 @@ public class BannerInfo {
 
 	public void setCreatorId(Integer creatorId) {
 		this.creatorId = creatorId;
+	}
+	
+	public Iterable<ImageInfo> getImgs() {
+		return imgs;
+	}
+
+	public void setImgs(Iterable<ImageInfo> imgs) {
+		this.imgs = imgs;
 	}
 
 	public BannerInfo() {

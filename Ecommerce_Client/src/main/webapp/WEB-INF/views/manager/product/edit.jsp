@@ -46,6 +46,7 @@
 											<s:label path="name">Name</s:label>
 											<s:input cssClass="form-control" path="name"
 											placeholder="Enter name" />
+											<s:errors path="name" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">
@@ -103,12 +104,14 @@
 											<s:label path="description">Description</s:label>
 											<s:textarea cssClass="form-control" path="description"
 											rows="5" cols="30" placeholder="Enter reason" />
+											<s:errors path="description" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">
-											<s:label path="descriptionDetail">Description detail</s:label>
+											<s:label path="descriptionDetail">Description details</s:label>
 											<s:textarea cssClass="form-control" path="descriptionDetail"
-											rows="10" cols="30" placeholder="Enter reason" />
+											rows="10" cols="30" placeholder="Enter description details" />
+											<s:errors path="descriptionDetail" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-check">

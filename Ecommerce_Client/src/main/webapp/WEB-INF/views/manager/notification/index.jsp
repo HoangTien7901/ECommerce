@@ -81,7 +81,7 @@
 															<button type="button" class="btn btn-primary">
 																<i class="far fa-edit"></i>
 															</button>
-													</a> |
+													</a>
 														<button type="button" class="btn btn-danger buttonDelete"
 														data-toggle="modal" data-target="#modal-danger"
 														data-id="${item.id }">
@@ -156,7 +156,7 @@
 															<button type="button" class="btn btn-primary">
 																<i class="far fa-edit"></i>
 															</button>
-													</a> |
+													</a>
 														<button type="button" class="btn btn-danger buttonDelete"
 														data-toggle="modal" data-target="#modal-danger"
 														data-id="${item.id }">
@@ -233,7 +233,7 @@
 															<button type="button" class="btn btn-primary">
 																<i class="far fa-edit"></i>
 															</button>
-													</a> |
+													</a>
 														<button type="button" class="btn btn-danger buttonDelete"
 														data-toggle="modal" data-target="#modal-danger"
 														data-id="${item.id }">
@@ -354,6 +354,7 @@
 				"columnDefs" : [ {
 					'targets' : [ 4 ], /* column index, count from 0 */
 					'orderable' : false, /* true or false */
+					'className' : 'all'
 				} ]
 			});
 		});

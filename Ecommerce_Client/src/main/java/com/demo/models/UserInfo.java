@@ -2,23 +2,42 @@ package com.demo.models;
 
 import java.util.Date;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class UserInfo {
 	
 	private int id;
 	
+	@NotNull
+	@Pattern(regexp = "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$", 
+	message = "Username must have from 8 to 20 characters, only contains alphanumeric characters and underscore "
+			+ "and dot in between with no underscore and/or dot next to each other.")
 	private String username;
+	
 	private String password;
 	
 	private Integer roleId;
 	
+	@NotNull
+	@Length(min = 5, max = 100)
 	private String fullname;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date birthday;
 	
+	@NotNull
+	@Pattern(regexp = "^[0-9]*$", message = "This field can only contain number.")
+	@Length(min = 9, max = 13)
 	private String phone;
+	
+	@NotNull
+	@Email
 	private String email;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")

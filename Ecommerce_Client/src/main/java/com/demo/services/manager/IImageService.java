@@ -8,6 +8,8 @@ import com.demo.models.ImageInfo;
 public interface IImageService {
 
 	public ResponseEntity<Iterable<ImageInfo>> findAllInfo();
+	
+	public ResponseEntity<Iterable<ImageInfo>> findAllInfoByBannerId(int id);
 
 	public ResponseEntity<ImageInfo> findInfoById(int id);
 
@@ -16,4 +18,6 @@ public interface IImageService {
 	public ResponseEntity<Void> update(ImageInfo img);
 	
 	public ResponseEntity<Void> delete(int id);
+	
+	public ResponseEntity<Void> deleteByBannerId(int bannerId);
 }

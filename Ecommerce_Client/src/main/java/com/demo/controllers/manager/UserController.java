@@ -6,11 +6,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,31 +69,46 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = { "save" }, method = RequestMethod.POST)
-	public String save(@ModelAttribute("item") UserInfo item, @RequestParam("birthday") String _birthday) {
-		SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
-		formater.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
-		Date birthday = new Date();
+	public String save(@ModelAttribute("item") @Valid UserInfo item, BindingResult errors, ModelMap modelMap, @RequestParam("birthday") String _birthday) {
 		
-		try {
-			birthday = formater.parse(_birthday);
-			System.out.println("Client user parse date 1: " + birthday.toString());
-		} catch (ParseException e) {
-			System.out.println("Client user parse date error: " + e.getMessage());
-			e.printStackTrace();
-		}
-		
-		item.setBirthday(birthday);
-		
-		ResponseEntity<Void> responseEntity = userService.update(item);
-		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-//			UserInfo result = responseEntity.getBody();
+		if (errors.hasErrors()) {
+			SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
+			
+			modelMap.put("date", formater.format(item.getBirthday()));
+			
+			modelMap.put("title", "Edit user");
+			modelMap.put("userActive", "active");
 
+			modelMap.put("pageTitle", "Edit");
+			modelMap.put("parentPageTitle", "User");
+			
+			return "manager/user/edit";
 		} else {
-			System.out.println(
-					"Client - Update user result" + responseEntity == null ? "null" : responseEntity.getStatusCode());
-		}
+			SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
+			formater.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+			Date birthday = new Date();
+			
+			try {
+				birthday = formater.parse(_birthday);
+				System.out.println("Client user parse date 1: " + birthday.toString());
+			} catch (ParseException e) {
+				System.out.println("Client user parse date error: " + e.getMessage());
+				e.printStackTrace();
+			}
+			
+			item.setBirthday(birthday);
+			
+			ResponseEntity<Void> responseEntity = userService.update(item);
+			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
+//				UserInfo result = responseEntity.getBody();
 
-		return "redirect:/manager/user/index";
+			} else {
+				System.out.println(
+						"Client - Update user result" + responseEntity == null ? "null" : responseEntity.getStatusCode());
+			}
+
+			return "redirect:/manager/user/index";
+		}
 	}
 
 	@RequestMapping(value = { "delete/{id}" }, method = RequestMethod.GET)

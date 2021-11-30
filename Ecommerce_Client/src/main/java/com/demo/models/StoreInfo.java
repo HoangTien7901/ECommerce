@@ -2,6 +2,12 @@ package com.demo.models;
 
 import java.util.Date;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class StoreInfo {
@@ -9,9 +15,20 @@ public class StoreInfo {
 	private int id;
 	private Integer userId;
 	private String userName;
+	
+	@NotNull
+	@Length(min = 5, max = 100)
 	private String name;
+	
+	@NotNull
+	@Pattern(regexp = "^[0-9]*$", message = "This field can only contain number.")
+	@Length(min = 9, max = 13)
 	private String phone;
+	
+	@NotNull
+	@Email
 	private String email;
+	
 	private String logo;
 
 	@JsonFormat(pattern = "dd/MM/yyyy")

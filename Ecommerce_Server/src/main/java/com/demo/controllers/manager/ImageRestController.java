@@ -33,6 +33,15 @@ public class ImageRestController {
 		}
 	}
 	
+	@RequestMapping(value = "findAllByBannerId/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Iterable<ImageInfo>> findAllInfoByBannerId(@PathVariable("id") int id) {
+		try {
+			return new ResponseEntity<Iterable<ImageInfo>>(service.findAllInfoByBannerId(id), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Iterable<ImageInfo>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@RequestMapping(value = "findInfoById/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ImageInfo> findInfoById(@PathVariable("id") int id) {
 		try {
@@ -61,6 +70,16 @@ public class ImageRestController {
 			return new ResponseEntity<ImageInfo>(service.update(id, image), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<ImageInfo>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value= {"deleteByBannerId/{id}"} , method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteByBannerId(@PathVariable("id") int id) {
+		try {
+			service.deleteAllByBannerId(id);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

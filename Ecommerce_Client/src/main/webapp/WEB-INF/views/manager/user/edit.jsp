@@ -47,12 +47,14 @@
 											<s:label path="username">Username</s:label>
 											<s:input cssClass="form-control" path="username"
 											placeholder="Enter username" />
+											<s:errors path="username" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">
 											<s:label path="fullname">Full name</s:label>
 											<s:input cssClass="form-control" path="fullname"
 											placeholder="Enter full name" />
+											<s:errors path="fullname" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">
@@ -60,12 +62,14 @@
 											<s:input cssClass="form-control" path="phone"
 											placeholder="Enter phone number" />
 											<s:hidden path="id" />
+											<s:errors path="phone" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">
 											<s:label path="email">Email</s:label>
 											<s:input cssClass="form-control" path="email"
 											placeholder="Enter email" />
+											<s:errors path="email" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">

@@ -80,7 +80,7 @@
 													data-toggle="lightbox" data-title="${item.name }'s avatar">
                         								<img
 														src="${pageContext.request.contextPath }/uploads/images/${item.avatar }"
-														class="img-fluid mb-2" alt="${item.name }'s avatar" />
+														class="img-fluid mb-2" alt="${item.name }'s avatar" width="150px" />
                       								</a>
 													</td>
 													<td>
@@ -110,8 +110,6 @@
 															<i class="far fa-trash-alt"></i>
 														</button>
 														
-														<!-- ###################### -->
-													<!-- change thís to send email page later -->
 													<a
 													href="${pageContext.request.contextPath }/manager/product/${item.status ? 'lock' : 'toggleStatus' }/${item.id }">
 															<button type="button"
@@ -249,13 +247,12 @@
 				"lengthChange" : false,
 				"ordering" : true,
 				"info" : true,
-				"autoWidth" : true,
+				"autoWidth" : false,
 				"responsive" : true,
 				"columnDefs" : [
 					{ className: "none", targets: [13, 14, 15] },
-					{ className: "all", targets: [12] },
-					{ targets: [12], 'orderable' : false }
-				]
+					{ className: "all", targets: [12], 'orderable' : false }
+				],
 			});
 
 			$('a[data-toggle="lightbox"]').on('click', function(event) {

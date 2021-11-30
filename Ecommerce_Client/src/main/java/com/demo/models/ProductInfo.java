@@ -2,6 +2,10 @@ package com.demo.models;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ProductInfo {
@@ -13,13 +17,26 @@ public class ProductInfo {
 	private String categoryName;
 	private Integer storeId;
 	private String storeName;
+	
+	@NotNull
+	@Length(min = 5, max = 100)
 	private String name;
+	
 	private String avatar;
+	
+	@NotNull
+	@Length(min = 5, max = 250)
 	private String description;
+	
+	@NotNull
+	@Length(min = 5, max = 500)
 	private String descriptionDetail;
+	
 	private double originalPrice;
 	private Double saleOffPercent;
+	
 	private double price;
+	
 	private int quantity;
 	private int inventory;
 	
@@ -36,7 +53,11 @@ public class ProductInfo {
 	private int ratingCount;
 	private double ratingAverage;
 	private boolean status;
+	
+//	@NotNull
+//	@Length(min = 10, max = 500)
 	private String banReason;
+	
 	private Boolean isLocked;
 
 	public int getId() {

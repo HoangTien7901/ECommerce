@@ -45,12 +45,14 @@
 											<s:label path="name">Name</s:label>
 											<s:input cssClass="form-control" path="name"
 											placeholder="Enter name" />
+											<s:errors path="name" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">
 											<s:label path="discount_percent">Discount percent</s:label>
 											<s:input cssClass="form-control" path="discount_percent"
 											placeholder="Enter discount percent" />
+											<s:errors path="discount_percent" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 
 										<div class="form-group">

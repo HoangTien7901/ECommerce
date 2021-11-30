@@ -4,16 +4,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.demo.models.NotificationInfo;
 import com.demo.models.StoreInfo;
@@ -84,6 +89,8 @@ public class NotificationController {
 				modelMap.put("title", "Edit notification");
 				modelMap.put("notificationActive", "active");
 
+				modelMap.put("editType", "All");
+				
 				modelMap.put("item", result);
 				modelMap.put("pageTitle", "Edit notification for all user/store");
 				modelMap.put("parentPageTitle", "Notification");
@@ -106,6 +113,8 @@ public class NotificationController {
 
 				modelMap.put("items", responseEntity2.getBody());
 
+				modelMap.put("editType", "User");
+				
 				modelMap.put("item", item);
 				modelMap.put("pageTitle", "Edit notification for store");
 				modelMap.put("parentPageTitle", "Notification");
@@ -134,6 +143,8 @@ public class NotificationController {
 
 				modelMap.put("items", responseEntity2.getBody());
 
+				modelMap.put("editType", "Store");
+				
 				modelMap.put("item", item);
 				modelMap.put("pageTitle", "Edit notification for store");
 				modelMap.put("parentPageTitle", "Notification");
@@ -149,16 +160,52 @@ public class NotificationController {
 	}
 
 	@RequestMapping(value = { "save" }, method = RequestMethod.POST)
-	public String save(@ModelAttribute("item") NotificationInfo item) {
-		ResponseEntity<Void> responseEntity = notificationService.update(item);
-		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-//			NotificationInfo result = responseEntity.getBody();
+	public String save(@ModelAttribute("item") @Valid NotificationInfo item, BindingResult errors, @RequestParam("editType") String editType, ModelMap modelMap) {
+		
+		if (editType.equals("User")) {
+			ResponseEntity<Iterable<UserInfo>> responseEntity = userService.findAllInfo();
+			if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
+				modelMap.put("items", responseEntity.getBody());
+				modelMap.put("pageTitle", "Add notification for user");
+			} else {
+				System.out.println("Client notification - Get users result " + (responseEntity == null ? "null"
+						: responseEntity.getStatusCode()));
+			}
+		} else if (editType.equals("Store")) {
+			ResponseEntity<Iterable<StoreInfo>> responseEntity = storeService.findAllInfo();
+			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
+				modelMap.put("items", responseEntity.getBody());
+				modelMap.put("pageTitle", "Add notification for store");
+			} else {
+				System.out.println("Client notification - Get stores result" + responseEntity == null ? "null"
+						: responseEntity.getStatusCode());
+			}
 		} else {
-			System.out.println("Client - Update notification result" + responseEntity == null ? "null"
-					: responseEntity.getStatusCode());
+			modelMap.put("pageTitle", "Add notification for all user/store");
 		}
+		
+		String returnLink = "manager/notification/edit" + editType;
+		
+		if (errors.hasErrors()) {
+			modelMap.put("title", "Add notification");
+			modelMap.put("notificationActive", "active");
 
-		return "redirect:/manager/notification/index";
+			modelMap.put("editType", editType);
+			
+			modelMap.put("parentPageTitle", "Notification");
+
+			return returnLink;
+		} else {
+			ResponseEntity<Void> responseEntity = notificationService.update(item);
+			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
+//				NotificationInfo result = responseEntity.getBody();
+			} else {
+				System.out.println("Client - Update notification result" + responseEntity == null ? "null"
+						: responseEntity.getStatusCode());
+			}
+			
+			return "redirect:/manager/notification/index";
+		}
 	}
 
 	@RequestMapping(value = { "addStore" }, method = RequestMethod.GET)
@@ -172,6 +219,8 @@ public class NotificationController {
 		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
 			modelMap.put("items", responseEntity.getBody());
 
+			modelMap.put("addType", "Store");
+			
 			modelMap.put("item", item);
 			modelMap.put("pageTitle", "Add notification for store");
 			modelMap.put("parentPageTitle", "Notification");
@@ -194,6 +243,8 @@ public class NotificationController {
 		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
 			modelMap.put("items", responseEntity.getBody());
 
+			modelMap.put("addType", "User");
+			
 			modelMap.put("item", item);
 			modelMap.put("pageTitle", "Add notification for user");
 			modelMap.put("parentPageTitle", "Notification");
@@ -212,6 +263,8 @@ public class NotificationController {
 		modelMap.put("title", "Add notification");
 		modelMap.put("notificationActive", "active");
 
+		modelMap.put("addType", "All");
+		
 		modelMap.put("item", item);
 		modelMap.put("pageTitle", "Add notification for all user/store");
 		modelMap.put("parentPageTitle", "Notification");
@@ -220,17 +273,53 @@ public class NotificationController {
 	}
 
 	@RequestMapping(value = { "create" }, method = RequestMethod.POST)
-	public String create(@ModelAttribute("item") NotificationInfo item) {
-		ResponseEntity<NotificationInfo> responseEntity = notificationService.create(item);
-
-		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-//			NotificationInfo result = responseEntity.getBody();
+	public String create(@ModelAttribute("item") @Valid NotificationInfo item, BindingResult errors, @RequestParam("addType") String addType, ModelMap modelMap) {
+		
+		if (addType.equals("User")) {
+			ResponseEntity<Iterable<UserInfo>> responseEntity = userService.findAllInfo();
+			if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
+				modelMap.put("items", responseEntity.getBody());
+				modelMap.put("pageTitle", "Add notification for user");
+			} else {
+				System.out.println("Client notification - Get users result " + (responseEntity == null ? "null"
+						: responseEntity.getStatusCode()));
+			}
+		} else if (addType.equals("Store")) {
+			ResponseEntity<Iterable<StoreInfo>> responseEntity = storeService.findAllInfo();
+			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
+				modelMap.put("items", responseEntity.getBody());
+				modelMap.put("pageTitle", "Add notification for store");
+			} else {
+				System.out.println("Client notification - Get stores result" + responseEntity == null ? "null"
+						: responseEntity.getStatusCode());
+			}
 		} else {
-			System.out.println("Client - Add notification result" + responseEntity == null ? "null"
-					: responseEntity.getStatusCode());
+			modelMap.put("pageTitle", "Add notification for all user/store");
 		}
+		
+		String returnLink = "manager/notification/add" + addType;
 
-		return "redirect:/manager/notification/index";
+		if (errors.hasErrors()) {
+			modelMap.put("title", "Add notification");
+			modelMap.put("notificationActive", "active");
+
+			modelMap.put("addType", addType);
+			
+			modelMap.put("parentPageTitle", "Notification");
+
+			return returnLink;
+		} else {
+			ResponseEntity<NotificationInfo> responseEntity2 = notificationService.create(item);
+
+			if (!(responseEntity2 == null || responseEntity2.getStatusCode() != HttpStatus.OK)) {
+//				NotificationInfo result = responseEntity.getBody();
+			} else {
+				System.out.println("Client - Add notification result " + (responseEntity2 == null ? "null"
+						: responseEntity2.getStatusCode()));
+			}
+
+			return "redirect:/manager/notification/index";
+		}
 	}
 
 	@RequestMapping(value = { "delete/{id}" }, method = RequestMethod.GET)
