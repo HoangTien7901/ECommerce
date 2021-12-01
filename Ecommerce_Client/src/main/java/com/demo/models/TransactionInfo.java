@@ -21,6 +21,7 @@ public class TransactionInfo {
 	private double price;
 	private int quantity;
 	private double tax;
+	private String note;
 	private String status;
 	private String cancelReason;
 
@@ -146,9 +147,17 @@ public class TransactionInfo {
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
 	}
+	
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
 
 	public TransactionInfo(int id, Integer productId, Integer serviceId, String storeName, double price, int quantity,
-			double tax, String status, String cancelReason) {
+			double tax, String note, String status, String cancelReason) {
 		super();
 		this.id = id;
 		this.productId = productId;
@@ -157,6 +166,7 @@ public class TransactionInfo {
 		this.price = price;
 		this.quantity = quantity;
 		this.tax = tax;
+		this.note = note;
 		this.status = status;
 		this.cancelReason = cancelReason;
 	}

@@ -38,7 +38,7 @@
 								</div>
 								<!-- /.card-header -->
 								<!-- form start -->
-								<form method="POST"
+								<form method="POST" id="form"
 								action="${pageContext.request.contextPath }/manager/user/ban">
 									<div class="card-body">
 										<div class="form-group">
@@ -89,7 +89,10 @@
 			</section>
 			<!-- /.content -->
 			
-	<!-- jQuery -->
+	<input type="hidden" id="msg" value="${msg }">
+	<input type="hidden" id="msgType" value="${msgType }">
+
+	<!-- jQuery  -->
 	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>
 	<!-- Bootstrap 4 -->
 	<script src="${pageContext.request.contextPath }/resources/manager/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -100,11 +103,47 @@
 			src="${pageContext.request.contextPath }/resources/manager/dist/js/demo.js"></script>
 
 	<!-- Page specific script -->
+	
+	<!-- jquery-validation -->
+	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery-validation/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery-validation/additional-methods.min.js"></script>
 	<!-- Summernote -->
 	<script src="${pageContext.request.contextPath }/resources/manager/plugins/summernote/summernote-bs4.min.js"></script>
 	<script>
 		$(document).ready(function() {
 			$('#summernote').summernote();
+			
+			$.validator.setDefaults({
+			    submitHandler: function () {
+			    	$('#form')[0].submit();
+			    }
+			  });
+				
+			  $('#form').validate({
+			    rules: {
+			      subject: {
+			        required: true,
+			        minlength: 5,
+			        maxlength: 100,
+			      },
+			      content: {
+			    	 required: true,
+				     minlength: 20,
+				     maxlength: 500,
+			      }
+			    },
+			    errorElement: 'span',
+			    errorPlacement: function (error, element) {
+			      error.addClass('invalid-feedback');
+			      element.closest('.form-group').append(error);
+			    },
+			    highlight: function (element, errorClass, validClass) {
+			      $(element).addClass('is-invalid');
+			    },
+			    unhighlight: function (element, errorClass, validClass) {
+			      $(element).removeClass('is-invalid');
+			    }
+			  });
 		});
 	</script>			
 

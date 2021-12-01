@@ -54,13 +54,13 @@
 										<div class="form-group">
 											<label for="subject">Subject</label>
 											<input type="text" class="form-control" name="subject"
-											placeholder="Enter mail's subject"></input>
+											placeholder="Enter mail's subject" value="${defaultSubject }"></input>
 										</div>
 											
 										<div class="form-group">
 											<label for="content">Content</label>
 											<textarea id="summernote" name="content">
-												Enter mail's content
+												${defaultContent }
 											</textarea>
 										</div>
 										<input type="hidden" name="userId" value="${userId }">
@@ -88,7 +88,9 @@
 				<!-- /.container-fluid -->
 			</section>
 			<!-- /.content -->
-			
+	<input type="hidden" id="msg" value="${msg }">
+	<input type="hidden" id="msgType" value="${msgType }">		
+	
 	<!-- jQuery -->
 	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>
 	<!-- Bootstrap 4 -->

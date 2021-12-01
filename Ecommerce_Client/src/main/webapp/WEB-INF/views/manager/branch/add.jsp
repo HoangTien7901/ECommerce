@@ -82,9 +82,11 @@
 				<!-- /.container-fluid -->
 			</section>
 			<!-- /.content -->
-			
-			<script
-			src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>
+	<input type="hidden" id="msg" value="${msg }">
+	<input type="hidden" id="msgType" value="${msgType }">
+	
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>
 	<!-- Bootstrap 4 -->
 	<script
 			src="${pageContext.request.contextPath }/resources/manager/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -137,11 +139,13 @@
 			  reader.readAsDataURL(this.files[0]);
 			});
 		
+		// form validation
 			$.validator.setDefaults({
 		    submitHandler: function () {
 		    	$('#form')[0].submit();
 		    }
 		  });
+			
 		  $('#form').validate({
 		    rules: {
 		      name: {
@@ -171,8 +175,6 @@
 		      $(element).removeClass('is-invalid');
 		    }
 		  });
-		  
-		  
 	});
 	</script>
 	</jsp:attribute>

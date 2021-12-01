@@ -90,8 +90,6 @@
 			src="${pageContext.request.contextPath }/resources/manager/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			
-			
 			var $checked = $('#status1').is(":checked")
 			if (!$checked) {
 				$("#banReason").removeAttr("disabled");

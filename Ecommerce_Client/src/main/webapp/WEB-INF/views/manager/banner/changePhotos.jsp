@@ -177,6 +177,8 @@
 			<!-- /.content -->
 	<input type="hidden" id="maxFile" value="${maxFile }">
 	<input type="hidden" id="maxFileSize" value="${maxFileSize }">
+	<input type="hidden" id="msg" value="${msg }">
+	<input type="hidden" id="msgType" value="${msgType }">
 	
 	<div class="modal fade" id="modal-danger">
 		<div class="modal-dialog">
@@ -266,7 +268,7 @@
 				"paging" : false,
 				"lengthChange" : false,
 				"ordering" : true,
-				"info" : false,
+				"info" : true,
 				"autoWidth" : false,
 				"responsive" : true,
 				"columnDefs" : [ 

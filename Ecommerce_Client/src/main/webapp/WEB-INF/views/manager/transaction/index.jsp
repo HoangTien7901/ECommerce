@@ -33,13 +33,8 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h3 class="card-title">${pageTitle1 }</h3>
+									<h3 class="card-title">${pageTitle }</h3>
 									<div class="card-tools">
-										 <!-- This will cause the card to collapse when clicked -->
-      									<button type="button" class="btn btn-tool"
-										data-card-widget="collapse">
-										<i class="fas fa-minus"></i>
-										</button>
 										<!-- This will cause the card to maximize when clicked -->
 										<button type="button" class="btn btn-tool"
 										data-card-widget="maximize">
@@ -50,79 +45,7 @@
 
 								<!-- /.card-header -->
 								<div class="card-body">
-									<table id="dataTable1" class="table table-bordered table-hover">
-										<thead>
-											<tr>
-												<th>Id</th>
-												<th>Service name</th>
-												<th>Buyer</th>
-												<th>Price</th>
-												<th>Quantity</th>
-												<th>Tax</th>
-												<th>Created</th>
-												<th>Status</th>
-												<th>Cancel reason</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach var="item" items="${services }" varStatus="varStatus">
-												<tr>
-													<td>${varStatus.getCount() }</td>
-													<td>${item.serviceName }</td>
-													<td>${item.storeName }</td>
-													<td>${item.price }</td>
-													<td>${item.quantity }</td>
-													<td>${item.tax }</td>
-													<td>
-													<fmt:formatDate var="created" value="${item.created }"
-														pattern="dd/MM/yyyy" />
-													${created }
-													</td>
-													<td>${item.status }</td>
-													<td>${item.cancelReason }</td>
-												</tr>
-											</c:forEach>
-										</tbody>
-										<tfoot>
-											<tr>
-												<th>Id</th>
-												<th>Service name</th>
-												<th>Buyer</th>
-												<th>Price</th>
-												<th>Quantity</th>
-												<th>Tax</th>
-												<th>Created</th>
-												<th>Status</th>
-												<th>Cancel reason</th>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
-								<!-- /.card-body -->
-
-							</div>
-							<!-- /.card -->
-							
-							<div class="card">
-								<div class="card-header">
-									<h3 class="card-title">${pageTitle2 }</h3>
-									<div class="card-tools">
-										 <!-- This will cause the card to collapse when clicked -->
-      									<button type="button" class="btn btn-tool"
-										data-card-widget="collapse">
-										<i class="fas fa-minus"></i>
-										</button>
-										<!-- This will cause the card to maximize when clicked -->
-										<button type="button" class="btn btn-tool"
-										data-card-widget="maximize">
-											<i class="fas fa-expand"></i>
-										</button>
-									</div>
-								</div>
-
-								<!-- /.card-header -->
-								<div class="card-body">
-									<table id="dataTable2" class="table table-bordered table-hover">
+									<table id="dataTable" class="table table-bordered table-hover">
 										<thead>
 											<tr>
 												<th>Id</th>
@@ -135,11 +58,13 @@
 												<th>Tax</th>
 												<th>Created</th>
 												<th>Status</th>
+												<th>Action</th>
+												<th>Note</th>
 												<th>Cancel reason</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="item" items="${products }" varStatus="varStatus">
+											<c:forEach var="item" items="${items }" varStatus="varStatus">
 												<tr>
 													<td>${varStatus.getCount() }</td>
 													<td>${item.productName }</td>
@@ -155,6 +80,21 @@
 													${created }
 													</td>
 													<td>${item.status }</td>
+													<td>
+														<button type="button" class="btn btn-danger buttonDelete"
+														data-toggle="modal" data-target="#modal-danger"
+														data-id="${item.id }"> 
+															<i class="far fa-trash-alt"></i>
+														</button>
+														<a
+													href="${pageContext.request.contextPath }/manager/transaction/
+													${item.status != 'done' ? 'done' : 'cancel' }/${item.id }">
+															<button type="button" class="btn btn-${item.status != 'done' ? 'primary' : 'danger' }">
+																<i class="fas fa-${item.status != 'done' ? 'check' : 'times' }"></i>
+															</button>
+														</a>
+													</td>
+													<td>${item.note }</td>
 													<td>${item.cancelReason }</td>
 												</tr>
 											</c:forEach>
@@ -171,6 +111,8 @@
 												<th>Tax</th>
 												<th>Created</th>
 												<th>Status</th>
+												<th>Action</th>
+												<th>Note</th>
 												<th>Cancel reason</th>
 											</tr>
 										</tfoot>
@@ -190,7 +132,39 @@
 
 			</section>
 			<!-- /.content -->
-			
+		<div class="modal fade" id="modal-danger">
+		<div class="modal-dialog">
+			<div class="modal-content bg-danger">
+				<div class="modal-header">
+					<h4 class="modal-title">Confirm delete</h4>
+					<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure?</p>
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-outline-light"
+							data-dismiss="modal">Cancel</button>
+					<a id="deleteLink"
+							data-link="${pageContext.request.contextPath }/manager/transaction/delete/"
+							href="#">
+						<button type="button" class="btn btn-outline-light">Confirm</button>
+					</a>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<input type="hidden" id="msg" value="${msg }">
+	<input type="hidden" id="msgType" value="${msgType }">
+	
+	<!-- jQuery -->
 	<script
 			src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>
 	<!-- Bootstrap 4 -->
@@ -230,7 +204,14 @@
 	<!-- Page specific script -->
 	<script>
 		$(function() {
-			$('#dataTable1').DataTable({
+			$(".buttonDelete").click(function() {
+				var id = $(this).data('id');
+				console.log("id: " + id);
+				var _href = $("#deleteLink").data("link");
+				$("#deleteLink").attr("href", _href + id);
+			});
+
+			$('#dataTable').DataTable({
 				"paging" : true,
 				"lengthChange" : false,
 				"ordering" : true,
@@ -238,79 +219,15 @@
 				"autoWidth" : false,
 				"responsive" : true,
 				"columnDefs" : [ {
-					'targets' : [ 8 ], /* column index, count from 0 */
-					'className' : 'none',
+					'targets' : [ 11, 12 ], /* column index, count from 0 */
+					'className' : 'none', 
 				}, {
-					'targets' : [ 3, 4, 5 ], /* column index, count from 0 */
-					'className' : 'sum',
-				}, {
-					'targets' : [0 ], /* column index, count from 0 */
-					'className' : 'counter',
-				} ],
-				"footerCallback" : function(tfoot, data, start, end, display) {
-					var api = this.api();
-
-					api.columns('.sum', {
-						page : 'current'
-					}).every(function() {
-						var sum = this.data().reduce(function(a, b) {
-							var x = parseFloat(a) || 0;
-							var y = parseFloat(b) || 0;
-							return x + y;
-						}, 0);
-						$(this.footer()).html(sum);
-					});
-					
-					api.columns('.counter', {
-						page : 'current'
-					}).every(function() {
-						var sum = this.data().count();
-						$(this.footer()).html("Counter: " + sum);
-					});
-				},
-				"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-		    }).buttons().container().appendTo('#dataTable1_wrapper .col-md-6:eq(0)');
-
-			$('#dataTable2').DataTable({
-				"paging" : true,
-				"lengthChange" : false,
-				"ordering" : true,
-				"info" : true,
-				"autoWidth" : false,
-				"responsive" : true,
-				"columnDefs" : [ {
 					'targets' : [ 10 ], /* column index, count from 0 */
-					'className' : 'none',
-				}, {
-					'targets' : [ 6, 7, 5 ], /* column index, count from 0 */
-					'className' : 'sum',
-				}, {
-					'targets' : [0 ], /* column index, count from 0 */
-					'className' : 'counter',
-				} ],
-				"footerCallback" : function(tfoot, data, start, end, display) {
-					var api = this.api();
-
-					api.columns('.sum', {
-						page : 'current'
-					}).every(function() {
-						var sum = this.data().reduce(function(a, b) {
-							var x = parseFloat(a) || 0;
-							var y = parseFloat(b) || 0;
-							return x + y;
-						}, 0);
-						$(this.footer()).html(sum);
-					});
-					
-					api.columns('.counter', {
-						page : 'current'
-					}).every(function() {
-						var sum = this.data().count();
-						$(this.footer()).html("Counter: " + sum);
-					});
-				},
-				"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-		    }).buttons().container().appendTo('#dataTable2_wrapper .col-md-6:eq(0)');
+					'className' : 'all',
+					'orderable' : false
+				}]
+			});
+			
 		});
 	</script>
 			

@@ -62,8 +62,7 @@
 										</div>
 
 										<div class="form-group">
-											<s:label path="storeLifetime">Store's maximum inactive time (month)</s:label>
-											<s:input cssClass="form-control" path="storeLifetime"/>
+											<s:hidden path="storeLifetime"/>
 											<s:errors path="storeLifetime" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
@@ -114,7 +113,11 @@
 			</section>
 			<!-- /.content -->
 			
-			<script
+	<input type="hidden" id="msg" value="${msg }">
+	<input type="hidden" id="msgType" value="${msgType }">
+
+	<!--  jQuery -->
+	<script
 			src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>
 	<!-- Bootstrap 4 -->
 	<script

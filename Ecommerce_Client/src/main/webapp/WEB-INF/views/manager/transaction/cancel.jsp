@@ -18,7 +18,7 @@
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
 								<li class="breadcrumb-item"><a
-								href="${pageContext.request.contextPath }/manager/store/index">${parentPageTitle }</a></li>
+								href="${pageContext.request.contextPath }/manager/feedback/index">${parentPageTitle }</a></li>
 								<li class="breadcrumb-item active">${pageTitle }</li>
 							</ol>
 						</div>
@@ -39,39 +39,19 @@
 								<!-- /.card-header -->
 								<!-- form start -->
 								<form method="POST"
-								action="${pageContext.request.contextPath }/manager/store/ban">
+								action="${pageContext.request.contextPath }/manager/transaction/cancel">
 									<div class="card-body">
 										<div class="form-group">
-											<span style="font-size:20;">Send an email store <label>${storeName }</label> 
-											to inform the reason and duration of their ban.</span>
+											<span style="font-size:20;">Write cancel reason for user <label>${item.username }</label>'s transaction
+											</span>
 										</div>
 									
 										<div class="form-group">
-											<label for="banDuration">Ban duration (month)</label>
-											<input type="number" min="1" class="form-control"
-											name="banDuration" value="1"></input>
-										</div>
-									
-										<div class="form-group">
-											<label for="subject">Subject</label>
-											<input type="text" class="form-control" name="subject"
-											placeholder="Enter mail's subject"></input>
-										</div>
-											
-										<div class="form-group">
-											<label for="content">Content</label>
-											<textarea id="summernote" name="content">
-												Enter mail's content
+											<label for="reason">Cancel reason</label>
+											<textarea class="form-control" cols="30" rows="5" name="reason">Write cancel reason here.
 											</textarea>
 										</div>
 										<input type="hidden" name="id" value="${id }">
-										
-										<div class="form-check">
-											<input type="checkbox" class="form-check-input"
-											name="isHTMLText">
-											<label for="isHTMLText"
-											title="Unchecked this box if email's content only contains plain text (Source Sans Pro font).">Email's content is formatted (bold, italic, special fonts,...)</label>
-										</div>
 									</div>
 									<!-- /.card-body -->
 
@@ -89,7 +69,9 @@
 				<!-- /.container-fluid -->
 			</section>
 			<!-- /.content -->
-			
+	<input type="hidden" id="msg" value="${msg }">
+	<input type="hidden" id="msgType" value="${msgType }">		
+	
 	<!-- jQuery -->
 	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>
 	<!-- Bootstrap 4 -->
@@ -101,13 +83,6 @@
 			src="${pageContext.request.contextPath }/resources/manager/dist/js/demo.js"></script>
 
 	<!-- Page specific script -->
-	<!-- Summernote -->
-	<script src="${pageContext.request.contextPath }/resources/manager/plugins/summernote/summernote-bs4.min.js"></script>
-	<script>
-		$(document).ready(function() {
-			$('#summernote').summernote();
-		});
-	</script>			
 
 	</jsp:attribute>
 </mt:managertemplate>

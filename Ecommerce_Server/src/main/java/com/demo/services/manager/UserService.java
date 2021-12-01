@@ -45,6 +45,11 @@ public class UserService implements IUserService {
 		object.setUsername(_object.getUsername());
 		object.setFullname(_object.getFullname());
 		
+		if (_object.getPassword() != null || !_object.getPassword().isEmpty())
+		{
+			object.setPassword(_object.getPassword());
+		}
+		
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(_object.getBirthday());
 		calendar.add(Calendar.DAY_OF_MONTH, 1);

@@ -18,6 +18,10 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/manager/dist/css/adminlte.min.css">
 
+<!-- Toastr -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/manager/plugins/toastr/toastr.min.css">
+
 <!-- codemirror -->
 <link rel="stylesheet" type="text/css"
 	href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.min.css" />
@@ -73,7 +77,7 @@
 		<!-- Main Sidebar Container -->
 		<aside class="main-sidebar sidebar-dark-primary elevation-4">
 			<!-- Brand Logo -->
-			<a href="../../index3.html" class="brand-link"> <img
+			<a href="${pageContext.request.contextPath }/manager/profile/index" class="brand-link"> <img
 				src="${pageContext.request.contextPath }/resources/manager/dist/img/AdminLTELogo.png"
 				alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
 				style="opacity: .8"> <span
@@ -82,22 +86,20 @@
 
 			<!-- Sidebar -->
 			<div class="sidebar">
-				<!-- Sidebar user (optional) -->
-				<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-					<div class="image">
-						<img
-							src="${pageContext.request.contextPath }/resources/manager/dist/img/user2-160x160.jpg"
-							class="img-circle elevation-2" alt="User Image">
-					</div>
-					<div class="info">
-						<a href="#" class="d-block">Alexander Pierce</a>
-					</div>
-				</div>
-
 				<!-- Sidebar Menu -->
 				<nav class="mt-2">
 					<ul class="nav nav-pills nav-sidebar flex-column"
 						data-widget="treeview" role="menu" data-accordion="false">
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/manager/profile/index"
+							class="nav-link ${profileActive }"><i
+								class="far fa-circle nav-icon"></i>
+								<p>Profile</p> </a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/manager/store/index"
+							class="nav-link ${storeActive }"><i
+								class="far fa-circle nav-icon"></i>
+								<p>Store</p> </a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/banner/index"
 							class="nav-link ${bannerActive }"><i
@@ -113,11 +115,11 @@
 							class="nav-link ${categoryActive }"><i
 								class="far fa-circle nav-icon"></i>
 								<p>Category</p> </a></li>
-						<li class="nav-item"><a
+		<%-- 				<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/tag/index"
 							class="nav-link ${tagActive }"><i
 								class="far fa-circle nav-icon"></i>
-								<p>Tag</p> </a></li>
+								<p>Tag</p> </a></li> --%>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/branch/index"
 							class="nav-link ${branchActive }"><i
@@ -133,46 +135,53 @@
 							class="nav-link ${productActive }"><i
 								class="far fa-circle nav-icon"></i>
 								<p>Product</p> </a></li>
-						<li class="nav-item"><a
+				<%-- 		<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/store/index"
 							class="nav-link ${storeActive }"><i
 								class="far fa-circle nav-icon"></i>
-								<p>Store</p> </a></li>
+								<p>Store</p> </a></li> --%>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/user/index"
 							class="nav-link ${userActive }"><i
 								class="far fa-circle nav-icon"></i>
 								<p>User</p> </a></li>
 						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/manager/transaction/index"
+							class="nav-link ${transactionActive }"><i
+								class="far fa-circle nav-icon"></i>
+								<p>Transaction</p> </a></li>
+				<%-- 		<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/manager/service/index"
 							class="nav-link ${serviceActive }"><i
 								class="far fa-circle nav-icon"></i>
-								<p>Service</p> </a></li>
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath }/manager/contact/index"
-							class="nav-link ${contactActive }"><i
-								class="far fa-circle nav-icon"></i>
-								<p>Contact</p> </a></li>
-						<li class="nav-item ${adminOpen ? 'menu-open' : '' }"><a href="#" class="nav-link"> <i
-								class="nav-icon fas fa-table"></i>
+								<p>Service</p> </a></li> --%>
+
+						<li class="nav-item ${adminOpen ? 'menu-open' : '' }"><a
+							href="#" class="nav-link"> <i class="nav-icon fas fa-table"></i>
 								<p>
-									Admin <i class="fas fa-angle-left right"></i>
+									Report and others <i class="fas fa-angle-left right"></i>
 								</p></a>
 							<ul class="nav nav-treeview">
 								<li class="nav-item menu-open"><a
-									href="${pageContext.request.contextPath }/manager/transaction/index"
-									class="nav-link ${transactionActive }"><i
+									href="${pageContext.request.contextPath }/manager/sales/index"
+									class="nav-link ${salesActive }"><i
 										class="far fa-circle nav-icon"></i>
-								<p>Sales and report</p> </a></li>
+										<p>Sales</p> </a></li>
 							</ul>
 							<ul class="nav nav-treeview">
 								<li class="nav-item menu-open"><a
 									href="${pageContext.request.contextPath }/manager/system/index"
 									class="nav-link ${systemActive }"><i
 										class="far fa-circle nav-icon"></i>
-								<p>System</p> </a></li>
+										<p>System</p> </a></li>
 							</ul>
-						</li>
+							<ul class="nav nav-treeview">
+								<li class="nav-item menu-open"><a
+									href="${pageContext.request.contextPath }/manager/contact/index"
+									class="nav-link ${contactActive }"><i
+										class="far fa-circle nav-icon"></i>
+										<p>Contact</p> </a></li>
+							</ul></li>
 
 
 					</ul>
@@ -219,6 +228,11 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
+	<!-- Toastr -->
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/toastr/toastr.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/custom/toastr.js"></script>
 </body>
 </html>
 

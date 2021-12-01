@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.helpers.FileUploadHelper;
 import com.demo.models.BannerInfo;
@@ -49,17 +50,19 @@ public class BannerController implements ServletContextAware {
 
 	@RequestMapping(value = { "index" }, method = RequestMethod.GET)
 	public String index(ModelMap modelMap) {
+		modelMap.put("title", "Manage banner");
+		modelMap.put("bannerActive", "active");
+
+		modelMap.put("pageTitle", "Banner list");
+		modelMap.put("parentPageTitle", "Banner");
+
 		ResponseEntity<Iterable<BannerInfo>> responseEntity = bannerService.findAllInfo();
 		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
-			modelMap.put("title", "Manage banner");
-			modelMap.put("bannerActive", "active");
-
 			modelMap.put("banners", responseEntity.getBody());
-			modelMap.put("pageTitle", "Banner list");
-			modelMap.put("parentPageTitle", "Banner");
 		} else {
-			System.out.println("Client - Get all banner result " + responseEntity == null ? "null"
-					: responseEntity.getStatusCode());
+			modelMap.put("msg", "Server - Get all banner result "
+					+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+			modelMap.put("msgType", "danger");
 		}
 		return "manager/banner/index";
 	}
@@ -82,7 +85,8 @@ public class BannerController implements ServletContextAware {
 	}
 
 	@RequestMapping(value = { "create" }, method = RequestMethod.POST)
-	public String create(@ModelAttribute("banner") @Valid BannerInfo banner, BindingResult errors, ModelMap modelMap) {
+	public String create(@ModelAttribute("banner") @Valid BannerInfo banner, BindingResult errors, ModelMap modelMap,
+			RedirectAttributes redirectAttr) {
 
 		validator.validate(banner, errors);
 		if (errors.hasErrors()) {
@@ -97,10 +101,12 @@ public class BannerController implements ServletContextAware {
 		} else {
 			ResponseEntity<BannerInfo> responseEntity = bannerService.create(banner);
 			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-				BannerInfo result = responseEntity.getBody();
+				redirectAttr.addFlashAttribute("msg", "Add success!");
+				redirectAttr.addFlashAttribute("msgType", "success");
 			} else {
-				System.out.println("Client - Create banner result" + responseEntity == null ? "null"
-						: responseEntity.getStatusCode());
+				redirectAttr.addFlashAttribute("msg", "Server - Create banner result "
+						+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+				redirectAttr.addFlashAttribute("msgType", "danger");
 			}
 			return "redirect:/manager/banner/index";
 		}
@@ -110,7 +116,7 @@ public class BannerController implements ServletContextAware {
 	public String changePhotos(@PathVariable("id") int id, ModelMap modelMap) {
 		ResponseEntity<com.demo.models.System> systemResponse = systemService.getSystem();
 		com.demo.models.System system = systemResponse.getBody();
-		
+
 		ResponseEntity<BannerInfo> responseEntity = bannerService.findInfoById(id);
 		BannerInfo banner = responseEntity.getBody();
 
@@ -133,24 +139,28 @@ public class BannerController implements ServletContextAware {
 			modelMap.put("pageTitle", "Change photos");
 			modelMap.put("parentPageTitle", "Banner");
 		} else {
-			System.out.println("Client - Get banner result" + (responseEntity == null ? "null"
-					: responseEntity.getStatusCode()));
+			modelMap.put("msg",
+					"Server - Get banner result " + (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+			modelMap.put("msgType", "danger");
 		}
 		return "manager/banner/changePhotos";
 	}
 
 	@RequestMapping(value = { "changePhotos" }, method = RequestMethod.POST)
-	public String changePhotos(@RequestParam("id") int id, @RequestParam("file") MultipartFile photo) {
+	public String changePhotos(@RequestParam("id") int id, @RequestParam("file") MultipartFile photo,
+			RedirectAttributes redirectAttr) {
 		int bannerId = id;
-		
+
 		ResponseEntity<com.demo.models.System> systemResponse = systemService.getSystem();
 		com.demo.models.System system = systemResponse.getBody();
 
 		// updoad new img
 		if (!photo.isEmpty()) {
-			
+
 			if (photo.getSize() / 1024 / 1024 > (system.getMaxBannerPhotoSize())) {
-				System.out.println("file too big: " + photo.getSize());
+				redirectAttr.addFlashAttribute("msg", "Error : File is too large: " + photo.getSize() / 1024 / 1024
+						+ ". Maximum file size is " + system.getMaxBannerPhotoSize());
+				redirectAttr.addFlashAttribute("msgType", "danger");
 			} else {
 				String fileName = FileUploadHelper.upload(photo, servletContext);
 
@@ -161,9 +171,12 @@ public class BannerController implements ServletContextAware {
 				ResponseEntity<ImageInfo> responseEntity2 = imageService.create(img);
 
 				if (responseEntity2 != null && responseEntity2.getStatusCode() == HttpStatus.OK) {
-
+					redirectAttr.addFlashAttribute("msg", "Update photo(s) success.");
+					redirectAttr.addFlashAttribute("msgType", "success");
 				} else {
-					// failed
+					redirectAttr.addFlashAttribute("msg", "Client : Create image result "
+							+ (responseEntity2 == null ? "null" : responseEntity2.getStatusCode()));
+					redirectAttr.addFlashAttribute("msgType", "danger");
 				}
 			}
 		}
@@ -172,26 +185,28 @@ public class BannerController implements ServletContextAware {
 
 	@RequestMapping(value = { "edit/{id}" }, method = RequestMethod.GET)
 	public String edit(@PathVariable("id") int id, ModelMap modelMap) {
-		ResponseEntity<BannerInfo> responseEntity = bannerService.findInfoById(id);
+		modelMap.put("title", "Edit banner");
+		modelMap.put("bannerActive", "active");
 
+		modelMap.put("pageTitle", "Edit");
+		modelMap.put("parentPageTitle", "Banner");
+
+		ResponseEntity<BannerInfo> responseEntity = bannerService.findInfoById(id);
 		BannerInfo banner = responseEntity.getBody();
 
 		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
-			modelMap.put("title", "Edit banner");
-			modelMap.put("bannerActive", "active");
-
 			modelMap.put("banner", banner);
-			modelMap.put("pageTitle", "Edit");
-			modelMap.put("parentPageTitle", "Banner");
 		} else {
-			System.out.println("Client - Get banner by id result "
+			modelMap.put("msg", "Server - Get banner by id result "
 					+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+			modelMap.put("msgType", "danger");
 		}
 		return "manager/banner/edit";
 	}
 
 	@RequestMapping(value = { "save" }, method = RequestMethod.POST)
-	public String save(@ModelAttribute("banner") @Valid BannerInfo _banner, BindingResult errors, ModelMap modelMap) {
+	public String save(@ModelAttribute("banner") @Valid BannerInfo _banner, BindingResult errors, ModelMap modelMap,
+			RedirectAttributes redirectAttr) {
 		int id = _banner.getId();
 
 		validator.validate(_banner, errors);
@@ -204,7 +219,6 @@ public class BannerController implements ServletContextAware {
 
 			return "manager/banner/edit";
 		} else {
-
 			ResponseEntity<BannerInfo> responseEntity = bannerService.findInfoById(id);
 			if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
 				BannerInfo banner = responseEntity.getBody();
@@ -221,14 +235,17 @@ public class BannerController implements ServletContextAware {
 
 				ResponseEntity<Void> responseEntity1 = bannerService.update(banner);
 				if (!(responseEntity1 == null || responseEntity1.getStatusCode() != HttpStatus.OK)) {
-
+					redirectAttr.addFlashAttribute("msg", "Update success.");
+					redirectAttr.addFlashAttribute("msgType", "success");
 				} else {
-					System.out.println("Client - Update banner result" + responseEntity == null ? "null"
-							: responseEntity.getStatusCode());
+					redirectAttr.addFlashAttribute("msg", "Server - Update banner result "
+							+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+					redirectAttr.addFlashAttribute("msgType", "danger");
 				}
 			} else {
-				System.out.println("Client - Update banner result" + responseEntity == null ? "null"
-						: responseEntity.getStatusCode());
+				redirectAttr.addFlashAttribute("msg", "Server - Find banner by id result "
+						+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+				redirectAttr.addFlashAttribute("msgType", "danger");
 			}
 		}
 
@@ -236,20 +253,20 @@ public class BannerController implements ServletContextAware {
 	}
 
 	@RequestMapping(value = { "delete/{id}" }, method = RequestMethod.GET)
-	public String delete(@PathVariable("id") int id) {
+	public String delete(@PathVariable("id") int id, RedirectAttributes redirectAttr) {
 		ResponseEntity<Void> responseEntity = bannerService.delete(id);
-		if (responseEntity != null) {
-			if (responseEntity.getStatusCode() == HttpStatus.OK) {
-
-			} else {
-
-			}
+		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
+			redirectAttr.addFlashAttribute("msg", "Delete success.");
+			redirectAttr.addFlashAttribute("msgType", "success");
+		} else {
+			redirectAttr.addFlashAttribute("msg", "Server - Delete banner result " + (responseEntity == null ? "null" : responseEntity.getStatusCodeValue()));
+			redirectAttr.addFlashAttribute("msgType", "danger");
 		}
 		return "redirect:/manager/banner/index";
 	}
 
 	@RequestMapping(value = { "deleteImage/{bannerId}/{imgId}" }, method = RequestMethod.GET)
-	public String deleteImage(@PathVariable("bannerId") int bannerId, @PathVariable("imgId") int imgId) {
+	public String deleteImage(@PathVariable("bannerId") int bannerId, @PathVariable("imgId") int imgId, RedirectAttributes redirectAttr) {
 		ResponseEntity<ImageInfo> imgResponse = imageService.findInfoById(imgId);
 
 		if (!(imgResponse == null || imgResponse.getStatusCode() != HttpStatus.OK)) {
@@ -258,19 +275,22 @@ public class BannerController implements ServletContextAware {
 				Path fileToDeletePath = Paths.get("src/main/webapp/uploads/images/" + imgResponse.getBody().getName());
 				Files.delete(fileToDeletePath);
 			} catch (Exception e) {
-				System.out.println("Delete old banner image(file) error: " + e.getMessage());
+				redirectAttr.addFlashAttribute("msg", "Server - Delete old banner image(file) error: " + e.getMessage());
+				redirectAttr.addFlashAttribute("msgType", "danger");
 			}
 
 			ResponseEntity<Void> responseEntity = imageService.delete(imgId);
 			if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
-
+				redirectAttr.addFlashAttribute("msg", "Delete success.");
+				redirectAttr.addFlashAttribute("msgType", "success");
 			} else {
-				System.out.println("Delete old banner image(database) error: " + responseEntity == null ? "null"
-						: responseEntity.getStatusCode());
+				redirectAttr.addFlashAttribute("msg", "Server - Delete old banner image(database) result " + (responseEntity == null ? "null"
+						: responseEntity.getStatusCode()));
+				redirectAttr.addFlashAttribute("msgType", "danger");
 			}
 		} else {
-			System.out.println(
-					"Delete image - Find image error : " + imgResponse == null ? "null" : imgResponse.getStatusCode());
+			redirectAttr.addFlashAttribute("msg", "Delete image - Find image error : " + (imgResponse == null ? "null" : imgResponse.getStatusCode()));
+			redirectAttr.addFlashAttribute("msgType", "danger");
 		}
 
 		return "redirect:/manager/banner/changePhotos/" + bannerId;

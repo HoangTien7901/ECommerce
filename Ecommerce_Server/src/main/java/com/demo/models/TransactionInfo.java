@@ -21,6 +21,7 @@ public class TransactionInfo {
 	private double price;
 	private int quantity;
 	private double tax;
+	private String note;
 	private String status;
 	private String cancelReason;
 
@@ -33,6 +34,14 @@ public class TransactionInfo {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	public String getProductName() {
@@ -178,22 +187,40 @@ public class TransactionInfo {
 	}
 
 	// for product transaction list
-		public TransactionInfo(int id, Integer productId, String productName, String categoryName, String branchName, String username,
-				double price, int quantity, double tax, String status, String cancelReason, Date created) {
-			super();
-			this.id = id;
-			this.productName = productName;
-			this.productId = productId;
-			this.username = username;
-			this.categoryName = categoryName;
-			this.branchName = branchName;
-			this.price = price;
-			this.quantity = quantity;
-			this.tax = tax;
-			this.status = status;
-			this.cancelReason = cancelReason;
-			this.created = created;
-		}
+	public TransactionInfo(int id, Integer productId, String productName, String categoryName, String branchName,
+			String username, double price, int quantity, double tax, String status, String cancelReason, Date created) {
+		super();
+		this.id = id;
+		this.productName = productName;
+		this.productId = productId;
+		this.username = username;
+		this.categoryName = categoryName;
+		this.branchName = branchName;
+		this.price = price;
+		this.quantity = quantity;
+		this.tax = tax;
+		this.status = status;
+		this.cancelReason = cancelReason;
+		this.created = created;
+	}
+	
+	public TransactionInfo(int id, Integer productId, String productName, String categoryName, String branchName, String username,
+			double price, int quantity, double tax, String note, String status, String cancelReason, Date created) {
+		super();
+		this.id = id;
+		this.productName = productName;
+		this.productId = productId;
+		this.username = username;
+		this.categoryName = categoryName;
+		this.branchName = branchName;
+		this.price = price;
+		this.quantity = quantity;
+		this.tax = tax;
+		this.note = note;
+		this.status = status;
+		this.cancelReason = cancelReason;
+		this.created = created;
+	}
 
 	public TransactionInfo() {
 		super();

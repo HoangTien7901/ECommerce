@@ -36,7 +36,6 @@ public class BannerRestController {
 			for (BannerInfo banner : banners) {
 				banner.setImgs(imgService.findAllInfoByBannerId(banner.getId()));
 			}
-
 			return new ResponseEntity<Iterable<BannerInfo>>(banners, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Iterable<BannerInfo>>(HttpStatus.BAD_REQUEST);

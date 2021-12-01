@@ -145,7 +145,8 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-
+	<input type="hidden" id="msg" value="${msg }">
+	<input type="hidden" id="msgType" value="${msgType }">
 	<script
 			src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>
 	<!-- Bootstrap 4 -->

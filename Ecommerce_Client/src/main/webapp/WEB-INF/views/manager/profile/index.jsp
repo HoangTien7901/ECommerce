@@ -88,6 +88,42 @@
 								</s:form>
 							</div>
 							<!-- /.card -->
+							
+							<div class="card card-danger">
+								<div class="card-header">
+									<h3 class="card-title">Change password</h3>
+								</div>
+								<!-- /.card-header -->
+								<!-- form start -->
+								<form method="POST" id="form"
+								action="${pageContext.request.contextPath }/manager/profile/changePassword">
+									<div class="card-body">
+										<div class="form-group">
+											<label for="oldPassword">Old password</label>
+											<input type="password" class="form-control"
+											name="oldPassword"></input>
+										</div>
+									
+										<div class="form-group">
+											<label for="newPassword">New password</label>
+											<input type="password" class="form-control"
+											name="newPassword" id="newPassword"></input>
+										</div>
+										
+										<div class="form-group">
+											<label for="confirmPassword">Confirm password</label>
+											<input type="password" class="form-control"
+											name="confirmPassword"></input>
+										</div>
+									</div>
+									<!-- /.card-body -->
+
+									<div class="card-footer">
+										<button type="submit" class="btn btn-primary">Submit</button>
+										<button type="reset" class="btn btn-danger float-right">Reset</button>
+									</div>
+								</form>
+							</div>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -113,6 +149,10 @@
 			src="${pageContext.request.contextPath }/resources/manager/dist/js/demo.js"></script>
 	
 	<!-- page specific script  -->
+	<!-- jquery-validation -->
+	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery-validation/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery-validation/additional-methods.min.js"></script>
+	
 	<!-- InputMask -->
 	<script
 			src="${pageContext.request.contextPath }/resources/manager/plugins/moment/moment.min.js"></script>
@@ -120,8 +160,58 @@
 			src="${pageContext.request.contextPath }/resources/manager/plugins/inputmask/jquery.inputmask.min.js"></script>
 	<script>
 		$(document).ready(function() {
+			$.validator.methods.passwordPattern = function( value, element ) {
+				 return this.optional( element ) || /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/.test( value );
+			}
+			
+			$.validator.addMethod(
+					  "passwordPattern",
+					  function(value, element, regexp) {
+					    var re = new RegExp(regexp);
+					    return this.optional( element ) || /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/.test( value );
+					  },
+					  "Password should be between 8 and 20 characters and have at least one letter, one number and one special character."
+					);
+			
 			//Datemask dd/mm/yyyy
 	    	$('#birthday').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+			
+	    	$.validator.setDefaults({
+			    submitHandler: function () {
+			    	$('#form')[0].submit();
+			    }
+			  });
+			
+	    	$('#form').validate({
+			    rules: {
+			      newPassword: {
+			        required: true,
+			        passwordPattern: true,
+			      },
+			      oldPassword: {
+			    	 required: true,
+			    	 minlength: 8,
+				     maxlength: 20,
+			      },
+			      confirmPassword: {
+				  	required: true,
+				    minlength: 8,
+					maxlength: 20,
+					equalTo : "#newPassword",
+				  }
+			    },
+			    errorElement: 'span',
+			    errorPlacement: function (error, element) {
+			      error.addClass('invalid-feedback');
+			      element.closest('.form-group').append(error);
+			    },
+			    highlight: function (element, errorClass, validClass) {
+			      $(element).addClass('is-invalid');
+			    },
+			    unhighlight: function (element, errorClass, validClass) {
+			      $(element).removeClass('is-invalid');
+			    }
+			  });
 		});
 	</script>
 	</jsp:attribute>

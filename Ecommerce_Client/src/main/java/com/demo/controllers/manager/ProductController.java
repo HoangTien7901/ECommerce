@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.helpers.FileUploadHelper;
 import com.demo.helpers.MailHelper;
@@ -41,46 +42,53 @@ public class ProductController implements ServletContextAware {
 
 	@Autowired
 	private IProductService productService;
-	
+
 	@Autowired
 	private ISystemService systemService;
-	
+
 	@Autowired
 	private IStoreService storeService;
-	
+
 	@Autowired
 	private ICategoryService categoryService;
-	
+
 	@Autowired
 	private IBranchService branchService;
 
 	@RequestMapping(value = { "index" }, method = RequestMethod.GET)
 	public String index(ModelMap modelMap) {
-		
-		ResponseEntity<Iterable<ProductInfo>> responseEntity = productService.findAllInfo();
-		if (responseEntity != null) {
-			if (responseEntity.getStatusCode() == HttpStatus.OK) {
-				modelMap.put("title", "Manage product");
-				modelMap.put("productActive", "active");
+		modelMap.put("title", "Manage product");
+		modelMap.put("productActive", "active");
 
-				modelMap.put("items", responseEntity.getBody());
-				modelMap.put("pageTitle", "Product list");
-				modelMap.put("parentPageTitle", "Product");
-			}
+		modelMap.put("pageTitle", "Product list");
+		modelMap.put("parentPageTitle", "Product");
+
+		ResponseEntity<Iterable<ProductInfo>> responseEntity = productService.findAllInfo();
+		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
+			modelMap.put("items", responseEntity.getBody());
+		} else {
+			modelMap.put("msg", "Server - Get all product result "
+					+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+			modelMap.put("msgType", "danger");
 		}
 		return "manager/product/index";
 	}
 
 	@RequestMapping(value = { "edit/{id}" }, method = RequestMethod.GET)
 	public String edit(@PathVariable("id") int id, ModelMap modelMap) {
-		ResponseEntity<ProductInfo> responseEntity = productService.findInfoById(id);
+		modelMap.put("title", "Edit product");
+		modelMap.put("productActive", "active");
 
+		modelMap.put("pageTitle", "Edit");
+		modelMap.put("parentPageTitle", "Product");
+
+		ResponseEntity<ProductInfo> responseEntity = productService.findInfoById(id);
 		ProductInfo result = responseEntity.getBody();
 
 		ResponseEntity<Iterable<StoreInfo>> storeRespone = storeService.findAllInfo();
 		ResponseEntity<Iterable<CategoryInfo>> categoryRespone = categoryService.findAllInfo();
 		ResponseEntity<Iterable<BranchInfo>> branchRespone = branchService.findAllInfo();
-		
+
 		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
 			if (!(storeRespone == null || storeRespone.getStatusCode() != HttpStatus.OK)) {
 				if (!(categoryRespone == null || categoryRespone.getStatusCode() != HttpStatus.OK)) {
@@ -88,39 +96,39 @@ public class ProductController implements ServletContextAware {
 						modelMap.put("stores", storeRespone.getBody());
 						modelMap.put("categories", categoryRespone.getBody());
 						modelMap.put("branches", branchRespone.getBody());
-						
-						modelMap.put("title", "Edit product");
-						modelMap.put("productActive", "active");
 
 						modelMap.put("img", result.getAvatar());
 						modelMap.put("item", result);
-						modelMap.put("pageTitle", "Edit");
-						modelMap.put("parentPageTitle", "Product");
 					} else {
-						System.out.println("Client - Update get branches result" + responseEntity == null ? "null"
-								: responseEntity.getStatusCode());
+						modelMap.put("msg", "Server - Get branches result "
+								+ (branchRespone == null ? "null" : branchRespone.getStatusCode()));
+						modelMap.put("msgType", "danger");
 					}
 				} else {
-					System.out.println("Client - Update get categories result" + responseEntity == null ? "null"
-							: responseEntity.getStatusCode());
+					modelMap.put("msg", "Server - Get categories result "
+							+ (categoryRespone == null ? "null" : categoryRespone.getStatusCode()));
+					modelMap.put("msgType", "danger");
 				}
 			} else {
-				System.out.println("Client - Update get stores result" + responseEntity == null ? "null"
-						: responseEntity.getStatusCode());
+				modelMap.put("msg",
+						"Server - Get stores result " + (storeRespone == null ? "null" : storeRespone.getStatusCode()));
+				modelMap.put("msgType", "danger");
 			}
 		} else {
-			System.out.println("Client - Update get product result" + responseEntity == null ? "null"
-					: responseEntity.getStatusCode());
+			modelMap.put("msg", "Server - Get product by id result "
+					+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+			modelMap.put("msgType", "danger");
 		}
+
 		return "manager/product/edit";
 	}
-	
+
 	@RequestMapping(value = { "lock/{id}" }, method = RequestMethod.GET)
 	public String lock(@PathVariable("id") int id, ModelMap modelMap) {
 		ResponseEntity<ProductInfo> responseEntity = productService.findInfoById(id);
 
 		ProductInfo result = responseEntity.getBody();
-		
+
 		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
 			modelMap.put("title", "Lock product");
 			modelMap.put("productActive", "active");
@@ -135,16 +143,16 @@ public class ProductController implements ServletContextAware {
 		}
 		return "manager/product/lock";
 	}
-	
+
 	@RequestMapping(value = { "lock" }, method = RequestMethod.POST)
 	public String lock(@RequestParam("banReason") String banReason, @RequestParam("id") int id) {
-		
+
 		ResponseEntity<Void> responseEntity = productService.toggleStatus(id);
 		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
 			responseEntity = productService.updateBanReason(id, banReason);
-			
+
 			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-				
+
 			} else {
 				System.out.println("Client - Update lock product(ban reason) result" + responseEntity == null ? "null"
 						: responseEntity.getStatusCode());
@@ -157,71 +165,78 @@ public class ProductController implements ServletContextAware {
 	}
 
 	@RequestMapping(value = { "save" }, method = RequestMethod.POST)
-	public String save(@ModelAttribute("item") @Valid ProductInfo item, BindingResult errors, @RequestParam(name = "newAvatar", required = false) MultipartFile newAvatar, ModelMap modelMap) {	
+	public String save(@ModelAttribute("item") @Valid ProductInfo item, BindingResult errors,
+			@RequestParam(name = "newAvatar", required = false) MultipartFile newAvatar, ModelMap modelMap,
+			RedirectAttributes redirectAttr) {
 		ResponseEntity<com.demo.models.System> systemResponse = systemService.getSystem();
 		com.demo.models.System system = systemResponse.getBody();
-		
+
 		if (errors.hasErrors()) {
 			ResponseEntity<Iterable<StoreInfo>> storeRespone = storeService.findAllInfo();
 			ResponseEntity<Iterable<CategoryInfo>> categoryRespone = categoryService.findAllInfo();
 			ResponseEntity<Iterable<BranchInfo>> branchRespone = branchService.findAllInfo();
-			
+
 			if (!(storeRespone == null || storeRespone.getStatusCode() != HttpStatus.OK)) {
 				if (!(categoryRespone == null || categoryRespone.getStatusCode() != HttpStatus.OK)) {
 					if (!(branchRespone == null || branchRespone.getStatusCode() != HttpStatus.OK)) {
 						modelMap.put("stores", storeRespone.getBody());
 						modelMap.put("categories", categoryRespone.getBody());
 						modelMap.put("branches", branchRespone.getBody());
-						
+
 						modelMap.put("title", "Edit product");
 						modelMap.put("productActive", "active");
-						
+
 						modelMap.put("img", item.getAvatar());
 
 						modelMap.put("pageTitle", "Edit");
 						modelMap.put("parentPageTitle", "Product");
 					} else {
-						System.out.println("Client - Update get branches result" + (branchRespone == null ? "null"
-								: branchRespone.getStatusCode()));
+						modelMap.put("msg", "Server - Get branches result "
+								+ (branchRespone == null ? "null" : branchRespone.getStatusCode()));
+						modelMap.put("msgType", "danger");
 					}
 				} else {
-					System.out.println("Client - Update get categories result" + (categoryRespone == null ? "null"
-							: categoryRespone.getStatusCode()));
+					modelMap.put("msg", "Server - Get categories result "
+							+ (categoryRespone == null ? "null" : categoryRespone.getStatusCode()));
+					modelMap.put("msgType", "danger");
 				}
 			} else {
-				System.out.println("Client - Update get stores result" + (storeRespone == null ? "null"
-						: storeRespone.getStatusCode()));
+				modelMap.put("msg",
+						"Server - Get stores result " + (storeRespone == null ? "null" : storeRespone.getStatusCode()));
+				modelMap.put("msgType", "danger");
 			}
-			
+
 			return "manager/product/edit";
 		} else {
 			// upload new avatar
 			if (!newAvatar.isEmpty()) {
 				if (newAvatar.getSize() / 1024 / 1024 > system.getMaxBannerPhotoSize()) {
-					 
-					// #################### file size alert
-					
+					redirectAttr.addFlashAttribute("msg", "File is too large: " + (newAvatar.getSize() / 1024 / 1024)
+							+ ". Maximum file size is: " + system.getMaxBannerPhotoSize());
+					redirectAttr.addFlashAttribute("msgType", "danger");
 				} else {
 					try {
 						// delete old image
-					    Path fileToDeletePath = Paths.get("src/main/webapp/uploads/images/" + item.getAvatar());
-					    Files.delete(fileToDeletePath);
-					    
-					    String fileName = FileUploadHelper.upload(newAvatar, servletContext);
-						item.setAvatar(fileName); 
+						Path fileToDeletePath = Paths.get("src/main/webapp/uploads/images/" + item.getAvatar());
+						Files.delete(fileToDeletePath);
+
+						String fileName = FileUploadHelper.upload(newAvatar, servletContext);
+						item.setAvatar(fileName);
 					} catch (Exception e) {
-						System.out.println("Delete old product's avatar error: " + e.getMessage());
+						redirectAttr.addFlashAttribute("msg", "Delete old product's avatar error: " + e.getMessage());
+						redirectAttr.addFlashAttribute("msgType", "danger");
 					}
 				}
 			}
-			
+
 			ResponseEntity<Void> responseEntity = productService.update(item);
 			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-				
-//				send out notification
+				redirectAttr.addFlashAttribute("msg", "Update success!");
+				redirectAttr.addFlashAttribute("msgType", "success");
 			} else {
-				System.out.println("Client - Update product result" + responseEntity == null ? "null"
-						: responseEntity.getStatusCode());
+				redirectAttr.addFlashAttribute("msg", "Server - Update product result "
+						+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+				redirectAttr.addFlashAttribute("msgType", "danger");
 			}
 
 			return "redirect:/manager/product/index";
@@ -229,39 +244,31 @@ public class ProductController implements ServletContextAware {
 	}
 
 	@RequestMapping(value = { "delete/{id}" }, method = RequestMethod.GET)
-	public String delete(@PathVariable("id") int id) {
+	public String delete(@PathVariable("id") int id, RedirectAttributes redirectAttr) {
 		ResponseEntity<Void> responseEntity = productService.delete(id);
-		if (responseEntity != null) {
-			if (responseEntity.getStatusCode() == HttpStatus.OK) {
-
-			} else {
-
-			}
+		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
+			redirectAttr.addFlashAttribute("msg", "Delete success!");
+			redirectAttr.addFlashAttribute("msgType", "success");
+		} else {
+			redirectAttr.addFlashAttribute("msg", "Server - Delete product result "
+					+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+			redirectAttr.addFlashAttribute("msgType", "danger");
 		}
 		return "redirect:/manager/product/index";
 	}
-	
+
 	@RequestMapping(value = { "toggleStatus/{id}" }, method = RequestMethod.GET)
-	public String toggleStatus(@PathVariable("id") int id) {
+	public String toggleStatus(@PathVariable("id") int id, RedirectAttributes redirectAttr) {
 		ResponseEntity<Void> responseEntity = productService.toggleStatus(id);
-		if (responseEntity != null) {
-			if (responseEntity.getStatusCode() == HttpStatus.OK) {
-				// just send some temporary text to make it not null
-				responseEntity = productService.updateBanReason(id, "tmp");
-				
-				if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-					
-				} else {
-					System.out.println("Client - Update lock product(ban reason) result" + responseEntity == null ? "null"
-							: responseEntity.getStatusCode());
-				}
-			} else {
-
-			}
+		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
+			
+		} else {
+			redirectAttr.addFlashAttribute("msg", "Server - Toggle product status result " + (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+			redirectAttr.addFlashAttribute("msgType", "danger");
 		}
 		return "redirect:/manager/product/index";
 	}
-	
+
 	@Override
 	public void setServletContext(ServletContext servletContext) {
 		this.servletContext = servletContext;

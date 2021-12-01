@@ -33,8 +33,13 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h3 class="card-title">${pageTitle }</h3>
+									<h3 class="card-title">${pageTitle2 }</h3>
 									<div class="card-tools">
+										 <!-- This will cause the card to collapse when clicked -->
+      									<button type="button" class="btn btn-tool"
+										data-card-widget="collapse">
+										<i class="fas fa-minus"></i>
+										</button>
 										<!-- This will cause the card to maximize when clicked -->
 										<button type="button" class="btn btn-tool"
 										data-card-widget="maximize">
@@ -45,11 +50,13 @@
 
 								<!-- /.card-header -->
 								<div class="card-body">
-									<table id="dataTable" class="table table-bordered table-hover">
+									<table id="dataTable2" class="table table-bordered table-hover">
 										<thead>
 											<tr>
 												<th>Id</th>
-												<th>Service name</th>
+												<th>Product name</th>
+												<th>Product category</th>
+												<th>Branch</th>
 												<th>Buyer</th>
 												<th>Price</th>
 												<th>Quantity</th>
@@ -60,11 +67,13 @@
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="item" items="${items }" varStatus="varStatus">
+											<c:forEach var="item" items="${products }" varStatus="varStatus">
 												<tr>
 													<td>${varStatus.getCount() }</td>
-													<td>${item.serviceName }</td>
-													<td>${item.storeName }</td>
+													<td>${item.productName }</td>
+													<td>${item.categoryName }</td>
+													<td>${item.branchName }</td>
+													<td>${item.username }</td>
 													<td>${item.price }</td>
 													<td>${item.quantity }</td>
 													<td>${item.tax }</td>
@@ -81,7 +90,9 @@
 										<tfoot>
 											<tr>
 												<th>Id</th>
-												<th>Service name</th>
+												<th>Product name</th>
+												<th>Product category</th>
+												<th>Branch</th>
 												<th>Buyer</th>
 												<th>Price</th>
 												<th>Quantity</th>
@@ -147,14 +158,7 @@
 	<!-- Page specific script -->
 	<script>
 		$(function() {
-			$(".buttonDelete").click(function() {
-				var id = $(this).data('id');
-				console.log("id: " + id);
-				var _href = $("#deleteLink").data("link");
-				$("#deleteLink").attr("href", _href + id);
-			});
-
-			$('#dataTable').DataTable({
+			$('#dataTable2').DataTable({
 				"paging" : true,
 				"lengthChange" : false,
 				"ordering" : true,
@@ -162,31 +166,38 @@
 				"autoWidth" : false,
 				"responsive" : true,
 				"columnDefs" : [ {
-					'targets' : [ 8 ], /* column index, count from 0 */
-					'className' : 'none', 
-				}, 
-				{
-					'targets' : [3, 4, 5 ], /* column index, count from 0 */
-					'className' : 'sum', 
-				}],
-				"footerCallback": function( tfoot, data, start, end, display ) {
-					 var api = this.api();
-					 
-					  api.columns('.sum', {
-					    page: 'current'
-					  }).every(function() {
-					    var sum = this
-					      .data()
-					      .reduce(function(a, b) {
-					        var x = parseFloat(a) || 0;
-					        var y = parseFloat(b) || 0;
-					        return x + y;
-					      }, 0);
-					    $(this.footer()).html(sum);
-					  });
-				  }
-			});
-			
+					'targets' : [ 10 ], /* column index, count from 0 */
+					'className' : 'none',
+				}, {
+					'targets' : [ 6, 7, 5 ], /* column index, count from 0 */
+					'className' : 'sum',
+				}, {
+					'targets' : [0 ], /* column index, count from 0 */
+					'className' : 'counter',
+				} ],
+				"footerCallback" : function(tfoot, data, start, end, display) {
+					var api = this.api();
+
+					api.columns('.sum', {
+						page : 'current'
+					}).every(function() {
+						var sum = this.data().reduce(function(a, b) {
+							var x = parseFloat(a) || 0;
+							var y = parseFloat(b) || 0;
+							return x + y;
+						}, 0);
+						$(this.footer()).html(sum);
+					});
+					
+					api.columns('.counter', {
+						page : 'current'
+					}).every(function() {
+						var sum = this.data().count();
+						$(this.footer()).html("Counter: " + sum);
+					});
+				},
+				"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+		    }).buttons().container().appendTo('#dataTable2_wrapper .col-md-6:eq(0)');
 		});
 	</script>
 			

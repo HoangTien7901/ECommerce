@@ -140,8 +140,11 @@
 
 			</section>
 			<!-- /.content -->
-			
-			<div class="modal fade" id="modal-danger">
+		
+		<input type="hidden" id="msg" value="${msg }">
+		<input type="hidden" id="msgType" value="${msgType }">
+		
+		<div class="modal fade" id="modal-danger">
 		<div class="modal-dialog">
 			<div class="modal-content bg-danger">
 				<div class="modal-header">

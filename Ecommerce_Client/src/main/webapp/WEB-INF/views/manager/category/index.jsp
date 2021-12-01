@@ -73,7 +73,7 @@
 															<button type="button" class="btn btn-primary">
 																<i class="far fa-edit"></i>
 															</button>
-													</a> |
+													</a>
 														<button type="button" class="btn btn-danger buttonDelete"
 														data-toggle="modal" data-target="#modal-danger"
 														data-id="${item.id }">
@@ -139,7 +139,9 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-
+	<input type="hidden" id="msg" value="${msg }">
+	<input type="hidden" id="msgType" value="${msgType }">
+	
 	<script
 		src="${pageContext.request.contextPath }/resources/manager/plugins/jquery/jquery.min.js"></script>
 	<!-- Bootstrap 4 -->

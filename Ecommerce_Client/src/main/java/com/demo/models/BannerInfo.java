@@ -16,7 +16,7 @@ public class BannerInfo {
 	
 	@NotEmpty
 	@Length(min = 5, max = 250)
-	@Pattern(regexp = "^(?![\s.]+$)[a-zA-Z\s.]*$", message = "This field can only contain alphabetic characters.")
+	@Pattern(regexp = "^[0-9A-Za-z\\s\\-]+$", message = "This field can only contain letters, numbers, and dash.")
 	private String caption;
 	
 	@NotEmpty

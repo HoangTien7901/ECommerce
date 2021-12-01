@@ -60,7 +60,6 @@
 												<th>New</th>
 												<th>Status</th>
 												<th>Action</th>
-												<th>Ban reason</th>
 												<th>Description</th>
 												<th title="Description details">D. details</th>
 												
@@ -109,17 +108,13 @@
 														data-id="${item.id }"> 
 															<i class="far fa-trash-alt"></i>
 														</button>
-														
-													<a
-													href="${pageContext.request.contextPath }/manager/product/${item.status ? 'lock' : 'toggleStatus' }/${item.id }">
-															<button type="button"
-															class="btn btn-${item.status ? 'danger' : 'primary' }">
-															<i
-																class="fas ${item.status ? 'fa-lock' : 'fa-lock-open' }"></i>
-														</button>
-													</a>
+														<a
+													href="${pageContext.request.contextPath }/manager/product/toggleStatus/${item.id }">
+															<button type="button" class="btn btn-${!item.status ? 'primary' : 'danger' }">
+																<i class="fas ${!item.status ? 'fa-check' : 'fa-lock' } "></i>
+															</button>
+														</a>
 													</td>
-													<td>${item.banReason }</td>
 													<td>${item.description }</td>
 													<td>${item.descriptionDetail }</td>
 													
@@ -141,7 +136,6 @@
 												<th>New</th>
 												<th>Status</th>
 												<th>Action</th>
-												<th>Ban reason</th>
 												<th>Description</th>
 												<th title="Description details">D. details</th>
 											</tr>
@@ -190,6 +184,9 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
+
+	<input type="hidden" id="msg" value="${msg }">
+	<input type="hidden" id="msgType" value="${msgType }">
 
 	<!--  jQuery -->
 	<script
@@ -250,7 +247,7 @@
 				"autoWidth" : false,
 				"responsive" : true,
 				"columnDefs" : [
-					{ className: "none", targets: [13, 14, 15] },
+					{ className: "none", targets: [13, 14] },
 					{ className: "all", targets: [12], 'orderable' : false }
 				],
 			});

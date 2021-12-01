@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.models.BannerInfo;
 import com.demo.models.CategoryInfo;
@@ -32,49 +33,58 @@ public class M_CategoryController {
 
 	@RequestMapping(value = { "index" }, method = RequestMethod.GET)
 	public String index(ModelMap modelMap) {
-		ResponseEntity<Iterable<CategoryInfo>> responseEntity = categoryService.findAllInfo();
-		if (responseEntity != null) {
-			if (responseEntity.getStatusCode() == HttpStatus.OK) {
-				modelMap.put("title", "Manage category");
-				modelMap.put("categoryActive", "active");
+		modelMap.put("title", "Manage category");
+		modelMap.put("categoryActive", "active");
 
-				modelMap.put("items", responseEntity.getBody());
-				modelMap.put("pageTitle", "Category list");
-				modelMap.put("parentPageTitle", "Category");
-			}
+		modelMap.put("pageTitle", "Category list");
+		modelMap.put("parentPageTitle", "Category");
+
+		ResponseEntity<Iterable<CategoryInfo>> responseEntity = categoryService.findAllInfo();
+		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
+			modelMap.put("items", responseEntity.getBody());
+		} else {
+			modelMap.put("msg", "Server - Get all category result "
+					+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+			modelMap.put("msgType", "danger");
 		}
 		return "manager/category/index";
 	}
 
 	@RequestMapping(value = { "edit/{id}" }, method = RequestMethod.GET)
 	public String edit(@PathVariable("id") int id, ModelMap modelMap) {
+		modelMap.put("title", "Edit category");
+		modelMap.put("categoryActive", "active");
+
+		modelMap.put("pageTitle", "Edit");
+		modelMap.put("parentPageTitle", "Category");
+
 		ResponseEntity<CategoryInfo> responseEntity = categoryService.findInfoById(id);
-
-		CategoryInfo result = responseEntity.getBody();
-
-		ResponseEntity<Iterable<CategoryInfo>> responseEntityForSelect = categoryService.findAllExcept(id,
-				result.getLevel());
-		if (responseEntityForSelect != null) {
-			if (responseEntityForSelect.getStatusCode() == HttpStatus.OK) {
+		
+		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
+			CategoryInfo result = responseEntity.getBody();
+			modelMap.put("item", result);
+			
+			ResponseEntity<Iterable<CategoryInfo>> responseEntityForSelect = categoryService.findAllExcept(id,
+					result.getLevel());
+			if (!(responseEntityForSelect == null || responseEntityForSelect.getStatusCode() != HttpStatus.OK)) {
 				modelMap.put("items", (List<CategoryInfo>) responseEntityForSelect.getBody());
+			} else {
+				modelMap.put("msg", "Server - Get all user for selection result "
+						+ (responseEntityForSelect == null ? "null" : responseEntityForSelect.getStatusCode()));
+				modelMap.put("msgType", "danger");
 			}
+		} else {
+			modelMap.put("msg", "Server - Get category by id result "
+					+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+			modelMap.put("msgType", "danger");
 		}
 
-		if (responseEntity != null) {
-			if (responseEntity.getStatusCode() == HttpStatus.OK) {
-				modelMap.put("title", "Edit category");
-				modelMap.put("categoryActive", "active");
-
-				modelMap.put("item", result);
-				modelMap.put("pageTitle", "Edit");
-				modelMap.put("parentPageTitle", "Category");
-			}
-		}
 		return "manager/category/edit";
 	}
 
 	@RequestMapping(value = { "save" }, method = RequestMethod.POST)
-	public String save(@ModelAttribute("item") @Valid CategoryInfo item, BindingResult errors, ModelMap modelMap) {
+	public String save(@ModelAttribute("item") @Valid CategoryInfo item, BindingResult errors, ModelMap modelMap
+			, RedirectAttributes redirectAttr) {
 		validator.validate(item, errors);
 		if (errors.hasErrors()) {
 			modelMap.put("title", "Edit category");
@@ -86,11 +96,12 @@ public class M_CategoryController {
 			return "manager/category/edit";
 		} else {
 			ResponseEntity<Void> responseEntity = categoryService.update(item);
-			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-//			CategoryInfo result = responseEntity.getBody();
+			if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
+				redirectAttr.addFlashAttribute("msg", "Update success!");
+				redirectAttr.addFlashAttribute("msgType", "success");
 			} else {
-				System.out.println("Client - Update category result" + responseEntity == null ? "null"
-						: responseEntity.getStatusCode());
+				redirectAttr.addFlashAttribute("msg", "Server - Update category error " + (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+				redirectAttr.addFlashAttribute("msgType", "danger");
 			}
 		}
 
@@ -99,28 +110,31 @@ public class M_CategoryController {
 
 	@RequestMapping(value = { "add" }, method = RequestMethod.GET)
 	public String add(ModelMap modelMap) {
-
-		ResponseEntity<Iterable<CategoryInfo>> responseEntityForSelect = categoryService.findAllInfo();
-		if (responseEntityForSelect != null) {
-			if (responseEntityForSelect.getStatusCode() == HttpStatus.OK) {
-				modelMap.put("items", (List<CategoryInfo>) responseEntityForSelect.getBody());
-			}
-		}
-
 		CategoryInfo item = new CategoryInfo();
-
+		
 		modelMap.put("title", "Add category");
 		modelMap.put("categoryActive", "active");
 
 		modelMap.put("item", item);
+		
 		modelMap.put("pageTitle", "Add");
 		modelMap.put("parentPageTitle", "Category");
+		
+		ResponseEntity<Iterable<CategoryInfo>> responseEntityForSelect = categoryService.findAllInfo();
+		if (!(responseEntityForSelect == null || responseEntityForSelect.getStatusCode() != HttpStatus.OK)) {
+			modelMap.put("items", (List<CategoryInfo>) responseEntityForSelect.getBody());
+		} else {
+			modelMap.put("msg", "Server - Get categories for selection result "
+					+ (responseEntityForSelect == null ? "null" : responseEntityForSelect.getStatusCode()));
+			modelMap.put("msgType", "danger");
+		}
 
 		return "manager/category/add";
 	}
 
 	@RequestMapping(value = { "create" }, method = RequestMethod.POST)
-	public String create(@ModelAttribute("item") @Valid CategoryInfo item, BindingResult errors, ModelMap modelMap) {
+	public String create(@ModelAttribute("item") @Valid CategoryInfo item, BindingResult errors, ModelMap modelMap
+			, RedirectAttributes redirectAttr) {
 
 		validator.validate(item, errors);
 		if (errors.hasErrors()) {
@@ -135,10 +149,13 @@ public class M_CategoryController {
 			ResponseEntity<CategoryInfo> responseEntity = categoryService.create(item);
 
 			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-//				CategoryInfo result = responseEntity.getBody();
+				redirectAttr.addFlashAttribute("msg", "Add success!");
+				redirectAttr.addFlashAttribute("msgType", "success");
 			} else {
-				System.out.println("Client - Add category result" + responseEntity == null ? "null"
-						: responseEntity.getStatusCode());
+				redirectAttr.addFlashAttribute("msg", "Server - Get categories for selection result "
+						+ (responseEntity == null ? "null"
+								: responseEntity.getStatusCode()));
+				redirectAttr.addFlashAttribute("msgType", "danger");
 			}
 
 			return "redirect:/manager/category/index";
@@ -146,14 +163,15 @@ public class M_CategoryController {
 	}
 
 	@RequestMapping(value = { "delete/{id}" }, method = RequestMethod.GET)
-	public String delete(@PathVariable("id") int id) {
+	public String delete(@PathVariable("id") int id
+			, RedirectAttributes redirectAttr) {
 		ResponseEntity<Void> responseEntity = categoryService.delete(id);
-		if (responseEntity != null) {
-			if (responseEntity.getStatusCode() == HttpStatus.OK) {
-
-			} else {
-
-			}
+		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
+			redirectAttr.addFlashAttribute("msg", "Delete success!");
+			redirectAttr.addFlashAttribute("msgType", "success");
+		} else {
+			redirectAttr.addFlashAttribute("msg", "Server - Delete category result " + (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+			redirectAttr.addFlashAttribute("msgType", "danger");
 		}
 		return "redirect:/manager/category/index";
 	}
