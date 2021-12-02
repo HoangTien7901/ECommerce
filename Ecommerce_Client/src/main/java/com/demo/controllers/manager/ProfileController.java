@@ -2,7 +2,6 @@ package com.demo.controllers.manager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -16,15 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.demo.helpers.MailHelper;
 import com.demo.models.UserInfo;
-import com.demo.services.manager.ISystemService;
 import com.demo.services.manager.IUserService;
 
 @Controller
@@ -115,10 +111,8 @@ public class ProfileController {
 				
 				String pw_hash = BCrypt.hashpw(password, BCrypt.gensalt());
 				result.setPassword(pw_hash);
-//			if (true) {
-//				
-//				String pw_hash = BCrypt.hashpw("Nguyenhoangbich0!", BCrypt.gensalt());
-//				result.setPassword(pw_hash);
+//			if (oldPassword.equals(result.getPassword())) {
+//				result.setPassword(password);
 				
 				ResponseEntity<Void> responseEntity2 = userService.update(result);
 				if (responseEntity2 != null && responseEntity2.getStatusCode() == HttpStatus.OK) {

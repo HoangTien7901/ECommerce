@@ -40,7 +40,7 @@
 								<!-- /.card-header -->
 								<!-- form start -->
 								<s:form method="POST"
-								action="${pageContext.request.contextPath }/manager/user/save"
+								action="${pageContext.request.contextPath }/manager/profile/save"
 								modelAttribute="item">
 									<div class="card-body">
 										<div class="form-group">
@@ -160,10 +160,6 @@
 			src="${pageContext.request.contextPath }/resources/manager/plugins/inputmask/jquery.inputmask.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			$.validator.methods.passwordPattern = function( value, element ) {
-				 return this.optional( element ) || /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/.test( value );
-			}
-			
 			$.validator.addMethod(
 					  "passwordPattern",
 					  function(value, element, regexp) {

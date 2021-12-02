@@ -3091,13 +3091,13 @@ a.banner-book-style-btn:hover {
     margin: 3px 0 7px;
 }
 .product-content-6 > h4 a {
-    color: #37e3ac;
+    color: #383838;
 }
 .product-content-6 > h4 a:hover {
-    color: #0080ff;
+    color: #050035;
 }
 .product-content-6 > h5 {
-    color: #37e3ac;
+    color: #383838;
 }
 .androit-banner-img > img {
     width: 100%;
@@ -5453,7 +5453,7 @@ a.icon-cart-furniture span.green {
 }
 .subscribe-form-6 .mc-form::before {
   color: #969fc1;
-  content: "î�š";
+  content: "";
   display: block;
   font-family: "themify";
   font-size: 24px;
@@ -6534,7 +6534,7 @@ a.icon-cart-furniture.food-cart span {
 }
 /*--------- 13. Login page ---------*/
 .login-form-container {
-    background: #1283c58c none repeat scroll 0 0;
+    background: transparent none repeat scroll 0 0;
     border: 1px solid #ddd;
     padding: 60px 40px;
     text-align: left;
@@ -6580,12 +6580,12 @@ a.icon-cart-furniture.food-cart span {
     width: 17px;
 }
 .login-form-container label {
-    color: #050035;
+    color: #777;
     font-size: 15px;
     font-weight: 400;
 }
 .login-toggle-btn > a {
-    color: #050035;
+    color: #777;
     float: right;
     transition: all 0.3s ease 0s;
 }
@@ -6595,7 +6595,7 @@ a.icon-cart-furniture.food-cart span {
 .button-box .default-btn {
     background: transparent none repeat scroll 0 0;
     border: 1px solid #ddd;
-    color: #050035;
+    color: #777;
     font-size: 14px;
     line-height: 1;
     margin-top: 25px;
@@ -6625,8 +6625,8 @@ h1.cart-heading {
     text-transform: uppercase;
 }
 .table-content table {
-    background: #63c694c4 none repeat scroll 0 0;
-    border-color: #0f0f0f;
+    background: #fff none repeat scroll 0 0;
+    border-color: #e5e5e5;
     border-radius: 0;
     border-style: solid;
     border-width: 1px 0 0 1px;
@@ -6812,7 +6812,7 @@ thead {
 }
 .coupon-accordion h3::before {
     color: #333;
-    content: "îšˆ";
+    content: "";
     display: inline-block;
     font-family: "Pe-icon-7-stroke";
     font-size: 30px;
@@ -6931,7 +6931,7 @@ p.checkout-coupon input[type="submit"] {
     background-color: transparent;
 }
 .country-select::before {
-    content: "îšˆ";
+    content: "";
     display: inline-block;
     font-family: "Pe-icon-7-stroke";
     font-size: 26px;
@@ -7790,7 +7790,7 @@ h5.panel-title {
 }
 .bundle-price ul li::before {
     color: #727272;
-    content: "î™�";
+    content: "";
     font-family: "themify";
     font-size: 14px;
     left: 0;

@@ -1,12 +1,10 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=feature/manager
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
-<<<<<<< HEAD
-encoding//src/main/resources/static/user/css/style.css=UTF-8
-encoding//src/main/webapp/WEB-INF/views/tags/userTemplace.tag=UTF-8
+encoding//src/main/webapp/WEB-INF/tags/usertemplate.tag=UTF-8
 encoding//src/main/webapp/WEB-INF/views/user/home/index.jsp=UTF-8
-encoding//src/main/webapp/WEB-INF/views/user/login/index.jsp=UTF-8
-=======
->>>>>>> feature/manager
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

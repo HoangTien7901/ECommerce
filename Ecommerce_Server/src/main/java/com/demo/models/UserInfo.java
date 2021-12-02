@@ -149,4 +149,17 @@ public class UserInfo {
 		this.banTerm = banTerm;
 		this.status = status;
 	}
+	
+	public UserInfo(int id, String username, String password, Integer roleId, String fullname, Date birthday, String phone, String email, boolean status) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.roleId = roleId;
+		this.fullname = fullname;
+		this.birthday = birthday;
+		this.phone = phone;
+		this.email = email;
+		this.status = status;
+	}
 }

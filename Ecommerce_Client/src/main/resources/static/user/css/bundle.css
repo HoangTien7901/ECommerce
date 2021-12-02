@@ -37,7 +37,7 @@ body {
     font-weight: normal;
     font-style: normal;
     font-size: 14px;
-	color:#121313;
+	color:#686868;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -171,7 +171,7 @@ label {
 }
 ::selection {
     background: #4fc1f0;
-    color:#120f0f;
+    color: #fff;
     text-shadow: none;
 }
 .mark, mark {

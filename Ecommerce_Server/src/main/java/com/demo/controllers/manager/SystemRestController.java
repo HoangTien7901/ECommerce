@@ -13,7 +13,7 @@ import com.demo.entities.System;
 import com.demo.services.manager.ISystemService;
 
 @RestController
-@RequestMapping("api/manager/system")
+@RequestMapping(value = {"api/manager/system", "api/system"})
 public class SystemRestController {
 	
 	@Autowired
