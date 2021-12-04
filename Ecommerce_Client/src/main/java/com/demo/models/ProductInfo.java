@@ -54,8 +54,6 @@ public class ProductInfo {
 	private double ratingAverage;
 	private boolean status;
 	
-//	@NotNull
-//	@Length(min = 10, max = 500)
 	private String banReason;
 	
 	private Boolean isLocked;

@@ -53,10 +53,10 @@ public class Products implements java.io.Serializable {
 	private boolean status;
 	private String banReason;
 	private Boolean isLocked;
-	private Set<Carts> cartses = new HashSet<Carts>(0);
 	private Set<Images> imageses = new HashSet<Images>(0);
 	private Set<Comments> commentses = new HashSet<Comments>(0);
 	private Set<TagProducts> tagProductses = new HashSet<TagProducts>(0);
+	private Set<CartProduct> cartProducts = new HashSet<CartProduct>(0);
 	private Set<Transactions> transactionses = new HashSet<Transactions>(0);
 
 	public Products() {
@@ -89,8 +89,8 @@ public class Products implements java.io.Serializable {
 			String description, String descriptionDetail, double originalPrice, Double saleOffPercent, double price,
 			int quantity, int inventory, Date created, Date updated, Boolean isOutstanding, Boolean isBestSelling,
 			Boolean isNew, double discountPercent, double discountAmount, int ratingCount, double ratingAverage,
-			boolean status, String banReason, Boolean isLocked, Set<Carts> cartses, Set<Images> imageses,
-			Set<Comments> commentses, Set<TagProducts> tagProductses, Set<Transactions> transactionses) {
+			boolean status, String banReason, Boolean isLocked, Set<Images> imageses, Set<Comments> commentses,
+			Set<TagProducts> tagProductses, Set<CartProduct> cartProducts, Set<Transactions> transactionses) {
 		this.branchs = branchs;
 		this.categories = categories;
 		this.stores = stores;
@@ -115,10 +115,10 @@ public class Products implements java.io.Serializable {
 		this.status = status;
 		this.banReason = banReason;
 		this.isLocked = isLocked;
-		this.cartses = cartses;
 		this.imageses = imageses;
 		this.commentses = commentses;
 		this.tagProductses = tagProductses;
+		this.cartProducts = cartProducts;
 		this.transactionses = transactionses;
 	}
 
@@ -356,15 +356,6 @@ public class Products implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
-	public Set<Carts> getCartses() {
-		return this.cartses;
-	}
-
-	public void setCartses(Set<Carts> cartses) {
-		this.cartses = cartses;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
 	public Set<Images> getImageses() {
 		return this.imageses;
 	}
@@ -389,6 +380,15 @@ public class Products implements java.io.Serializable {
 
 	public void setTagProductses(Set<TagProducts> tagProductses) {
 		this.tagProductses = tagProductses;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
+	public Set<CartProduct> getCartProducts() {
+		return this.cartProducts;
+	}
+
+	public void setCartProducts(Set<CartProduct> cartProducts) {
+		this.cartProducts = cartProducts;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")

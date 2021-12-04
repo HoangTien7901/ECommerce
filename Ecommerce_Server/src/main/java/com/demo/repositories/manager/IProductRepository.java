@@ -16,8 +16,20 @@ public interface IProductRepository extends CrudRepository<Products, Integer> {
 	@Query("select new com.demo.models.ProductInfo(id, branchs.id, branchs.name, categories.id, categories.name, stores.id, stores.name, name, avatar, description, descriptionDetail, originalPrice, saleOffPercent, price, quantity, inventory, created, updated, isOutstanding, isBestSelling, isNew, discountPercent, discountAmount, ratingCount, ratingAverage, status, banReason, isLocked) from Products ")
 	public Iterable<ProductInfo> findAllInfo();
 	
+	@Query("select new com.demo.models.ProductInfo(id, branchs.id, branchs.name, categories.id, categories.name, stores.id, stores.name, name, avatar, description, descriptionDetail, originalPrice, saleOffPercent, price, quantity, inventory, created, updated, isOutstanding, isBestSelling, isNew, discountPercent, discountAmount, ratingCount, ratingAverage, status, banReason, isLocked) from Products where status = 1 and isBestSelling = 0 and isOutstanding = 0")
+	public Iterable<ProductInfo> findAllInfoActive();
+	
+	@Query("select new com.demo.models.ProductInfo(id, branchs.id, branchs.name, categories.id, categories.name, stores.id, stores.name, name, avatar, description, descriptionDetail, originalPrice, saleOffPercent, price, quantity, inventory, created, updated, isOutstanding, isBestSelling, isNew, discountPercent, discountAmount, ratingCount, ratingAverage, status, banReason, isLocked) from Products where isBestSelling = 1 and status = 1")
+	public Iterable<ProductInfo> findBestSellingProducts();
+	
+	@Query("select new com.demo.models.ProductInfo(id, branchs.id, branchs.name, categories.id, categories.name, stores.id, stores.name, name, avatar, description, descriptionDetail, originalPrice, saleOffPercent, price, quantity, inventory, created, updated, isOutstanding, isBestSelling, isNew, discountPercent, discountAmount, ratingCount, ratingAverage, status, banReason, isLocked) from Products where isOutstanding = 1 and status = 1")
+	public Iterable<ProductInfo> findOutStandingProducts();
+	
 	@Query("select new com.demo.models.ProductInfo(id, branchs.id, branchs.name, categories.id, categories.name, stores.id, stores.name, name, avatar, description, descriptionDetail, originalPrice, saleOffPercent, price, quantity, inventory, created, updated, isOutstanding, isBestSelling, isNew, discountPercent, discountAmount, ratingCount, ratingAverage, status, banReason, isLocked) from Products where id = :id")
 	public ProductInfo findInfoById(@Param("id") int id);
+	
+	@Query("select price from Products where id = :id")
+	public double getPriceById(@Param("id") int id);
 	
 	@Modifying
 	@Transactional

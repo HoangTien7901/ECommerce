@@ -19,24 +19,29 @@ public class System implements java.io.Serializable {
 	private String title;
 	private int bannerImgAmount;
 	private int maxBannerPhotoSize;
-	private int storeLifetime;
 	private String defaultBanEmailContent;
 	private String defaultBanEmailSubject;
+	private String defaultPasswordEmailContent;
+	private String defaultPasswordEmailSubject;
 	private String paypalAccount;
 	private String email;
 	private String emailPassword;
 
 	public System() {
 	}
-
-	public System(String title, int bannerImgAmount, int maxBannerPhotoSize, int storeLifetime, String defaultBanEmailContent,
-			String defaultBanEmailSubject, String paypalAccount, String email, String emailPassword) {
+	
+	public System(Integer id, String title, int bannerImgAmount, int maxBannerPhotoSize, 
+			String defaultBanEmailContent, String defaultBanEmailSubject, String defaultPasswordEmailContent,
+			String defaultPasswordEmailSubject, String paypalAccount, String email, String emailPassword) {
+		super();
+		this.id = id;
 		this.title = title;
 		this.bannerImgAmount = bannerImgAmount;
 		this.maxBannerPhotoSize = maxBannerPhotoSize;
-		this.storeLifetime = storeLifetime;
 		this.defaultBanEmailContent = defaultBanEmailContent;
 		this.defaultBanEmailSubject = defaultBanEmailSubject;
+		this.defaultPasswordEmailContent = defaultPasswordEmailContent;
+		this.defaultPasswordEmailSubject = defaultPasswordEmailSubject;
 		this.paypalAccount = paypalAccount;
 		this.email = email;
 		this.emailPassword = emailPassword;
@@ -81,15 +86,6 @@ public class System implements java.io.Serializable {
 		this.maxBannerPhotoSize = maxBannerPhotoSize;
 	}
 
-	@Column(name = "store_lifetime", nullable = false)
-	public int getStoreLifetime() {
-		return this.storeLifetime;
-	}
-
-	public void setStoreLifetime(int storeLifetime) {
-		this.storeLifetime = storeLifetime;
-	}
-
 	@Column(name = "default_ban_email_content", nullable = false, length = 65535)
 	public String getDefaultBanEmailContent() {
 		return this.defaultBanEmailContent;
@@ -106,6 +102,24 @@ public class System implements java.io.Serializable {
 
 	public void setDefaultBanEmailSubject(String defaultBanEmailSubject) {
 		this.defaultBanEmailSubject = defaultBanEmailSubject;
+	}
+	// =======================
+	@Column(name = "default_password_email_content", nullable = false, length = 65535)
+	public String getDefaultPasswordEmailContent() {
+		return this.defaultPasswordEmailContent;
+	}
+
+	public void setDefaultPasswordEmailContent(String defaultPasswordEmailContent) {
+		this.defaultPasswordEmailContent = defaultPasswordEmailContent;
+	}
+
+	@Column(name = "default_password_email_subject", nullable = false, length = 200)
+	public String getDefaultPasswordEmailSubject() {
+		return this.defaultPasswordEmailSubject;
+	}
+
+	public void setDefaultPasswordEmailSubject(String defaultPasswordEmailSubject) {
+		this.defaultPasswordEmailSubject = defaultPasswordEmailSubject;
 	}
 
 	@Column(name = "paypal_account", nullable = false, length = 100)

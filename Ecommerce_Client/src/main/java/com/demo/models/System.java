@@ -27,16 +27,20 @@ public class System {
 	private int maxBannerPhotoSize;
 	
 	@NotNull
-	@Min(1)
-	private int storeLifetime;
-	
-	@NotNull
 	@Length(min = 10, max = 500)
 	private String defaultBanEmailContent;
 	
 	@NotNull
 	@Length(min = 10, max = 100)
 	private String defaultBanEmailSubject;
+	
+	@NotNull
+	@Length(min = 10, max = 500)
+	private String defaultPasswordEmailContent;
+	
+	@NotNull
+	@Length(min = 10, max = 100)
+	private String defaultPasswordEmailSubject;
 	
 	@NotNull
 	@Length(min = 5, max = 20)
@@ -52,17 +56,35 @@ public class System {
 	public System() {
 	}
 
-	public System(String title, int bannerImgAmount, int maxFileSize,int storeLifetime, String defaultBanEmailContent,
-			String defaultBanEmailSubject, String paypalAccount, String email, String emailPassword) {
+	public System(String title, int bannerImgAmount, int maxFileSize, String defaultBanEmailContent,
+			String defaultBanEmailSubject, String defaultPasswordEmailContent,
+			String defaultPasswordEmailSubject,String paypalAccount, String email, String emailPassword) {
 		this.title = title;
 		this.bannerImgAmount = bannerImgAmount;
 		this.maxBannerPhotoSize = maxFileSize;
-		this.storeLifetime = storeLifetime;
 		this.defaultBanEmailContent = defaultBanEmailContent;
 		this.defaultBanEmailSubject = defaultBanEmailSubject;
+		this.defaultPasswordEmailContent = defaultPasswordEmailContent;
+		this.defaultPasswordEmailSubject = defaultPasswordEmailSubject;
 		this.paypalAccount = paypalAccount;
 		this.email = email;
 		this.emailPassword = emailPassword;
+	}
+
+	public String getDefaultPasswordEmailContent() {
+		return defaultPasswordEmailContent;
+	}
+
+	public void setDefaultPasswordEmailContent(String defaultPasswordEmailContent) {
+		this.defaultPasswordEmailContent = defaultPasswordEmailContent;
+	}
+
+	public String getDefaultPasswordEmailSubject() {
+		return defaultPasswordEmailSubject;
+	}
+
+	public void setDefaultPasswordEmailSubject(String defaultPasswordEmailSubject) {
+		this.defaultPasswordEmailSubject = defaultPasswordEmailSubject;
 	}
 
 	public Integer getId() {
@@ -95,14 +117,6 @@ public class System {
 
 	public void setMaxBannerPhotoSize(int maxFileSize) {
 		this.maxBannerPhotoSize = maxFileSize;
-	}
-
-	public int getStoreLifetime() {
-		return this.storeLifetime;
-	}
-
-	public void setStoreLifetime(int storeLifetime) {
-		this.storeLifetime = storeLifetime;
 	}
 
 	public String getDefaultBanEmailContent() {

@@ -97,44 +97,54 @@
                     <div class="tab-pane active show fade" id="electro1"
 							role="tabpanel">
                         <div class="custom-row-2">
-                            <div class="custom-col-style-2 custom-col-4">
+                        	<c:forEach var="item" items="${outstandings }">
+                        	<div class="custom-col-style-2 custom-col-4">
                                 <div
-										class="product-wrapper product-border mb-24">
+											class="product-wrapper product-border mb-24">
                                     <div class="product-img-3">
-                                        <a href="product-details.html">
+                                        <a
+													href="${pageContext.request.contextPath }/user/product/details/${item.id }">
                                             <img
-												src="${pageContext.request.contextPath }/resources/user/img/product/electro/1.jpg"
-												alt="">
+													src="${pageContext.request.contextPath }/uploads/images/${item.avatar }"
+													alt="Product's avatar">
                                         </a>
                                         <div
-												class="product-action-right">
-                                            <a class="animate-right"
-													href="#" data-target="#exampleModal" data-toggle="modal"
-													title="Quick View">
+													class="product-action-right">
+                                            <a class="animate-right modal-opener"
+														data-target="#productDetailsModal"
+														title="Quick View" data-id="${item.id }">
                                                 <i class="pe-7s-look"></i>
                                             </a>
-                                            <a class="animate-top"
-													title="Add To Cart" href="#">
+                                            <a class="animate-top product-to-cart"
+														title="Add To Cart" data-id="${item.id }">
                                                 <i class="pe-7s-cart"></i>
                                             </a>
                                         </div>
                                     </div>
                                     <div
-											class="product-content-4 text-center">
+												class="product-content-4 text-center">
                                         <div class="product-rating-4">
-                                            <i
-													class="icofont icofont-star yellow"></i>
-                                            <i
-													class="icofont icofont-star"></i>
+                                        	<c:forEach begin="1"
+														end="${item.ratingAverage * 10 / 10}">
+                                        		<i
+															class="icofont icofont-star yellow"></i>
+                                        	</c:forEach>
+                                        	<c:forEach begin="1"
+														end="${5 - (item.ratingAverage * 10 / 10)}">
+                                        		<i
+															class="icofont icofont-star"></i>
+                                        	</c:forEach>
                                         </div>
                                         <h4>
-												<a href="product-details.html">First Air Headphone Black</a>
+												<a
+														href="${pageContext.request.contextPath }/user/product/details/${item.id }">${item.name }</a>
 											</h4>
-                                        <span>Headphone</span>
-                                        <h5>$133.00</h5>
+                                        <span>${item.categoryName }</span>
+                                        <h5>${item.price }</h5>
                                     </div>
                                 </div>
                             </div>
+                        	</c:forEach>
                         </div>
                     </div>
                 </div>
@@ -151,44 +161,51 @@
                     <div class="best-selling-right">
                         <div class="custom-container">
                             <div class="coustom-row-3">
+                            	<c:forEach var="item" items="${bestSells }">
                                 <div
-										class="custom-col-style-3 custom-col-3">
+											class="custom-col-style-3 custom-col-3">
                                     <div class="product-wrapper mb-6">
                                         <div class="product-img-4">
                                             <a href="#">
                                                 <img
-													src="${pageContext.request.contextPath }/resources/user/img/product/electro/10.jpg"
-													alt="">
+														src="${pageContext.request.contextPath }/uploads/images/${item.avatar }"
+														alt="">
                                             </a>
                                             <div
-													class="product-action-right">
-													 <a class="animate-right" href="#"
-														data-target="#exampleModal" data-toggle="modal"
-														title="Quick View">
+														class="product-action-right">
+													 <a class="animate-right modal-opener"
+															data-target="#productDetailsModal" data-toggle="modal"
+															data-id="${item.id }" title="Quick View">
                                                 <i class="pe-7s-look"></i>
                                             </a>
-                                                <a class="animate-top"
-														title="Add To Cart" href="#">
+                                                <a class="animate-top product-to-cart"
+															title="Add To Cart" data-id="${item.id }">
                                                     <i
-														class="pe-7s-cart"></i>
+															class="pe-7s-cart"></i>
                                                 </a>
                                             </div>
                                         </div>
                                         <div class="product-content-6">
                                             <div
-													class="product-rating-4">
-                                                <i
-														class="icofont icofont-star yellow"></i>
-                                                <i
-														class="icofont icofont-star"></i>
+														class="product-rating-4">
+												<c:forEach begin="1" end="${item.ratingAverage * 10 / 10}">
+                                        		<i
+																class="icofont icofont-star yellow"></i>
+                                        	</c:forEach>
+                                        	<c:forEach begin="1"
+															end="${5 - (item.ratingAverage * 10 / 10)}">
+                                        		<i
+																class="icofont icofont-star"></i>
+                                        	</c:forEach>
                                             </div>
                                             <h4>
-													<a href="product-details.html">Play Station</a>
+													<a href="product-details.html">${item.name }</a>
 												</h4>
-                                            <h5>$145.00</h5>
+                                            <h5>${item.price }</h5>
                                         </div>
                                     </div>
                                 </div>
+                            	</c:forEach>
                             </div>
                         </div>
                     </div>
@@ -199,38 +216,50 @@
     <div class="product-area-2 wrapper-padding pb-70">
         <div class="container-fluid">
             <div class="row">
+            	<c:forEach var="item" items="${items }">
                 <div class="col-lg-6 col-xl-4">
                     <div
-							class="product-wrapper product-wrapper-border mb-30">
+								class="product-wrapper product-wrapper-border mb-30">
                         <div class="product-img-5">
-                            <a href="#">
-                                <img
-									src="${pageContext.request.contextPath }/resources/user/img/product/electro/16.jpg"
-									alt="">
-                            </a>
+                             <a
+										href="${pageContext.request.contextPath }/user/product/details/${item.id }">
+                                            <img
+										src="${pageContext.request.contextPath }/uploads/images/${item.avatar }"
+										alt="Product's avatar">
+                                        </a>
                         </div>
                         <div class="product-content-7">
                             <h4>
-									<a href="#">Autel Robotics - X-Star Premium Quadcopter</a>
+									<a href="${pageContext.request.contextPath }/user/product/details/${item.id }">
+									${item.name }</a>
 								</h4>
                             <div class="product-rating-4">
-                                <i class="icofont icofont-star yellow"></i>
-                                <i class="icofont icofont-star"></i>
+                                <c:forEach begin="1"
+														end="${item.ratingAverage * 10 / 10}">
+                                        		<i
+															class="icofont icofont-star yellow"></i>
+                                        	</c:forEach>
+                                        	<c:forEach begin="1"
+														end="${5 - (item.ratingAverage * 10 / 10)}">
+                                        		<i
+															class="icofont icofont-star"></i>
+                                        	</c:forEach>
                             </div>
-                            <h5>$499.00</h5>
+                            <h5>$${item.price }</h5>
                             <div class="product-action-electro">
-                                <a class="animate-top"
-										title="Add To Cart" href="#">
+                               	<a class="animate-top .product-to-cart"
+									title="Add To Cart" data-id="${item.id }">
                                     <i class="pe-7s-cart"></i>
-                                </a>
+								</a>
                                 <a class="animate-right" title="Compare"
-										data-toggle="modal" data-target="#exampleCompare" href="#">
+											data-toggle="modal" data-target="#exampleCompare" href="#">
                                     <i class="pe-7s-repeat"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
+            	</c:forEach>
             </div>
         </div>
     </div>
@@ -248,50 +277,62 @@
     </div>
     
      <!-- modal -->
-    <div class="modal fade" id="exampleCompare" tabindex="-1" role="dialog" aria-hidden="true">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div class="modal fade" id="exampleCompare" tabindex="-1"
+			role="dialog" aria-hidden="true">
+        <button type="button" class="close" data-dismiss="modal"
+				aria-label="Close">
             <span class="pe-7s-close" aria-hidden="true"></span>
         </button>
         <div class="modal-dialog modal-compare-width" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <form action="#">
-                        <div class="table-content compare-style table-responsive">
+                        <div
+								class="table-content compare-style table-responsive">
                             <table>
                                 <thead>
                                     <tr>
                                         <th></th>
                                         <th>
                                             <a href="#">Remove <span>x</span></a>
-                                            <img src="${pageContext.request.contextPath }/resources/user/img/cart/4.jpg" alt="">
+                                            <img
+												src="${pageContext.request.contextPath }/resources/user/img/cart/4.jpg"
+												alt="">
                                             <p>Blush Sequin Top </p>
                                             <span>$75.99</span>
-                                            <a class="compare-btn" href="#">Add to cart</a>
+                                            <a class="compare-btn"
+												href="#">Add to cart</a>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td class="compare-title">
-                                            <h4>Description </h4></td>
-                                        <td class="compare-dec compare-common">
+                                            <h4>Description </h4>
+											</td>
+                                        <td
+												class="compare-dec compare-common">
                                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has beenin the stand ard dummy text ever since the 1500s, when an unknown printer took a galley</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="compare-title">
-                                            <h4>Availability  </h4></td>
-                                        <td class="compare-stock compare-common">
+                                            <h4>Availability  </h4>
+											</td>
+                                        <td
+												class="compare-stock compare-common">
                                             <p>In stock</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="compare-title">
-                                            <h4>brand   </h4></td>
+                                            <h4>brand   </h4>
+											</td>
                                     </tr>
                                     <tr>
                                         <td class="compare-title"></td>
-                                        <td class="compare-price compare-common">
+                                        <td
+												class="compare-price compare-common">
                                             <p>$75.99 </p>
                                         </td>
                                     </tr>
@@ -303,8 +344,10 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div class="modal fade" id="productDetailsModal" tabindex="-1"
+			role="dialog" aria-hidden="true">
+        <button type="button" class="close" data-dismiss="modal"
+				aria-label="Close">
             <span class="pe-7s-close" aria-hidden="true"></span>
         </button>
         <div class="modal-dialog modal-quickview-width" role="document">
@@ -312,49 +355,38 @@
                 <div class="modal-body">
                     <div class="qwick-view-left">
                         <div class="quick-view-learg-img">
-                            <div class="quick-view-tab-content tab-content">
-                                <div class="tab-pane active show fade" id="modal1" role="tabpanel">
-                                    <img src="${pageContext.request.contextPath }/resources/user/img/quick-view/l1.jpg" alt="">
-                                </div>
-                                <div class="tab-pane fade" id="modal2" role="tabpanel">
-                                    <img src="${pageContext.request.contextPath }/resources/user/img/quick-view/l2.jpg" alt="">
-                                </div>
-                                <div class="tab-pane fade" id="modal3" role="tabpanel">
-                                    <img src="${pageContext.request.contextPath }/resources/user/img/quick-view/l3.jpg" alt="">
+                            <div
+									class="quick-view-tab-content tab-content">
+                                <div class="tab-pane active show fade"
+										id="modal1" role="tabpanel">
+                                    <img id="productDetailsImg"
+											src="#"
+											alt="">
                                 </div>
                             </div>
-                        </div>
-                        <div class="quick-view-list nav" role="tablist">
-                            <a class="active" href="#modal1" data-toggle="tab" role="tab">
-                                <img src="${pageContext.request.contextPath }/resources/user/img/quick-view/s1.jpg" alt="">
-                            </a>
-                            <a href="#modal2" data-toggle="tab" role="tab">
-                                <img src="${pageContext.request.contextPath }/resources/user/img/quick-view/s2.jpg" alt="">
-                            </a>
-                            <a href="#modal3" data-toggle="tab" role="tab">
-                                <img src="${pageContext.request.contextPath }/resources/user/img/quick-view/s3.jpg" alt="">
-                            </a>
                         </div>
                     </div>
                     <div class="qwick-view-right">
                         <div class="qwick-view-content">
-                            <h3>Handcrafted Supper Mug</h3>
+                            <h3 id="productDetailsName"></h3>
                             <div class="price">
-                                <span class="new">$90.00</span>
-                                <span class="old">$120.00  </span>
+                                <span class="new" id="productDetailsOriginalPrice"></span>
+                                <span class="old" id="productDetailsPrice"></span>
                             </div>
                             <div class="rating-number">
                                 <div class="quick-view-rating">
-                                    <i class="pe-7s-star"></i>
+                                	<span id="productDetailsRatingResult"></span>
                                 </div>
                                 <div class="quick-view-number">
-                                    <span>2 Ratting (S)</span>
+                                    <span id="productDetailsRatingCount"></span>
                                 </div>
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do tempor incididun ut labore et dolore magna aliqua. Ut enim ad mi , quis nostrud veniam exercitation .</p>
+                            <p id="productDetailsDescription"></p>
+                            <p id="productDetailsDescriptionDetails"></p>
                             <div class="quickview-plus-minus">
                                 <div class="cart-plus-minus">
-                                    <input type="text" value="02" name="qtybutton" class="cart-plus-minus-box">
+                                    <input type="text" value="02"
+											name="qtybutton" class="cart-plus-minus-box">
                                 </div>
                                 <div class="quickview-btn-cart">
                                     <a class="btn-hover-black" href="#">add to cart</a>
@@ -366,6 +398,8 @@
             </div>
         </div>
     </div>
+    
+    
     
 	</jsp:attribute>
 </mt:usertemplate>

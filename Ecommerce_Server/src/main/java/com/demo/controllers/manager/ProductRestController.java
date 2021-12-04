@@ -14,7 +14,7 @@ import com.demo.models.ProductInfo;
 import com.demo.services.manager.IProductService;
 
 @RestController
-@RequestMapping("api/manager/product")
+@RequestMapping(value = {"api/manager/product", "api/product"})
 public class ProductRestController {
 	
 	@Autowired
@@ -24,6 +24,33 @@ public class ProductRestController {
 	public ResponseEntity<Iterable<ProductInfo>> findAllInfo() {
 		try {
 			return new ResponseEntity<Iterable<ProductInfo>>(productService.findAllInfo(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Iterable<ProductInfo>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "findAllActive", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Iterable<ProductInfo>> findAllInfoActive() {
+		try {
+			return new ResponseEntity<Iterable<ProductInfo>>(productService.findAllActive(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Iterable<ProductInfo>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "findBestSelling", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Iterable<ProductInfo>> findBestSellingProducts() {
+		try {
+			return new ResponseEntity<Iterable<ProductInfo>>(productService.findBestSellingProducts(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Iterable<ProductInfo>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "findOutStanding", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Iterable<ProductInfo>> findOutStandingProducts() {
+		try {
+			return new ResponseEntity<Iterable<ProductInfo>>(productService.findOutStandingProducts(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Iterable<ProductInfo>>(HttpStatus.BAD_REQUEST);
 		}

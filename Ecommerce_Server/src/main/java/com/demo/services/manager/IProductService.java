@@ -7,6 +7,12 @@ public interface IProductService {
 
 	public Iterable<ProductInfo> findAllInfo();
 	
+	public Iterable<ProductInfo> findAllActive();
+	
+	public Iterable<ProductInfo> findBestSellingProducts();
+	
+	public Iterable<ProductInfo> findOutStandingProducts();
+	
 	public ProductInfo findInfoById(int id);
 	
 	public Products findById(int id);

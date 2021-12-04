@@ -35,7 +35,7 @@ import com.demo.services.manager.IStoreService;
 import com.demo.services.manager.ISystemService;
 
 @Controller
-@RequestMapping("manager/product")
+@RequestMapping(value = {"manager/product" })
 public class ProductController implements ServletContextAware {
 
 	private ServletContext servletContext;

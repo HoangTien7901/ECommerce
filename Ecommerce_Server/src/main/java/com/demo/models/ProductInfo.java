@@ -367,6 +367,14 @@ public class ProductInfo {
 		this.isLocked = isLocked;
 	}
 	
+	public ProductInfo(int id, String name, String avatar, double price, int quantity) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.avatar = avatar;
+		this.price = price;
+		this.quantity = quantity;
+	}
 
 	public ProductInfo() {
 		super();

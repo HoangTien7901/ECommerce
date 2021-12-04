@@ -62,11 +62,6 @@
 										</div>
 
 										<div class="form-group">
-											<s:hidden path="storeLifetime"/>
-											<s:errors path="storeLifetime" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
-										</div>
-										
-										<div class="form-group">
 											<s:label path="defaultBanEmailSubject">Default ban email subject</s:label>
 											<s:input cssClass="form-control" path="defaultBanEmailSubject"/>
 											<s:errors path="defaultBanEmailSubject" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>

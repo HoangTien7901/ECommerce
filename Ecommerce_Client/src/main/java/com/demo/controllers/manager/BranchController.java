@@ -91,7 +91,7 @@ public class BranchController implements ServletContextAware {
 			}
 			
 			ResponseEntity<Void> response2 = branchService.update(object);
-			if (response2 != null && response2.getStatusCode() == HttpStatus.OK) {
+			if (!(response2 == null || response2.getStatusCode() != HttpStatus.OK)) {
 				redirectAttr.addFlashAttribute("msg", "Update success!");
 				redirectAttr.addFlashAttribute("msgType", "success");
 			} else {

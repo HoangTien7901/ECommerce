@@ -235,5 +235,3 @@
 		src="${pageContext.request.contextPath }/resources/manager/custom/toastr.js"></script>
 </body>
 </html>
-
-

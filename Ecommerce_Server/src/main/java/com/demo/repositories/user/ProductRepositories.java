@@ -27,10 +27,6 @@ public interface ProductRepositories extends CrudRepository<Products, Integer> {
 	@Query("select new com.demo.models.ProductInfo(id, branchs.id, categories.id, stores.id, name, avatar, description, descriptionDetail, originalPrice, saleOffPercent, price, quantity, inventory, created, updated, isOutstanding, isBestSelling, isNew, discountPercent, discountAmount, ratingCount, ratingAverage, status, banReason, isLocked) from Products where saleOffPercent > 30")
 	public List<ProductInfo> bestSell();
 	
-	//search by tag
-	@Query("select new com.demo.models.ProductInfo(id, branchs.id, categories.id, stores.id, name, avatar, description, descriptionDetail, originalPrice, saleOffPercent, price, quantity, inventory, created, updated, isOutstanding, isBestSelling, isNew, discountPercent, discountAmount, ratingCount, ratingAverage, status, banReason, isLocked) from Products where id = :id ")
-	public List<ProductInfo> findTag();
-	
 //	//search by price
 //	@Query("select new com.demo.models.ProductInfo(id, branchs.id, categories.id, stores.id, name, avatar, description, descriptionDetail, originalPrice, price, quantity, inventory, created, updated, isOutstanding, isBestSelling, isNew, discountPercent, discountAmount, ratingCount, ratingAverage, status ) from Products where name like %:keyword%  ")
 //	public List<ProductInfo> findPrice();

@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.jasper.tagplugins.jstl.core.If;
@@ -49,9 +51,21 @@ public class AccountController {
 		return "user/account/login";
 	}
 	
+	@RequestMapping(value = {"logout" }, method = RequestMethod.GET)
+	public String logout(ModelMap modelMap, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		
+		// delete cart on logout here
+		
+		session.invalidate();
+		
+		return "redirect:/user/home/index";
+	}
+	
 	@RequestMapping(value = {"login" }, method = RequestMethod.POST)
 	public String login(@RequestParam("username") String username, @RequestParam("password") String password, 
-			RedirectAttributes redirectAttr, ModelMap modelMap) {
+			RedirectAttributes redirectAttr, ModelMap modelMap, HttpServletRequest request) {
+		HttpSession session = request.getSession();
 		
 		ResponseEntity<UserInfo> responseEntity = service.findInfoByUsername(username);
 		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
@@ -59,6 +73,11 @@ public class AccountController {
 			UserInfo user = responseEntity.getBody();
 			
 			if (BCrypt.checkpw(password, user.getPassword())) {
+				session.setAttribute("id", user.getId());
+				session.setAttribute("userId", user.getId());
+				session.setAttribute("username", user.getUsername());
+				session.setAttribute("roleId", user.getRoleId());
+				
 				redirectAttr.addFlashAttribute("msg", "Login success!");
 				redirectAttr.addFlashAttribute("msgType", "success");
 				

@@ -1,7 +1,7 @@
 <%@ tag language="java" pageEncoding="ISO-8859-1"%>
 <%@ attribute name="title" required="true" rtexprvalue="true"%>
 <%@ attribute name="content" fragment="true"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!doctype html>
 <html class="no-js" lang="en">
@@ -65,8 +65,14 @@
 				</div>
 				<div class="electronics-login-register">
 					<ul>
-						<li><a href="${pageContext.request.contextPath }/user/account/login"><i class="fas fa-sign-in-alt"></i>LOGIN</a></li>
-						<li><a href="${pageContext.request.contextPath }/user/account/register"><i class="fas fa-user-plus"></i>REGISTER</a></li>
+						<c:if test="${username == null}" >
+							<li><a href="${pageContext.request.contextPath }/user/account/login"><i class="fas fa-sign-in-alt"></i>Login</a></li>
+							<li><a href="${pageContext.request.contextPath }/user/account/register"><i class="fas fa-user-plus"></i>Register</a></li>
+						</c:if>
+						<c:if test="${username != null}" >
+							<li><a href="${pageContext.request.contextPath }/user/account/profile"><i class="pe-7s-users"></i>Hello ${username }</a></li>
+							<li><a href="${pageContext.request.contextPath }/user/account/logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+						</c:if>
 						<li><a data-toggle="modal" data-target="#exampleCompare"
 							href="#"><i class="pe-7s-repeat"></i>Compare</a></li>
 					</ul>
@@ -76,7 +82,7 @@
 		<div class="header-bottom pt-40 pb-30 clearfix">
 			<div class="header-bottom-wrapper pr-200 pl-200">
 				<div class="logo-3">
-					<a href="index.html"> <img
+					<a href="${pageContext.request.contextPath }/user/home/index"> <img
 						src="${pageContext.request.contextPath }/resources/user/img/logo/logo-3.png"
 						alt="">
 					</a>
@@ -109,7 +115,12 @@
 							<a href="#"><i class="pe-7s-cart"></i></a>
 						</div>
 						<div class="same-style-text">
-							<a href="cart.html">My Cart</a>
+							<c:if test="${username != null}" >
+								<a href="${pageContext.request.contextPath }/user/cart/index">My Cart<br><span id="productInCartAmount">${productInCartAmount }</span> item(s)</a>
+							</c:if>
+							<c:if test="${username == null}" >
+								<a href="${pageContext.request.contextPath }/user/account/login">My Cart</a>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -303,6 +314,188 @@
 	<script
 		src="${pageContext.request.contextPath }/resources/user/js/main.js"></script>
 
+	<!-- Toastr -->
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/plugins/toastr/toastr.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath }/resources/manager/custom/toastr.js"></script>
+	
+	<!-- jquery-validation -->
+	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery-validation/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery-validation/additional-methods.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+	    	$.validator.setDefaults({
+			    submitHandler: function () {
+			    	$('#formLogin')[0].submit();
+			    }
+			  });
+			
+	    	$('#formLogin').validate({
+			    rules: {
+			      username: {
+			        required: true,
+			      },
+			      password: {
+			    	 required: true,
+			      }
+			    },
+			    errorElement: 'span',
+			    errorPlacement: function (error, element) {
+			      error.addClass('invalid-feedback');
+			      element.closest('.form-group').append(error);
+			    },
+			    highlight: function (element, errorClass, validClass) {
+			      $(element).addClass('is-invalid');
+			    },
+			    unhighlight: function (element, errorClass, validClass) {
+			      $(element).removeClass('is-invalid');
+			    }
+			  });
+		});
+	</script>
+	
+	 <!-- product modal in home page -->
+	<script>
+    	$(document).ready(function() {
+    		$(".modal-opener").on('click', function(event){
+    		    event.stopPropagation();
+    		    event.stopImmediatePropagation();
+    		    
+    		    var id = $(this).data('id');
+    		    var target = $(this).data('target');
+    		    
+    		    $.ajax({
+		    		type: 'GET',
+					url: '${pageContext.request.contextPath }/user/product/findInfoById/' + id,
+					success: function(product) {
+						$("#productDetailsImg").attr("src","${pageContext.request.contextPath }/uploads/images/" + product.avatar); 
+						$("#productDetailsName").html(product.name);
+						$("#productDetailsRatingCount").html(product.ratingCount + " review(s)");
+						$("#productDetailsDescription").html(product.description);
+						
+						var ratingStars = "";
+						for (let i = 1; i <= (product.ratingAverage * 10 / 10); i++) {
+							ratingStars += '<i class="pe-7s-star"></i>';
+						}
+						
+						$("#productDetailsRatingResult").html(ratingStars);
+						$("#productDetailsDescriptionDetails").html(product.descriptionDetail);
+					},
+					complete: function() {
+						$(target).modal('show');
+					}
+		    	})
+    		});
+    	})
+    </script>
+	
+    <!-- change product amount in cart page -->
+	<script>
+    	$(document).ready(function() {
+    		$(".product-quantity-input").on('change', function(event){
+    		    event.stopPropagation();
+    		    event.stopImmediatePropagation();
+    		    
+    		    var id = $(this).data('id');
+    		    var value = $(this).val();
+
+    		    $.ajax({
+		    		type: 'GET',
+					url: '${pageContext.request.contextPath }/user/cart/updateQuantity/' + id + '/' + value,
+					success: function(data, textStatus, jqXHR) {
+						var total = 0;
+						
+						data.forEach(function(product) {
+							var id = product.productId;
+							var subtotal = $("#price" + id).text() * $("#quantity" + id).val();
+							$("#subtotal" + id).html(subtotal);
+							total += subtotal;
+						})
+
+						$("#cart-total").html(total);
+					},
+					error: function(jqXHR, textStatus, errorThrown ) {
+						toastr.error("An error occurs: " + textStatus);
+					}
+		    	})
+    		});
+    	})
+    </script>
+    
+    <!-- add product to cart in home page -->
+	<script>
+    	$(document).ready(function() {
+    		$(".product-to-cart").on('click', function(event){
+    		    event.stopPropagation();
+    		    event.stopImmediatePropagation();
+    		    
+    		    var id = $(this).data('id');
+    		   
+    		    $.ajax({
+		    		type: 'GET',
+					url: '${pageContext.request.contextPath }/user/home/addProduct/' + id + '/1',
+					success: function(data, textStatus, jqXHR) {
+						toastr.success("Product has been place in your cart.");
+						$("#productInCartAmount").html(data);
+					},
+					error: function(jqXHR, textStatus, errorThrown ) {
+						if (jqXHR.responseText === "NO_USER_EXCEPTION") {
+							window.location.replace('${pageContext.request.contextPath }/user/account/login');
+						} else {
+							toastr.options = {
+								"timeOut": 0
+							}
+							
+							toastr.error(textStatus + " - " + jqXHR.responseText);
+						}
+					}
+		    	})
+    		});
+    	})
+    </script>
+    
+    <!-- delete product in cart in cart page -->
+	<script>
+    	$(document).ready(function() {
+    		$(".remove-product-in-cart").on('click', function(event){
+    		    event.stopPropagation();
+    		    event.stopImmediatePropagation();
+    		    
+    		    var id = $(this).data('id');
+    		    
+    		    $.ajax({
+		    		type: 'GET',
+					url: '${pageContext.request.contextPath }/user/cart/delete/' + id,
+					success: function(data, textStatus, jqXHR) {
+						// hide deleted product
+						$('#product-in-cart-row-' + id).css('display', 'none');
+						
+						// change number of product in cart
+						$("#productInCartAmount").html(data.length);
+						
+						// change total
+						var total = 0;
+						data.forEach(function(product) {
+							total += product.price * product.quantity;							
+						});
+						
+						$("#cart-total").html(total);
+					},
+					error: function(jqXHR, textStatus, errorThrown ) {
+						toastr.options = {
+							"timeOut": 0
+						}
+							
+						toastr.error(textStatus + " - " + jqXHR.responseText);
+					}
+		    	})
+    		});
+    	})
+    </script>
+	
+	<!-- date picker in register page -->
 	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 	<script>
 		$(function() {
@@ -311,12 +504,6 @@
 			$("#birthday").datepicker( "setDate", "01/01/2001" );
 		});
 	</script>
-	
-	<!-- Toastr -->
-	<script
-		src="${pageContext.request.contextPath }/resources/manager/plugins/toastr/toastr.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath }/resources/manager/custom/toastr.js"></script>
 </body>
 
 </html>

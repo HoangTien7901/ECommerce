@@ -31,6 +31,22 @@ public class ProductService implements IProductService {
 	public Iterable<ProductInfo> findAllInfo() {
 		return repos.findAllInfo();
 	}
+	
+	@Override
+	public Iterable<ProductInfo> findAllActive() {
+		return repos.findAllInfoActive();
+	}
+
+	@Override
+	public Iterable<ProductInfo> findBestSellingProducts() {
+		// TODO Auto-generated method stub
+		return repos.findBestSellingProducts();
+	}
+
+	@Override
+	public Iterable<ProductInfo> findOutStandingProducts() {
+		return repos.findOutStandingProducts();
+	}
 
 	@Override
 	public ProductInfo findInfoById(int id) {
