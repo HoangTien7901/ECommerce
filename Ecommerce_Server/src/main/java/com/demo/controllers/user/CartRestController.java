@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.demo.constant.CartStatus;
 import com.demo.models.CartInfo;
 import com.demo.models.CartProductInfo;
+import com.demo.models.ImageInfo;
 import com.demo.models.TagInfo;
 import com.demo.models.UserInfo;
 import com.demo.services.user.ICartProductService;
@@ -56,16 +57,45 @@ public class CartRestController {
 			consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CartInfo> create(@RequestBody CartInfo object) {
 		try {
-			System.out.println("Server cart user id: " + object.getUserId());
-			
-			for (Integer productId : object.getProductIds()) {
-				System.out.println("Server cart product id: " + productId);
-			}
-			object.setStatus(CartStatus.pending);
 			return new ResponseEntity<CartInfo>(cartService.create(object), HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println("Server error create cart: " + e.getMessage());
 			return new ResponseEntity<CartInfo>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value= {"updateStatus/{id}"} , method = RequestMethod.PUT,
+			consumes = MimeTypeUtils.TEXT_PLAIN_VALUE)
+	public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody String status) {
+		try {
+			int result = cartService.updateStatus(id, status);
+			if (result == 0) {
+				throw new Exception("Update cart status: No rows affected");
+			}
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value= {"delete/{id}"} , method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable("id") int id) {
+		try {
+			cartService.delete(id);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value= {"deleteIfUnfinished/{cartId}"} , method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteIfUnfinished(@PathVariable("cartId") int cartId) {
+		try {
+			cartService.deleteIfUnfinshed(cartId);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }

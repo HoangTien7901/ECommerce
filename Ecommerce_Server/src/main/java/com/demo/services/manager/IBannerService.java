@@ -9,6 +9,8 @@ public interface IBannerService {
 	
 	public BannerInfo findInfoById(int id);
 	
+	public BannerInfo findInfoActive();
+	
 	public Banners findById(int id);
 	
 	public BannerInfo update(int id, BannerInfo banner);

@@ -17,4 +17,6 @@ public interface IProductService {
 	public ResponseEntity<Void> toggleStatus(int id);
 	
 	public ResponseEntity<Void> updateBanReason(int id, String banReason);
+
+	public ResponseEntity<ProductInfo> create(ProductInfo item);
 }

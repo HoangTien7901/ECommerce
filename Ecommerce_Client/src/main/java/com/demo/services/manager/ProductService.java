@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.demo.models.ProductInfo;
+import com.demo.models.TagInfo;
 
 @Service("manager/productService")
 public class ProductService implements IProductService {
@@ -36,6 +37,17 @@ public class ProductService implements IProductService {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return null;
+		}
+	}
+	
+	@Override
+	public ResponseEntity<ProductInfo> create(ProductInfo item) {
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			return restTemplate.postForEntity(BASE_URL + "create", item, ProductInfo.class);
+		} catch (Exception e) {
+			System.out.println("Create object error: " + e.getMessage());
+			return new ResponseEntity<ProductInfo>(HttpStatus.BAD_REQUEST);
 		}
 	}
 

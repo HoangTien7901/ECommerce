@@ -10,6 +10,10 @@ public interface ICartService {
 	
 	public ResponseEntity<CartInfo> create(CartInfo _object);
 	
+	public ResponseEntity<Void> updateStatus(int id, String status);
+	
 	public ResponseEntity<Void> delete(int id);
+	
+	public ResponseEntity<Void> deleteIfUnfinished(int id);
 	
 }

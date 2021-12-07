@@ -40,4 +40,15 @@ public class UserRestController {
 			return new ResponseEntity<UserInfo>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@RequestMapping(value= {"update/{id}"} , method = RequestMethod.PUT,
+			produces = MimeTypeUtils.APPLICATION_JSON_VALUE , 
+			consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserInfo> update(@PathVariable("id") int id, @RequestBody UserInfo object) {
+		try {
+			return new ResponseEntity<UserInfo>(userService.update(id, object), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<UserInfo>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }

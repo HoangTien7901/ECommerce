@@ -39,6 +39,9 @@
 										data-card-widget="maximize">
 											<i class="fas fa-expand"></i>
 										</button>
+										<a href="${pageContext.request.contextPath }/manager/product/add">
+											<button type="button" class="btn btn-primary">Add</button>
+										</a>
 									</div>
 								</div>
 
@@ -49,20 +52,19 @@
 											<tr>
 												<th>Id</th>
 												<th>Name</th>
-												<th title="Store's name">S. name</th>
 												<th title="Branch's name">B. name</th>
 												<th title="Category's name">C. name</th>
 												<th>Avatar</th>
+												<th>Price</th>
+												<th>Original price</th>
 												<th>Created</th>
 												<th>Updated</th>
 												<th>Outstanding</th>
 												<th>Best selling</th>
-												<th>New</th>
 												<th>Status</th>
 												<th>Action</th>
 												<th>Description</th>
 												<th title="Description details">D. details</th>
-												
 											</tr>
 										</thead>
 										<tbody>
@@ -70,7 +72,6 @@
 												<tr>
 													<td>${varStatus.getCount() }</td>
 													<td>${item.name }</td>
-													<td>${item.storeName }</td>
 													<td>${item.branchName }</td>
 													<td>${item.categoryName }</td>
 													<td>
@@ -82,6 +83,8 @@
 														class="img-fluid mb-2" alt="${item.name }'s avatar" width="150px" />
                       								</a>
 													</td>
+													<td>${item.price }</td>
+													<td>${item.originalPrice }</td>
 													<td>
 													<fmt:formatDate var="created" value="${item.created }"
 														pattern="dd/MM/yyyy" />
@@ -94,7 +97,6 @@
 													</td>
 													<td>${item.isOutstanding ? "True" : "False" }</td>
 													<td>${item.isBestSelling ? "True" : "False" }</td>
-													<td>${item.isNewProduct ? "True" : "False" }</td>
 													<td>${item.status ? "Enable" : "Disable" }</td>
 													<td>
 														<a
@@ -125,15 +127,15 @@
 											<tr>
 												<th>Id</th>
 												<th>Name</th>
-												<th title="Store's name">S. name</th>
 												<th title="Branch's name">B. name</th>
 												<th title="Category's name">C. name</th>
 												<th>Avatar</th>
+												<th>Price</th>
+												<th>Original price</th>
 												<th>Created</th>
 												<th>Updated</th>
 												<th>Outstanding</th>
 												<th>Best selling</th>
-												<th>New</th>
 												<th>Status</th>
 												<th>Action</th>
 												<th>Description</th>

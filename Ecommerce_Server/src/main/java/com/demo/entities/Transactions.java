@@ -130,7 +130,7 @@ public class Transactions implements java.io.Serializable {
 		this.quantity = quantity;
 	}
 
-	@Column(name = "tax", nullable = false, precision = 22, scale = 0)
+	@Column(name = "tax", precision = 22, scale = 0)
 	public double getTax() {
 		return this.tax;
 	}

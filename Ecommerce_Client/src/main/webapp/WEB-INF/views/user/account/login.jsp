@@ -19,7 +19,7 @@
                                 	<p>&nbsp;</p>
                                 <div class="login-form">
                                     <form id="formLogin" method="post"
-										action="${pageContext.request.contextPath }/user/account/login">
+										action="${pageContext.request.contextPath }/user/account/process-login">
                                     	<div class="form-group"> 
                                         <input type="text"
 												name="username" placeholder="Username">

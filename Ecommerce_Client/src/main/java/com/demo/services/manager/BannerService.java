@@ -39,7 +39,16 @@ public class BannerService implements IBannerService {
 		}
 	}
 
-	
+	@Override
+	public ResponseEntity<BannerInfo> findInfoActive() {
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			return restTemplate.getForEntity(BASE_URL + "findInfoActive", BannerInfo.class);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
 	
 	@Override
 	public ResponseEntity<BannerInfo> create(BannerInfo banner) {

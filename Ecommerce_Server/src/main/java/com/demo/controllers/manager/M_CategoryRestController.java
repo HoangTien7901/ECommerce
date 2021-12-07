@@ -39,6 +39,23 @@ public class M_CategoryRestController {
 		}
 	}
 	
+	@RequestMapping(value = "findAllForSelection", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Iterable<CategoryInfo>> findAllForSelection() {
+		try {
+			List<CategoryInfo> items = (List<CategoryInfo>) service.findAllForSelection();
+			
+			for (CategoryInfo item : items) {
+				if (item.getParentId() != null) {
+					item.setParentName(service.findInfoById(item.getParentId()).getName());
+				}
+			}
+			
+			return new ResponseEntity<Iterable<CategoryInfo>>(items, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Iterable<CategoryInfo>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@RequestMapping(value = "findAllExcept/{id}/{level}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Iterable<CategoryInfo>> findAllInfoExcept(@PathVariable("id") int id, @PathVariable("level") int level) {
 		try {
@@ -59,7 +76,7 @@ public class M_CategoryRestController {
 	@RequestMapping(value = "findAllActive", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Iterable<CategoryInfo>> findAllActiveInfo() {
 		try {
-			List<CategoryInfo> items = (List<CategoryInfo>) service.findAllActiveInfo();
+			List<CategoryInfo> items = (List<CategoryInfo>) service.findAllForSelection();
 			
 			for (CategoryInfo item : items) {
 				if (item.getParentId() != null) {

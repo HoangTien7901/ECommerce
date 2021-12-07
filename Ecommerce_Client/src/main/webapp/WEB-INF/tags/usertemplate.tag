@@ -9,12 +9,12 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>Electronics - eCommerce HTML5 Template</title>
+<title>${title }</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Favicon -->
 <link rel="shortcut icon" type="image/x-icon"
-	href="${pageContext.request.contextPath }/resources/user/img/favicon.png">
+	href="${pageContext.request.contextPath }/uploads/images/${store.logo }">
 
 <!-- Toastr -->
 <link rel="stylesheet"
@@ -50,6 +50,14 @@
 
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+	
+<!-- DataTables -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/manager/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/manager/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
 </head>
 
@@ -59,8 +67,8 @@
 			<div class="header-info-wrapper pl-200 pr-200">
 				<div class="header-contact-info">
 					<ul>
-						<li><i class="pe-7s-call"></i> +011 2231 4545</li>
-						<li><i class="pe-7s-mail"></i> <a href="#">company@domail.info</a></li>
+						<li><i class="pe-7s-call"></i> ${contact.phone }</li>
+						<li><i class="pe-7s-mail"></i> <a>${contact.email }</a></li>
 					</ul>
 				</div>
 				<div class="electronics-login-register">
@@ -70,11 +78,17 @@
 							<li><a href="${pageContext.request.contextPath }/user/account/register"><i class="fas fa-user-plus"></i>Register</a></li>
 						</c:if>
 						<c:if test="${username != null}" >
-							<li><a href="${pageContext.request.contextPath }/user/account/profile"><i class="pe-7s-users"></i>Hello ${username }</a></li>
+							<c:if test="${roleId != null}">
+								<c:if test="${roleId == 1 }">
+									<li><a href="${pageContext.request.contextPath }/user/account/profile" title="Profile"><i class="pe-7s-users"></i>Hello ${username }</a></li>
+								</c:if>
+								<c:if test="${roleId == 2 }">
+									<li><a href="${pageContext.request.contextPath }/manager/profile/index" title="Admin"><i class="pe-7s-users"></i>Hello ${username }</a></li>
+								</c:if>
+							</c:if>
+							<li><a href="${pageContext.request.contextPath }/user/cart/transaction"><i class="fas fa-cart-arrow-down"></i>Transactions</a></li>
 							<li><a href="${pageContext.request.contextPath }/user/account/logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
 						</c:if>
-						<li><a data-toggle="modal" data-target="#exampleCompare"
-							href="#"><i class="pe-7s-repeat"></i>Compare</a></li>
 					</ul>
 				</div>
 			</div>
@@ -83,43 +97,36 @@
 			<div class="header-bottom-wrapper pr-200 pl-200">
 				<div class="logo-3">
 					<a href="${pageContext.request.contextPath }/user/home/index"> <img
-						src="${pageContext.request.contextPath }/resources/user/img/logo/logo-3.png"
-						alt="">
+						src="${pageContext.request.contextPath }/uploads/images/${store.logo }"
+						alt="Store's logo" height="50px" title="Store's logo">
 					</a>
 				</div>
 				<div class="categories-search-wrapper">
-					<div class="all-categories">
-						<div class="select-wrapper">
-							<select class="select">
-								<option value="">All Categories</option>
-								<option value="">Smartphones</option>
-								<option value="">Computers</option>
-								<option value="">Laptops</option>
-								<option value="">Camerea</option>
-								<option value="">Watches</option>
-								<option value="">Lights</option>
-								<option value="">Air conditioner</option>
-							</select>
-						</div>
-					</div>
 					<div class="categories-wrapper">
-						<form action="#">
-							<input placeholder="Enter Your key word" type="text">
-							<button type="button">Search</button>
+					<c:if test="${hideTopSearchBar == null}">
+						<form method="get" action="${pageContext.request.contextPath }/user/search/index" >
+							<input placeholder="Enter Your key word" type="text" name="keyword">
+							<button type="submit">Search</button>
 						</form>
 					</div>
+					</c:if>
 				</div>
 				<div class="trace-cart-wrapper">
 					<div class="categories-cart same-style">
 						<div class="same-style-icon">
-							<a href="#"><i class="pe-7s-cart"></i></a>
+							<c:if test="${username != null}" >
+								<a href="${pageContext.request.contextPath }/user/cart/index"><i class="pe-7s-cart"></i></a>
+							</c:if>
+							<c:if test="${username == null}" >
+								<a href="${pageContext.request.contextPath }/user/account/login"><i class="pe-7s-cart"></i></a>
+							</c:if>
 						</div>
 						<div class="same-style-text">
 							<c:if test="${username != null}" >
 								<a href="${pageContext.request.contextPath }/user/cart/index">My Cart<br><span id="productInCartAmount">${productInCartAmount }</span> item(s)</a>
 							</c:if>
 							<c:if test="${username == null}" >
-								<a href="${pageContext.request.contextPath }/user/account/login">My Cart</a>
+								<a href="${pageContext.request.contextPath }/user/account/login">My Cart<br>0 item(s)</a>
 							</c:if>
 						</div>
 					</div>
@@ -142,142 +149,57 @@
 							<h3 class="footer-widget-title-3">Contact Us</h3>
 							<div class="footer-info-wrapper-2">
 								<div class="footer-address-electro">
+									<div class="footer-info-content2">
+										<p>
+											${contact.name }
+										</p>
+									</div>
+								</div>
+								<div class="footer-address-electro">
 									<div class="footer-info-icon2">
 										<span>Address:</span>
 									</div>
 									<div class="footer-info-content2">
 										<p>
-											77 Seventh Streeth Banasree <br>Road Rampura -2100 Dhaka
+											${contact.address }
 										</p>
 									</div>
 								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-6 col-xl-4">
+						<div class="footer-widget mb-40">
+							<h3 class="footer-widget-title-3">&nbsp;</h3>
+							<div class="footer-info-wrapper-2">
 								<div class="footer-address-electro">
 									<div class="footer-info-icon2">
 										<span>Phone:</span>
 									</div>
 									<div class="footer-info-content2">
 										<p>
-											+11 (019) 2518 4203 <br>+11 (251) 2223 3353
+											${contact.phone }
 										</p>
 									</div>
 								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-6 col-xl-4">
+						<div class="footer-widget mb-40">
+							<h3 class="footer-widget-title-3">&nbsp;</h3>
+							<div class="footer-info-wrapper-2">
 								<div class="footer-address-electro">
 									<div class="footer-info-icon2">
 										<span>Email:</span>
 									</div>
 									<div class="footer-info-content2">
 										<p>
-											<a href="#">domain@mail.com</a> <br> <a href="#">company@domain.info</a>
+											<a href="#">${contact.email }</a>
 										</p>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-6 col-xl-3">
-						<div class="footer-widget mb-40">
-							<h3 class="footer-widget-title-3">My Account</h3>
-							<div class="footer-widget-content-3">
-								<ul>
-									<li><a href="login.html">Login Hare</a></li>
-									<li><a href="cart.html">Cart History</a></li>
-									<li><a href="checkout.html"> Payment History</a></li>
-									<li><a href="shop.html">Product Tracking</a></li>
-									<li><a href="register.html">Register</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-2 col-md-6 col-xl-2">
-						<div class="footer-widget mb-40">
-							<h3 class="footer-widget-title-3">Information</h3>
-							<div class="footer-widget-content-3">
-								<ul>
-									<li><a href="about-us.html">About Us</a></li>
-									<li><a href="#">Our Service</a></li>
-									<li><a href="#">Pricing Plan</a></li>
-									<li><a href="#"> Vendor Detail</a></li>
-									<li><a href="#">Affiliate</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-6 col-xl-3">
-						<div class="footer-widget widget-right mb-40">
-							<h3 class="footer-widget-title-3">Service</h3>
-							<div class="footer-widget-content-3">
-								<ul>
-									<li><a href="#">Product Service</a></li>
-									<li><a href="#">Payment Service</a></li>
-									<li><a href="#"> Discount Service</a></li>
-									<li><a href="#">Shopping Service</a></li>
-									<li><a href="#">Promotional Add</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="footer-middle black-bg-2 pt-35 pb-40">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-4 col-md-4">
-						<div class="footer-services-wrapper mb-30">
-							<div class="footer-services-icon">
-								<i class="pe-7s-car"></i>
-							</div>
-							<div class="footer-services-content">
-								<h3>Free Shipping</h3>
-								<p>Free Shipping on Bangladesh</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4">
-						<div class="footer-services-wrapper mb-30">
-							<div class="footer-services-icon">
-								<i class="pe-7s-shield"></i>
-							</div>
-							<div class="footer-services-content">
-								<h3>Money Guarentee</h3>
-								<p>Free Shipping on Bangladesh</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4">
-						<div class="footer-services-wrapper mb-30">
-							<div class="footer-services-icon">
-								<i class="pe-7s-headphones"></i>
-							</div>
-							<div class="footer-services-content">
-								<h3>Online Support</h3>
-								<p>Free Shipping on Bangladesh</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="footer-bottom  black-bg pt-25 pb-30">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-6 col-md-5">
-						<div class="footer-menu">
-							<nav>
-								<ul>
-									<li><a href="#">Privacy Policy </a></li>
-									<li><a href="blog.html"> Blog</a></li>
-									<li><a href="#">Help Center</a></li>
-								</ul>
-							</nav>
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-7">
-						<div class="copyright f-right mrg-5">
-							<p>
-								Copyright © <a href="https://hastech.company/">HasTech</a> 2018
-								. All Right Reserved.
-							</p>
 						</div>
 					</div>
 				</div>
@@ -324,6 +246,58 @@
 	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery-validation/jquery.validate.min.js"></script>
 	<script src="${pageContext.request.contextPath }/resources/manager/plugins/jquery-validation/additional-methods.min.js"></script>
 
+	<!-- password form in user profile -->
+	<script>
+		$(document).ready(function() {
+			$.validator.addMethod(
+					  "passwordPattern",
+					  function(value, element, regexp) {
+					    var re = new RegExp(regexp);
+					    return this.optional( element ) || /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/.test( value );
+					  },
+					  "Password should be between 8 and 20 characters and have at least one letter, one number and one special character."
+					);
+			
+	    	$.validator.setDefaults({
+			    submitHandler: function () {
+			    	$('#formPassword')[0].submit();
+			    }
+			  });
+			
+	    	$('#formPassword').validate({
+			    rules: {
+			      newPassword: {
+			        required: true,
+			        passwordPattern: true,
+			      },
+			      oldPassword: {
+			    	 required: true,
+			    	 minlength: 8,
+				     maxlength: 20,
+			      },
+			      confirmPassword: {
+				  	required: true,
+				    minlength: 8,
+					maxlength: 20,
+					equalTo : "#newPassword",
+				  }
+			    },
+			    errorElement: 'span',
+			    errorPlacement: function (error, element) {
+			      error.addClass('invalid-feedback');
+			      element.closest('.form-group').append(error);
+			    },
+			    highlight: function (element, errorClass, validClass) {
+			      $(element).addClass('is-invalid');
+			    },
+			    unhighlight: function (element, errorClass, validClass) {
+			      $(element).removeClass('is-invalid');
+			    }
+			  });
+		});
+	</script>
+
+ 	<!-- login form -->
 	<script>
 		$(document).ready(function() {
 	    	$.validator.setDefaults({
@@ -375,11 +349,18 @@
 						$("#productDetailsRatingCount").html(product.ratingCount + " review(s)");
 						$("#productDetailsDescription").html(product.description);
 						
+						if (product.price != product.originalPrice) {
+							$("#productDetailsPrice").html("$" + product.price);
+							$("#productDetailsOriginalPrice").html("$" + product.originalPrice);
+						} else {
+							$("#productDetailsPrice").html("$" + product.price);
+						}
+						
 						var ratingStars = "";
 						for (let i = 1; i <= (product.ratingAverage * 10 / 10); i++) {
 							ratingStars += '<i class="pe-7s-star"></i>';
 						}
-						
+						$("#productDetailsId").data('id', product.id);
 						$("#productDetailsRatingResult").html(ratingStars);
 						$("#productDetailsDescriptionDetails").html(product.descriptionDetail);
 					},
@@ -417,6 +398,10 @@
 						$("#cart-total").html(total);
 					},
 					error: function(jqXHR, textStatus, errorThrown ) {
+						toastr.options = {
+							"timeOut": "0"
+						} 
+						
 						toastr.error("An error occurs: " + textStatus);
 					}
 		    	})
@@ -424,7 +409,7 @@
     	})
     </script>
     
-    <!-- add product to cart in home page -->
+    <!-- add product to cart -->
 	<script>
     	$(document).ready(function() {
     		$(".product-to-cart").on('click', function(event){
@@ -432,10 +417,20 @@
     		    event.stopImmediatePropagation();
     		    
     		    var id = $(this).data('id');
+    		    var quantity = $("#quantityToCart").val();
+    		    if (!quantity) {
+    		    	quantity = 1;
+    		    } else {
+    		    	if (quantity <= 0) {
+    		    		return;
+    		    	}
+    		    }
+    		    
+    		    console.log('${pageContext.request.contextPath }/user/home/addProduct/' + id + '/' + quantity);
     		   
-    		    $.ajax({
+    		  	$.ajax({
 		    		type: 'GET',
-					url: '${pageContext.request.contextPath }/user/home/addProduct/' + id + '/1',
+					url: '${pageContext.request.contextPath }/user/home/addProduct/' + id + '/' + quantity,
 					success: function(data, textStatus, jqXHR) {
 						toastr.success("Product has been place in your cart.");
 						$("#productInCartAmount").html(data);
@@ -445,21 +440,134 @@
 							window.location.replace('${pageContext.request.contextPath }/user/account/login');
 						} else {
 							toastr.options = {
-								"timeOut": 0
+								"timeOut": "0"
 							}
 							
 							toastr.error(textStatus + " - " + jqXHR.responseText);
 						}
 					}
-		    	})
+		    	});
     		});
+    	})
+    </script>
+    
+     <!-- filter products in search page -->
+	<script>
+    	$(document).ready(function() {
+    		function filter(categoryId) {
+    			var keyword = $("#keyword").val();
+    			
+    			if (keyword === "") {
+    				keyword = "tmp";
+    			}
+    		   	var min = $("#minPrice").val();
+    		   	var max = $("#maxPrice").val();
+    		   
+    		   	var url = '${pageContext.request.contextPath }/user/search/search/' + keyword + '/' + min + '/' + max;
+    		   	if (categoryId) {
+    		   		url += '/' + categoryId;
+    		   	}
+    		   	
+    		   	$.ajax({
+		    		type: 'GET',
+					url: url,
+					success: function(data, textStatus, jqXHR) {
+						var result1 = '';
+						var result2 = '';
+						
+						if (data.length == 0) {
+							result1 = '<span>0 product found.</span>';
+							result2 = '<span>0 product found.</span>';
+						} else {
+							data.forEach(function(product) {
+								result1 += '<div class="col-md-6 col-xl-4"> <div class="product-wrapper mb-30">';
+								result1 += '<div class="product-img"><a href="#"><img src="${pageContext.request.contextPath }/uploads/images/' + product.avatar + '" alt="">';
+								result1 += '</a><div class="product-action">';
+								result1 += '<a class="animate-top product-to-cart" title="Add To Cart" data-id="' + product.id + '">';
+								result1 += '<i class="pe-7s-cart"></i></a>';
+								result1 += '<a class="animate-right modal-opener" title="Quick View"';
+								result1 += 'data-toggle="modal" data-target="#productDetailsModal" data-id="' + product.id +'">';
+								result1 += '<i class="pe-7s-look"></i></a></div></div>';
+								result1 += '<div class="product-content">';
+								result1 += '<h4><a>' + product.name +'</a></h4>';
+								result1 += '<span>$'+ product.price +'</span>';
+								result1 += '</div></div></div>';
+								
+								result2 += '<div class="col-lg-12 col-xl-6">';
+								result2 += '<div class="product-wrapper mb-30 single-product-list product-list-right-pr mb-60">';
+								result2 += '<div class="product-img list-img-width"><a href="#">';
+								result2 += '<img src="${pageContext.request.contextPath }/uploads/images/'+ product.avatar +'" alt="">';
+								result2 += '</a><div class="product-action-list-style">';
+								result2 += '<a class="animate-right modal-opener" title="Quick View"';
+								result2 += 'data-toggle="modal" data-target="#productDetailsModal" data-id="' + product.id + '">';
+								result2 += '<i class="pe-7s-look"></i></a></div></div>';
+								result2 += '<div class="product-content-list">';
+								result2 += '<div class="product-list-info"><h4><a>' + product.name + '</a></h4>';
+								result2 += '<span>$' + product.price + '</span>';
+								result2 += '<p>' + product.description + '</p></div>';
+								result2 += '<div class="product-list-cart-wishlist"><div class="product-list-cart">';
+								result2 += '<a class="btn-hover list-btn-style product-to-cart" data-id="'+ product.id +'">add to cart</a></div>';
+								result2 += '</div></div></div></div>';
+							});
+						}
+						
+						$("#productRows1").html(result1);
+						$("#productRows2").html(result2);
+					},
+					error: function(jqXHR, textStatus, errorThrown ) {
+						if (jqXHR.responseText === "NO_USER_EXCEPTION") {
+							window.location.replace('${pageContext.request.contextPath }/user/account/login');
+						} else {
+							toastr.options = {
+								"timeOut": "0"
+							}
+							
+							toastr.error(textStatus + " - " + jqXHR.responseText);
+						}
+					}
+    		   	})
+    		};
+    		
+    		$(".search").on('click', function(event){
+    		    event.stopPropagation();
+    		    event.stopImmediatePropagation();
+    		    
+    		    filter();
+		    }) 
+		    
+		    $(".search-with-category").on('click', function(event){
+    		    event.stopPropagation();
+    		    event.stopImmediatePropagation();
+    		    
+    		    var categoryId = $(this).data('id');
+    		    filter(categoryId);
+		    });
+    		
+    		 $(".search-with-category-on-home-page").on('click', function(event){
+     		    event.stopPropagation();
+     		    event.stopImmediatePropagation();
+     		    
+     		   	var categoryId = $(this).data('id');
+     		   	window.location.replace("${pageContext.request.contextPath}/user/search/index/" + categoryId);
+ 		    })
+    		   	
+    		$("#searchForm").on('submit', function(event){
+				event.preventDefault();
+        		    
+				filter();
+			}) 
     	})
     </script>
     
     <!-- delete product in cart in cart page -->
 	<script>
     	$(document).ready(function() {
-    		$(".remove-product-in-cart").on('click', function(event){
+    		$( "#target" ).submit(function( event ) {
+    			  alert( "Handler for .submit() called." );
+    			  
+    			});
+    		$(".remove-product-in-cart").on('click submit', function(event){
+    			event.preventDefault();
     		    event.stopPropagation();
     		    event.stopImmediatePropagation();
     		    
@@ -469,10 +577,37 @@
 		    		type: 'GET',
 					url: '${pageContext.request.contextPath }/user/cart/delete/' + id,
 					success: function(data, textStatus, jqXHR) {
-						// hide deleted product
-						$('#product-in-cart-row-' + id).css('display', 'none');
+						var result = '';
 						
-						// change number of product in cart
+						data.forEach(function(item, i) {
+							result += '<tr id="product-in-cart-row-' + item.id + '">';
+							result += '<td class="product-remove"><a';
+							result += 'class="remove-product-in-cart" data-id="' + item.id + '"><i class="pe-7s-close"></i></a></td>';
+							result += '<td class="product-thumbnail">';
+							result += '<a><img width="200px"';
+							result += 'src="${pageContext.request.contextPath }/uploads/images/' + item.avatar + '" alt=""></a></td>';
+							result += '<td class="product-name"><a href="#">' + item.name + '</a></td>';
+							result += '<td class="product-price-cart">';
+							result += '<span class="amount">$ <span id="price' + item.id + '">' + item.price + '</span></span></td>';
+							result += '<td class="product-quantity">';
+							result += '<input value="' + item.quantity + '"';
+							result += 'type="number" id="quantity' + item.id + '" class="product-quantity-input" data-id="' + item.id + '" min="1">';
+							result += '</td><td class="product-subtotal" id="subtotal' + item.id + '">' + (item.price * item.quantity);
+							result += '<input type="hidden" name="item_number_' + (i + 1) + '" value="' + item.id + '">';
+							result += '<input type="hidden" name="item_name_' + (i + 1) + '" value="' + item.name + '">';
+							result += '<input type="hidden" name="amount_' + (i + 1) + '" value="' + item.price + '">';
+							result += '<input type="hidden" name="quantity_' + (i + 1) + '" value="' + item.quantity + '"></td></tr>';
+						});
+						
+						$("#products-in-cart").html(result);
+						
+						// change number of product in cart and disable check out button if needed
+						var amount = data.length
+						if (amount == 0) {
+							$("#checkoutButton").prop('disabled', true);
+						} else {
+							$("#checkoutButton").prop('disabled', false);
+						}
 						$("#productInCartAmount").html(data.length);
 						
 						// change total
@@ -482,10 +617,12 @@
 						});
 						
 						$("#cart-total").html(total);
+						
+						location.reload();
 					},
 					error: function(jqXHR, textStatus, errorThrown ) {
 						toastr.options = {
-							"timeOut": 0
+							"timeOut": "0"
 						}
 							
 						toastr.error(textStatus + " - " + jqXHR.responseText);
@@ -494,14 +631,67 @@
     		});
     	})
     </script>
+    
+    <!-- InputMask -->
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/moment/moment.min.js"></script>
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/inputmask/jquery.inputmask.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			//Datemask dd/mm/yyyy
+	    	$('#birthday').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+		});
+	</script>
+	
+	<!-- DataTables  & Plugins -->
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables/jquery.dataTables.min.js"></script>
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/jszip/jszip.min.js"></script>
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/pdfmake/pdfmake.min.js"></script>
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/pdfmake/vfs_fonts.js"></script>
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+	<script
+			src="${pageContext.request.contextPath }/resources/manager/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+	
+	<script>
+		$(function() {
+			$('#dataTable').DataTable({
+				"paging" : true,
+				"lengthChange" : false,
+				"ordering" : true,
+				"info" : true,
+				"autoWidth" : false,
+				"responsive" : true,
+			});
+		});
+	</script>
 	
 	<!-- date picker in register page -->
 	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 	<script>
 		$(function() {
-			$("#birthday").datepicker();
-			$("#birthday").datepicker( "option", "dateFormat", "dd/mm/yy");
-			$("#birthday").datepicker( "setDate", "01/01/2001" );
+			$("#birthday, #birthdayRegister").datepicker();
+			$("#birthday, #birthdayRegister").datepicker( "option", "dateFormat", "dd/mm/yy");
+			$("#birthdayRegister").datepicker( "setDate", "01/01/2001" );
+			
+			$('#btnResetProfileForm').trigger('click');
 		});
 	</script>
 </body>

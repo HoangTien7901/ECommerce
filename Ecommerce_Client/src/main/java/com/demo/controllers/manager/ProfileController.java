@@ -111,8 +111,6 @@ public class ProfileController {
 				
 				String pw_hash = BCrypt.hashpw(password, BCrypt.gensalt());
 				result.setPassword(pw_hash);
-//			if (oldPassword.equals(result.getPassword())) {
-//				result.setPassword(password);
 				
 				ResponseEntity<Void> responseEntity2 = userService.update(result);
 				if (responseEntity2 != null && responseEntity2.getStatusCode() == HttpStatus.OK) {

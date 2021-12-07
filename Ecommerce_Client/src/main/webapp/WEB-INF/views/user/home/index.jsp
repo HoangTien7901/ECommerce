@@ -11,77 +11,56 @@
         <div class="categori-menu-slider-wrapper clearfix">
             <div class="categories-menu">
                 <div class="category-heading">
-                    <h3> All Departments <i
-								class="pe-7s-angle-down"></i>
+                    <h3> All Categories
 						</h3>
                 </div>
                 <div class="category-menu-list">
                     <ul>
+                    <c:forEach var="category" items="${categories }">
                         <li>
-                            <a href="#"><img alt=""
-									src="${pageContext.request.contextPath }/resources/user/img/icon-img/5.png">Computer & Laptops <i
-									class="pe-7s-angle-right"></i></a>
+                            <a href="${pageContext.request.contextPath }/user/category/${category.id }">${category.name }
+                            	<c:if test="${category.childCategories.size() != 0 }">
+                            		<i class="pe-7s-angle-right"></i>
+                            	</c:if>
+                            </a>
+                            <c:if test="${category.childCategories.size() != 0 }">
                             <div class="category-menu-dropdown">
+                            	<c:forEach var="categoryChild" items="${category.childCategories }">
                                 <div
 										class="category-dropdown-style category-common4 mb-40">
-                                    <h4 class="categories-subtitle">Others</h4>
+                                    <h4 class="categories-subtitle">${categoryChild.name }</h4>
                                     <ul>
-                                        <li><a href="#">Monitor</a></li>
-                                        <li><a href="#">Mouse</a></li>
-                                        <li><a href="#">Keybord</a></li>
-                                        <li><a href="#">Speaker</a></li>
-                                        <li><a href="#">Joy Stick</a></li>
-                                        <li><a href="#">Wireless Speaker</a></li>
-                                        <li><a href="#">Software</a></li>
+                                    	<c:forEach var="categoryChildOfChild" items="${categoryChild.childCategories }">
+                                        <li>
+                                        	<a data-id="${categoryChildOfChild.id }" class="search-with-category-on-home-page">
+                                        		${categoryChildOfChild.name }
+                                        	</a>
+                                        </li>
+                                        </c:forEach>
                                     </ul>
                                 </div>
-                                <div
-										class="category-dropdown-style category-common4 mb-40">
-                                    <h4 class="categories-subtitle">Accessories</h4>
-                                    <ul class="border-none">
-                                        <li><a href="#">Monitor</a></li>
-                                        <li><a href="#">Mouse</a></li>
-                                        <li><a href="#">Keybord</a></li>
-                                        <li><a href="#">Speaker</a></li>
-                                        <li><a href="#">Joy Stick</a></li>
-                                        <li><a href="#">Wireless Speaker</a></li>
-                                        <li><a href="#">Software</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-banner-img">
-                                    <a href="single-product.html">
-                                        <img
-											src="${pageContext.request.contextPath }/resources/user/img/banner/18.jpg"
-											alt="">
-                                    </a>
-                                </div>
+                                </c:forEach>
                             </div>
+                            </c:if>
                         </li>
+                    </c:forEach>
                     </ul>
                 </div>
             </div>
             <div class="menu-slider-wrapper">
-                <div class="menu-style-3 menu-hover text-center">
-                    <nav>
-                        <ul>
-                            <li><a href="index.html">home</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
                 <div class="slider-area">
                     <div class="slider-active owl-carousel">
+                    	<c:forEach var="img" items="${banner.imgs }">
                         <div
 								class="single-slider single-slider-hm3 bg-img pt-170 pb-173"
-								style="background-image: url(${pageContext.request.contextPath }/resources/user/img/slider/5.jpg)">
+								style="background-image: url(${pageContext.request.contextPath }/uploads/images/${img.name })">
                             <div
 									class="slider-animation slider-content-style-3 fadeinup-animated">
-                                <h2 class="animated">Invention of <br>design platform 1</h2>
-                                <h4 class="animated">Best Product With warranty 1</h4>
-                                <a class="electro-slider-btn btn-hover"
-										href="product-details.html">buy now</a>
+                                <h2 class="animated">${banner.caption }</h2>
+                                <h4 class="animated">${banner.description }</h4>
                             </div>
                         </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -251,9 +230,11 @@
 									title="Add To Cart" data-id="${item.id }">
                                     <i class="pe-7s-cart"></i>
 								</a>
-                                <a class="animate-right" title="Compare"
-											data-toggle="modal" data-target="#exampleCompare" href="#">
-                                    <i class="pe-7s-repeat"></i>
+                               <a class="animate-right modal-opener"
+															data-target="#productDetailsModal" data-toggle="modal"
+															data-id="${item.id }" title="Quick View">
+                                                <i class="pe-7s-look"></i>
+                                            </a>
                                 </a>
                             </div>
                         </div>
@@ -264,86 +245,6 @@
         </div>
     </div>
     
-    <div class="brand-logo-area-2 wrapper-padding ptb-80">
-        <div class="container-fluid">
-            <div class="brand-logo-active2 owl-carousel">
-                <div class="single-brand">
-                    <img
-							src="${pageContext.request.contextPath }/resources/user/img/brand-logo/7.png"
-							alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-    
-     <!-- modal -->
-    <div class="modal fade" id="exampleCompare" tabindex="-1"
-			role="dialog" aria-hidden="true">
-        <button type="button" class="close" data-dismiss="modal"
-				aria-label="Close">
-            <span class="pe-7s-close" aria-hidden="true"></span>
-        </button>
-        <div class="modal-dialog modal-compare-width" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form action="#">
-                        <div
-								class="table-content compare-style table-responsive">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>
-                                            <a href="#">Remove <span>x</span></a>
-                                            <img
-												src="${pageContext.request.contextPath }/resources/user/img/cart/4.jpg"
-												alt="">
-                                            <p>Blush Sequin Top </p>
-                                            <span>$75.99</span>
-                                            <a class="compare-btn"
-												href="#">Add to cart</a>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="compare-title">
-                                            <h4>Description </h4>
-											</td>
-                                        <td
-												class="compare-dec compare-common">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has beenin the stand ard dummy text ever since the 1500s, when an unknown printer took a galley</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="compare-title">
-                                            <h4>Availability  </h4>
-											</td>
-                                        <td
-												class="compare-stock compare-common">
-                                            <p>In stock</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="compare-title">
-                                            <h4>brand   </h4>
-											</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="compare-title"></td>
-                                        <td
-												class="compare-price compare-common">
-                                            <p>$75.99 </p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="modal fade" id="productDetailsModal" tabindex="-1"
 			role="dialog" aria-hidden="true">
         <button type="button" class="close" data-dismiss="modal"
@@ -370,8 +271,8 @@
                         <div class="qwick-view-content">
                             <h3 id="productDetailsName"></h3>
                             <div class="price">
-                                <span class="new" id="productDetailsOriginalPrice"></span>
-                                <span class="old" id="productDetailsPrice"></span>
+                                <span class="new" id="productDetailsPrice"></span>
+                                <span class="old" id="productDetailsOriginalPrice"></span>
                             </div>
                             <div class="rating-number">
                                 <div class="quick-view-rating">
@@ -385,11 +286,11 @@
                             <p id="productDetailsDescriptionDetails"></p>
                             <div class="quickview-plus-minus">
                                 <div class="cart-plus-minus">
-                                    <input type="text" value="02"
-											name="qtybutton" class="cart-plus-minus-box">
+                                    <input type="text" value="1"
+											name="qtybutton" class="cart-plus-minus-box" id="quantityToCart">
                                 </div>
                                 <div class="quickview-btn-cart">
-                                    <a class="btn-hover-black" href="#">add to cart</a>
+                                    <a class="btn-hover-black product-to-cart" id="productDetailsId" data-id="productId">add to cart</a>
                                 </div>
                             </div>
                         </div>
@@ -398,8 +299,6 @@
             </div>
         </div>
     </div>
-    
-    
     
 	</jsp:attribute>
 </mt:usertemplate>

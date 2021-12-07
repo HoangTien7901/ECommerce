@@ -120,7 +120,7 @@ public class M_CategoryController {
 		modelMap.put("pageTitle", "Add");
 		modelMap.put("parentPageTitle", "Category");
 		
-		ResponseEntity<Iterable<CategoryInfo>> responseEntityForSelect = categoryService.findAllInfo();
+		ResponseEntity<Iterable<CategoryInfo>> responseEntityForSelect = categoryService.findAllForSelection();
 		if (!(responseEntityForSelect == null || responseEntityForSelect.getStatusCode() != HttpStatus.OK)) {
 			modelMap.put("items", (List<CategoryInfo>) responseEntityForSelect.getBody());
 		} else {

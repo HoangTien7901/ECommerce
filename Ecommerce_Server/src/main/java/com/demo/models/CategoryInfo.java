@@ -1,5 +1,7 @@
 package com.demo.models;
 
+import java.util.List;
+
 public class CategoryInfo {
 
 	private int id;
@@ -8,10 +10,20 @@ public class CategoryInfo {
 	
 	private Integer parentId;
 	private String parentName;
+	
+	private List<CategoryInfo> childCategories;
 
 	private boolean status;
 	
 	private int level;
+
+	public List<CategoryInfo> getChildCategories() {
+		return childCategories;
+	}
+
+	public void setChildCategories(List<CategoryInfo> childCategories) {
+		this.childCategories = childCategories;
+	}
 
 	public int getId() {
 		return id;
@@ -103,4 +115,15 @@ public class CategoryInfo {
 		this.level = level;
 	}
 
+	public CategoryInfo(int id, String name, Integer parentId, List<CategoryInfo> childCategories, boolean status,
+			int level) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.parentId = parentId;
+		this.childCategories = childCategories;
+		this.status = status;
+		this.level = level;
+	}
+	
 }

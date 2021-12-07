@@ -1,5 +1,6 @@
 package com.demo.services.user;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,31 @@ public class UserServiceImpl implements UserService {
 		
 		return userRepos.getInfoByUsername(user.getUsername());
 	}
-	
+
+	@Override
+	public UserInfo update(int id, UserInfo _object) {
+		Users object = userRepos.findById(id).get();
+		
+		object.setUsername(_object.getUsername());
+		object.setFullname(_object.getFullname());
+		
+		if (_object.getPassword() != null || !_object.getPassword().isEmpty())
+		{
+			object.setPassword(_object.getPassword());
+		}
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(_object.getBirthday());
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		
+		object.setBirthday(calendar.getTime());
+		object.setPhone(_object.getPhone());
+		object.setEmail(_object.getEmail());
+		object.setUpdated(new Date());
+		object.setAddress(_object.getAddress());
+		
+		object = userRepos.save(object);
+		
+		return userRepos.getInfoById(object.getId());
+	}
 }

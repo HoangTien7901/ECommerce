@@ -24,6 +24,7 @@ public class TransactionInfo {
 	private String note;
 	private String status;
 	private String cancelReason;
+	private int transactionDetailsId;
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date created;
@@ -35,7 +36,7 @@ public class TransactionInfo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public String getNote() {
 		return note;
 	}
@@ -139,7 +140,7 @@ public class TransactionInfo {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -147,13 +148,21 @@ public class TransactionInfo {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 	public String getBranchName() {
 		return branchName;
 	}
 
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
+	}
+	
+	public int getTransactionDetailsId() {
+		return transactionDetailsId;
+	}
+
+	public void setTransactionDetailsId(int transactionDetailsId) {
+		this.transactionDetailsId = transactionDetailsId;
 	}
 
 	public TransactionInfo(int id, Integer productId, Integer serviceId, String storeName, double price, int quantity,
@@ -203,9 +212,26 @@ public class TransactionInfo {
 		this.cancelReason = cancelReason;
 		this.created = created;
 	}
-	
-	public TransactionInfo(int id, Integer productId, String productName, String categoryName, String branchName, String username,
-			double price, int quantity, double tax, String note, String status, String cancelReason, Date created) {
+
+	// for buying
+	public TransactionInfo(int id, Integer productId, String productName, String categoryName, String username,
+			double price, int quantity, String status, int transactionDetailsId, Date created) {
+		super();
+		this.id = id;
+		this.productName = productName;
+		this.productId = productId;
+		this.username = username;
+		this.categoryName = categoryName;
+		this.price = price;
+		this.quantity = quantity;
+		this.status = status;
+		this.created = created;
+		this.transactionDetailsId = transactionDetailsId;
+	}
+
+	public TransactionInfo(int id, Integer productId, String productName, String categoryName, String branchName,
+			String username, double price, int quantity, double tax, String note, String status, String cancelReason,
+			Date created) {
 		super();
 		this.id = id;
 		this.productName = productName;

@@ -43,8 +43,7 @@ public class System {
 	private String defaultPasswordEmailSubject;
 	
 	@NotNull
-	@Length(min = 5, max = 20)
-	@Pattern(regexp = "^[0-9]*$", message = "This field can only contain number.")
+	@Email
 	private String paypalAccount;
 	
 	@NotNull

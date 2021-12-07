@@ -35,8 +35,8 @@
 											cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										<p></p>
 										
-										<label for="birthday">Birthday</label>
-										<input type="text" id="birthday" name="birthday" placeholder="dd/mm/yyyy"/>
+										<label for="birthdayRegister">Birthday</label>
+										<input type="text" id="birthdayRegister" name="birthday" placeholder="dd/mm/yyyy"/>
 										<p></p>
 										
 										<s:label path="email">Email</s:label>
@@ -50,6 +50,13 @@
 										<s:input
 											path="phone" placeholder="Enter phone" />
 										<s:errors path="phone"
+											cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
+										<p></p>
+										
+										<s:label path="address">Address <span style="color:red;font-style:italic">(make sure to use this address when you checkout)</span></s:label>
+										<s:input
+											path="address" placeholder="Enter address" />
+										<s:errors path="address"
 											cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										<p></p>
 										

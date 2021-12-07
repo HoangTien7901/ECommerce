@@ -68,13 +68,25 @@
 										</div>
 										
 										<div class="form-group">
+											<s:label path="defaultPasswordEmailContent">Default password email content</s:label>
+											<s:textarea path="defaultPasswordEmailContent"/>
+											<s:errors path="defaultPasswordEmailContent" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
+										</div>
+										
+										<div class="form-group">
+											<s:label path="defaultPasswordEmailSubject">Default password email subject</s:label>
+											<s:input cssClass="form-control" path="defaultPasswordEmailSubject"/>
+											<s:errors path="defaultPasswordEmailSubject" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
+										</div>
+										
+										<div class="form-group">
 											<s:label path="defaultBanEmailContent">Default ban email content</s:label>
 											<s:textarea path="defaultBanEmailContent"/>
 											<s:errors path="defaultBanEmailContent" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">
-											<s:label path="paypalAccount">Paypal account</s:label>
+											<s:label path="paypalAccount">Paypal email account</s:label>
 											<s:input cssClass="form-control" path="paypalAccount"/>
 											<s:errors path="paypalAccount" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
@@ -128,7 +140,7 @@
 	<script src="${pageContext.request.contextPath }/resources/manager/plugins/summernote/summernote-bs4.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			$('#defaultBanEmailContent').summernote();
+			$('#defaultBanEmailContent, #defaultPasswordEmailContent').summernote();
 		});
 	</script>	
 			</jsp:attribute>

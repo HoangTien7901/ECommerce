@@ -1,5 +1,7 @@
 package com.demo.models;
 
+import java.util.List;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -24,9 +26,19 @@ public class CategoryInfo {
 	private Integer parentId;
 	private String parentName;
 
+	private List<CategoryInfo> childCategories;
+	
 	private boolean status;
 	
 	private int level;
+
+	public List<CategoryInfo> getChildCategories() {
+		return childCategories;
+	}
+
+	public void setChildCategories(List<CategoryInfo> childCategories) {
+		this.childCategories = childCategories;
+	}
 
 	public int getId() {
 		return id;

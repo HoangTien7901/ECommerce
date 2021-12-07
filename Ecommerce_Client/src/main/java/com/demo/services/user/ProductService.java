@@ -60,7 +60,34 @@ public class ProductService implements IProductService {
 		}
 	}
 
+	@Override
+	public ResponseEntity<Iterable<ProductInfo>> searchWithCategory(String keyword, double min, double max,
+			int categoryId) {
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			return restTemplate.exchange(BASE_URL + "searchWithCategory/" + keyword + "/" + min + "/" + max + "/" + categoryId,
+					HttpMethod.GET,
+					null , 
+					new ParameterizedTypeReference<Iterable<ProductInfo>>() {} );
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
 
+	@Override
+	public ResponseEntity<Iterable<ProductInfo>> search(String keyword, double min, double max) {
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			return restTemplate.exchange(BASE_URL + "search/" + keyword + "/" + min + "/" + max,
+					HttpMethod.GET,
+					null , 
+					new ParameterizedTypeReference<Iterable<ProductInfo>>() {} );
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
 
 	@Override
 	public ResponseEntity<ProductInfo> findInfoById(int id) {

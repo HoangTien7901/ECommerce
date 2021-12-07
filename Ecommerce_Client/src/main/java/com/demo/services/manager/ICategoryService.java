@@ -11,6 +11,8 @@ public interface ICategoryService {
 
 	public ResponseEntity<Iterable<CategoryInfo>> findAllInfo();
 	
+	public ResponseEntity<Iterable<CategoryInfo>> findAllForSelection();
+	
 	public ResponseEntity<Iterable<CategoryInfo>> findAllExcept(int id, int level);
 
 	public ResponseEntity<CategoryInfo> findInfoById(int id);

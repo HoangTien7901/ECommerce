@@ -39,13 +39,22 @@ public class ProductService implements IProductService {
 
 	@Override
 	public Iterable<ProductInfo> findBestSellingProducts() {
-		// TODO Auto-generated method stub
 		return repos.findBestSellingProducts();
 	}
 
 	@Override
 	public Iterable<ProductInfo> findOutStandingProducts() {
 		return repos.findOutStandingProducts();
+	}
+	
+	@Override
+	public Iterable<ProductInfo> searchWithCategory(String keyword, double min, double max, int categoryId) {
+		return repos.searchWithCategory(keyword, min, max, categoryId);
+	}
+
+	@Override
+	public Iterable<ProductInfo> search(String keyword, double min, double max) {
+		return repos.search(keyword, min, max);
 	}
 
 	@Override
@@ -58,6 +67,43 @@ public class ProductService implements IProductService {
 		return repos.findById(id).get();
 	}
 
+	@Override
+	public ProductInfo add(ProductInfo _object) {
+
+		Products object = new Products();
+		object.setName(_object.getName());
+		
+		object.setBranchs(branchRepos.findById(_object.getBranchId()).get());
+		object.setCategories(categoryRepos.findById(_object.getCategoryId()).get());
+		object.setStores(storeRepos.findById(1).get());
+
+		object.setAvatar(_object.getAvatar());
+		
+		object.setPrice(_object.getPrice());
+		object.setOriginalPrice(_object.getOriginalPrice());
+		
+		object.setDescription(_object.getDescription());
+		object.setDescriptionDetail(_object.getDescriptionDetail());
+		object.setCreated(new Date());
+
+		object.setIsOutstanding(_object.getIsOutstanding());
+		object.setIsBestSelling(_object.getIsBestSelling());
+		object.setIsNew(_object.getIsNewProduct());
+		
+		object.setSaleOffPercent(_object.getSaleOffPercent());
+		
+		object.setStatus(_object.isStatus());
+		if (_object.isStatus()) {
+			object.setBanReason(null);
+		} else {
+			object.setBanReason(_object.getBanReason());
+		}
+		
+		object = repos.save(object);
+		
+		return repos.findInfoById(object.getId());
+	}
+	
 	@Override
 	public ProductInfo update(int id, ProductInfo _object) {
 
@@ -74,6 +120,9 @@ public class ProductService implements IProductService {
 		object.setDescriptionDetail(_object.getDescriptionDetail());
 		object.setUpdated(new Date());
 
+		object.setPrice(_object.getPrice());
+		object.setOriginalPrice(_object.getOriginalPrice());
+		
 		object.setIsOutstanding(_object.getIsOutstanding());
 		object.setIsBestSelling(_object.getIsBestSelling());
 		object.setIsNew(_object.getIsNewProduct());

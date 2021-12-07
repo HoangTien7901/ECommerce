@@ -15,13 +15,13 @@ public class UserInfo {
 	
 	private int id;
 	
-	@NotNull(message = "null 1")
+	@NotNull
 	@Pattern(regexp = "^(?=.{6,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$", 
 	message = "Username must have from 6 to 20 characters, only contains alphanumeric characters and underscore "
 			+ "and dot in between with no underscore and/or dot next to each other.")
 	private String username;
 	
-	@NotNull(message = "null 2")
+	@NotNull
 	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", 
 	message = "Password must have from 8 to 20 characters including at least one uppercase letter, one number and one special character.")
 	private String password;
@@ -32,14 +32,14 @@ public class UserInfo {
 	@NotEmpty(message = "Email cannot be empty")
 	private String email;
 	
-	@NotNull(message = "null 3")
+	@NotNull
 	@Length(min = 5, max = 100)
 	private String fullname;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date birthday;
 	
-	@NotNull(message = "null 4")
+	@NotNull
 	@Pattern(regexp = "^[0-9]*$", message = "This field can only contain number.")
 	@Length(min = 9, max = 13)
 	private String phone;
@@ -54,6 +54,9 @@ public class UserInfo {
 	private Date banTerm;
 	
 	private boolean status;
+	
+	@NotNull
+	private String address;
 
 	public int getId() {
 		return id;
@@ -150,6 +153,14 @@ public class UserInfo {
 	public void setBanTerm(Date banTerm) {
 		this.banTerm = banTerm;
 	}
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public UserInfo() {
 		super();
@@ -184,5 +195,20 @@ public class UserInfo {
 		this.updated = updated;
 		this.banTerm = banTerm;
 		this.status = status;
+	}
+	
+	public UserInfo(int id, String username, String password, Integer roleId, String fullname, Date birthday, String phone, String email, boolean status
+			,String address) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.roleId = roleId;
+		this.fullname = fullname;
+		this.birthday = birthday;
+		this.phone = phone;
+		this.email = email;
+		this.status = status;
+		this.address = address;
 	}
 }

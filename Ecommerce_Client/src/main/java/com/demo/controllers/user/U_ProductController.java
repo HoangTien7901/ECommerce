@@ -25,7 +25,5 @@ public class U_ProductController {
 		} catch (Exception e) {
 			return new ResponseEntity<ProductInfo>(HttpStatus.BAD_REQUEST);
 		}
-		
 	}
-
 }

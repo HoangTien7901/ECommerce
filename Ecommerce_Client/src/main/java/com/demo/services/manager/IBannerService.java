@@ -15,4 +15,6 @@ public interface IBannerService {
 	public ResponseEntity<Void> update(BannerInfo banner);
 	
 	public ResponseEntity<Void> delete(int id);
+
+	public ResponseEntity<BannerInfo> findInfoActive();
 }

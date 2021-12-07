@@ -13,9 +13,15 @@ public interface IProductService {
 	
 	public Iterable<ProductInfo> findOutStandingProducts();
 	
+	public Iterable<ProductInfo> searchWithCategory(String keyword, double min, double max, int categoryId);
+	
+	public Iterable<ProductInfo> search(String keyword, double min, double max);
+	
 	public ProductInfo findInfoById(int id);
 	
 	public Products findById(int id);
+	
+	public ProductInfo add(ProductInfo object);
 	
 	public ProductInfo update(int id, ProductInfo object);
 	

@@ -8,6 +8,10 @@ public interface ICartService {
 
 	public CartInfo create(CartInfo _object);
 	
+	public int updateStatus(int id, String status);
+	
 	public void delete(int id);
+	
+	public void deleteIfUnfinshed(int id);
 	
 }

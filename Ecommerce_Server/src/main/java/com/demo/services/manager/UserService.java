@@ -58,6 +58,7 @@ public class UserService implements IUserService {
 		object.setPhone(_object.getPhone());
 		object.setEmail(_object.getEmail());
 		object.setUpdated(new Date());
+		object.setAddress(_object.getAddress());
 		
 		object = repos.save(object);
 		

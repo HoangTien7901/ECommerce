@@ -29,6 +29,20 @@ public class CategoryService implements ICategoryService {
 	}
 	
 	@Override
+	public ResponseEntity<Iterable<CategoryInfo>> findAllForSelection() {
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			return restTemplate.exchange(BASE_URL + "findAllForSelection",
+					HttpMethod.GET,
+					null , 
+					new ParameterizedTypeReference<Iterable<CategoryInfo>>() {} );
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	@Override
 	public ResponseEntity<Iterable<CategoryInfo>> findAllExcept(int id, int level) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();

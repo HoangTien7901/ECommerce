@@ -19,7 +19,7 @@
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
 								<li class="breadcrumb-item"><a
-								href="${pageContext.request.contextPath }/manager/user/index">${parentPageTitle }</a></li>
+								href="${pageContext.request.contextPath }/manager/profile/index">${parentPageTitle }</a></li>
 								<li class="breadcrumb-item active">${pageTitle }</li>
 							</ol>
 						</div>

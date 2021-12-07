@@ -18,7 +18,7 @@
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
 								<li class="breadcrumb-item"><a
-								href="${pageContext.request.contextPath }/manager/category/index">${parentPageTitle }</a></li>
+								href="${pageContext.request.contextPath }/manager/product/index">${parentPageTitle }</a></li>
 								<li class="breadcrumb-item active">${pageTitle }</li>
 							</ol>
 						</div>
@@ -46,7 +46,8 @@
 											<s:label path="name">Name</s:label>
 											<s:input cssClass="form-control" path="name"
 											placeholder="Enter name" />
-											<s:errors path="name" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
+											<s:errors path="name"
+											cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">
@@ -66,17 +67,32 @@
 										</div>
 										
 										<div class="form-group">
-											<s:label path="storeId">Store</s:label>
-											<s:select path="storeId" cssClass="form-control">
-												<s:options items="${stores}" itemLabel="name" itemValue="id"></s:options>
-											</s:select>
+											<s:label path="price">Price</s:label>
+											<s:input cssClass="form-control" path="price"
+											placeholder="Enter price" />
+											<s:errors path="price"
+											cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
+										
+										<div class="form-group">
+											<s:label path="originalPrice">Original price</s:label>
+											<s:input cssClass="form-control" path="originalPrice"
+											placeholder="Enter original price" />
+											<s:errors path="originalPrice"
+											cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
+										</div>
+										
+										<s:hidden path="storeId" />
 										
 										<div class="form-group">
 											<label>Current avatar</label>
 											<p></p>
-											<a href="${pageContext.request.contextPath }/uploads/images/${img }" data-toggle="lightbox" data-title="Product's current avatar">
-                        						<img src="${pageContext.request.contextPath }/uploads/images/${img }" width="250px" alt="Product's current avatar"/>
+											<a
+											href="${pageContext.request.contextPath }/uploads/images/${img }"
+											data-toggle="lightbox" data-title="Product's current avatar">
+                        						<img
+											src="${pageContext.request.contextPath }/uploads/images/${img }"
+											width="250px" alt="Product's current avatar" />
                       						</a>
 										</div>
 										
@@ -95,8 +111,10 @@
 										</div>
 										
 										<div class="form-group">
-											<a id="linkPreview" data-toggle="lightbox" data-title="Product's current avatar">
-                        						<img id="preview" alt="Product's new avatar"/>
+											<a id="linkPreview" data-toggle="lightbox" href="${pageContext.request.contextPath }/uploads/images/defaultPreviewImg.png"
+											data-title="Product's new avatar">
+                        						<img id="preview" alt="Product's new avatar"
+                        							src="${pageContext.request.contextPath }/uploads/images/defaultPreviewImg.png"/>
                       						</a>
 										</div>
 										
@@ -104,14 +122,16 @@
 											<s:label path="description">Description</s:label>
 											<s:textarea cssClass="form-control" path="description"
 											rows="5" cols="30" placeholder="Enter reason" />
-											<s:errors path="description" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
+											<s:errors path="description"
+											cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-group">
 											<s:label path="descriptionDetail">Description details</s:label>
 											<s:textarea cssClass="form-control" path="descriptionDetail"
 											rows="10" cols="30" placeholder="Enter description details" />
-											<s:errors path="descriptionDetail" cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
+											<s:errors path="descriptionDetail"
+											cssStyle="font-size: 80%;color: #dc3545;"></s:errors>
 										</div>
 										
 										<div class="form-check">
@@ -124,15 +144,12 @@
 											<label for="isBestSelling1">Is best selling</label>
 										</div>
 										
-										<div class="form-check">
-											<s:checkbox path="isNewProduct" cssClass="form-check-input" />
-											<label for="isNewProduct1">Is new product</label>
 											<s:hidden path="id" />
 											<s:hidden path="status" />
+											<s:hidden path="isNewProduct" />
 											<s:hidden path="avatar" />
 											<s:hidden path="banReason" />
 											<s:hidden path="saleOffPercent" />
-										</div>
 									</div>
 									<!-- /.card-body -->
 
@@ -176,32 +193,40 @@
 	<script
 			src="${pageContext.request.contextPath }/resources/manager/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 	<script>
-		$(document).ready(function() {
-			$(document).on('click', '[data-toggle="lightbox"]',
-					function(event) {
-						event.preventDefault();
-						$(this).ekkoLightbox({
-							alwaysShowClose : true
+		$(document)
+				.ready(
+						function() {
+							$(document).on('click', '[data-toggle="lightbox"]',
+									function(event) {
+										event.preventDefault();
+										$(this).ekkoLightbox({
+											alwaysShowClose : true
+										});
+									});
+
+							bsCustomFileInput.init();
+
+							// preview upload image
+							$('input[type="file"]')
+									.change(
+											function(e) {
+												var reader = new FileReader();
+												reader.onload = function(e) {
+													// get loaded data and render thumbnail.
+													document
+															.getElementById("preview").src = e.target.result;
+
+													document
+															.getElementById("linkPreview").href = e.target.result;
+
+													$("#preview").attr('width',
+															'250px');
+												};
+												// read the image file as a data URL.
+												reader
+														.readAsDataURL(this.files[0]);
+											});
 						});
-					});
-			
-			bsCustomFileInput.init();
-			
-			// preview upload image
-			$('input[type="file"]').change(function(e) {
-				var reader = new FileReader();
-				reader.onload = function(e) {
-				    // get loaded data and render thumbnail.
-				    document.getElementById("preview").src = e.target.result;
-				    
-				    document.getElementById("linkPreview").href = e.target.result;
-				    
-				    $("#preview").attr('width','250px');
-				  };
-				  // read the image file as a data URL.
-				  reader.readAsDataURL(this.files[0]);
-				});
-		});
 	</script>			
 
 	</jsp:attribute>

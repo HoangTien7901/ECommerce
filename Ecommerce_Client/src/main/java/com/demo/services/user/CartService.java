@@ -36,10 +36,35 @@ public class CartService implements ICartService {
 	}
 	
 	@Override
+	public ResponseEntity<Void> updateStatus(int id, String status) {
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			
+			restTemplate.put(BASE_URL + "updateStatus/" + id, status);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println("Update cart status error : " + e.getMessage());
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@Override
 	public ResponseEntity<Void> delete(int id) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			restTemplate.delete(BASE_URL + "delete/" + id);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@Override
+	public ResponseEntity<Void> deleteIfUnfinished(int cartId) {
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.delete(BASE_URL + "deleteIfUnfinished/" + cartId);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

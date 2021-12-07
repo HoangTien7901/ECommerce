@@ -7,7 +7,7 @@ public interface ICategoryService {
 
 	public Iterable<CategoryInfo> findAllInfo();
 	
-	public Iterable<CategoryInfo> findAllActiveInfo();
+	public Iterable<CategoryInfo> findAllForSelection();
 	
 	public Iterable<CategoryInfo> findAllActiveExcept(int id, int level);
 	

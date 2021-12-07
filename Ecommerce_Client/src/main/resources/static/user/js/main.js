@@ -652,6 +652,8 @@
             values: [0, 100],
             slide: function(event, ui) {
                 amountprice.val("$" + ui.values[0] + " - $" + ui.values[1]);
+                $("#minPrice").val(ui.values[0]);
+                $("#maxPrice").val(ui.values[1]);
             }
         });
         amountprice.val("$" + sliderrange.slider("values", 0) +

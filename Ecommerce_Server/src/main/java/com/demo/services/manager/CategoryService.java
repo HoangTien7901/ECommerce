@@ -24,8 +24,8 @@ public class CategoryService implements ICategoryService {
 	}
 
 	@Override
-	public Iterable<CategoryInfo> findAllActiveInfo() {
-		return repos.findAllActiveInfo();
+	public Iterable<CategoryInfo> findAllForSelection() {
+		return repos.findAllForSelection();
 	}
 
 	@Override

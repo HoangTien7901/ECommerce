@@ -24,9 +24,18 @@ public class TransactionInfo {
 	private String note;
 	private String status;
 	private String cancelReason;
+	private int transactionDetailsId;
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date created;
+
+	public int getTransactionDetailsId() {
+		return transactionDetailsId;
+	}
+
+	public void setTransactionDetailsId(int transactionDetailsId) {
+		this.transactionDetailsId = transactionDetailsId;
+	}
 
 	public int getId() {
 		return id;
@@ -131,7 +140,7 @@ public class TransactionInfo {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -139,7 +148,7 @@ public class TransactionInfo {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 	public String getBranchName() {
 		return branchName;
 	}
@@ -147,7 +156,7 @@ public class TransactionInfo {
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
 	}
-	
+
 	public String getNote() {
 		return note;
 	}
@@ -187,23 +196,39 @@ public class TransactionInfo {
 		this.created = created;
 	}
 
+	// for buying
+	public TransactionInfo(int id, Integer productId, String productName, String categoryName, String username,
+			double price, int quantity, String status, int transactionDetailsId, Date created) {
+		super();
+		this.id = id;
+		this.productName = productName;
+		this.productId = productId;
+		this.username = username;
+		this.categoryName = categoryName;
+		this.price = price;
+		this.quantity = quantity;
+		this.status = status;
+		this.created = created;
+		this.transactionDetailsId = transactionDetailsId;
+	}
+
 	// for product transaction list
-		public TransactionInfo(int id, Integer productId, String productName, String categoryName, String branchName, String username,
-				double price, int quantity, double tax, String status, String cancelReason, Date created) {
-			super();
-			this.id = id;
-			this.productName = productName;
-			this.productId = productId;
-			this.username = username;
-			this.categoryName = categoryName;
-			this.branchName = branchName;
-			this.price = price;
-			this.quantity = quantity;
-			this.tax = tax;
-			this.status = status;
-			this.cancelReason = cancelReason;
-			this.created = created;
-		}
+	public TransactionInfo(int id, Integer productId, String productName, String categoryName, String branchName,
+			String username, double price, int quantity, double tax, String status, String cancelReason, Date created) {
+		super();
+		this.id = id;
+		this.productName = productName;
+		this.productId = productId;
+		this.username = username;
+		this.categoryName = categoryName;
+		this.branchName = branchName;
+		this.price = price;
+		this.quantity = quantity;
+		this.tax = tax;
+		this.status = status;
+		this.cancelReason = cancelReason;
+		this.created = created;
+	}
 
 	public TransactionInfo() {
 		super();

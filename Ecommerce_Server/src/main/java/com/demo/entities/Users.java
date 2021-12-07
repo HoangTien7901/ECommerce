@@ -49,6 +49,8 @@ public class Users implements java.io.Serializable {
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date banTerm;
+	
+	private String address;
 	private Set<ChatChanels> chatChanelses = new HashSet<ChatChanels>(0);
 	private Set<TransactionDetails> transactionDetailses = new HashSet<TransactionDetails>(0);
 	private Set<Notifications> notificationses = new HashSet<Notifications>(0);
@@ -65,7 +67,7 @@ public class Users implements java.io.Serializable {
 	}
 
 	public Users(Roles roles, String username, String password, String fullname, Date birthday, String phone,
-			String email, Date created, boolean status) {
+			String email, Date created, boolean status, String address) {
 		this.roles = roles;
 		this.username = username;
 		this.password = password;
@@ -75,10 +77,11 @@ public class Users implements java.io.Serializable {
 		this.email = email;
 		this.created = created;
 		this.status = status;
+		this.address = address;
 	}
 
 	public Users(Roles roles, String username, String password, String fullname, Date birthday, String phone,
-			String email, Date created, Date updated, boolean status, Date banTerm, Set<ChatChanels> chatChanelses,
+			String email, Date created, Date updated, boolean status, Date banTerm, String address, Set<ChatChanels> chatChanelses,
 			Set<TransactionDetails> transactionDetailses, Set<Notifications> notificationses, Set<Carts> cartses,
 			Set<Services> servicesesForCreatedId, Set<Banners> bannersesForCreaterId, Set<Comments> commentses,
 			Set<Banners> bannersesForUpdaterId, Set<Services> servicesesForUpdatedId, Set<Stores> storeses,
@@ -94,6 +97,7 @@ public class Users implements java.io.Serializable {
 		this.updated = updated;
 		this.status = status;
 		this.banTerm = banTerm;
+		this.address = address;
 		this.chatChanelses = chatChanelses;
 		this.transactionDetailses = transactionDetailses;
 		this.notificationses = notificationses;
@@ -221,6 +225,15 @@ public class Users implements java.io.Serializable {
 
 	public void setBanTerm(Date banTerm) {
 		this.banTerm = banTerm;
+	}
+	
+	@Column(name = "address", nullable = false, length = 500)
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")

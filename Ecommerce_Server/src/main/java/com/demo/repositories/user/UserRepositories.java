@@ -10,7 +10,12 @@ import com.demo.models.UserInfo;
 @Repository("userRepositories")
 public interface UserRepositories extends CrudRepository<Users, Integer> {
 
-	@Query("select new com.demo.models.UserInfo(id, username, password, roles.id, fullname, birthday, phone, email, status) from Users where username = :username")
+	@Query("select new com.demo.models.UserInfo(id, username, password, roles.id, fullname, birthday, phone, email, status, address) from Users where username = :username")
 	public UserInfo getInfoByUsername(@Param("username") String username);
+	
+	@Query("select new com.demo.models.UserInfo(id, username, password, roles.id, fullname, birthday, phone, email, status, address) from Users where id = :id")
+	public UserInfo getInfoById(@Param("id") int id);
+	
+	public Users findByUsername(String username);
 	
 }

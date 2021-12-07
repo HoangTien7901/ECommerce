@@ -17,6 +17,9 @@ public interface IBannerRepository extends CrudRepository<Banners, Integer> {
 	@Query("select new com.demo.models.BannerInfo(id, caption, description, link, created, updated, status, usersByCreaterId.id, usersByUpdaterId.id) from Banners where id = :id")
 	public BannerInfo findInfoById(@Param("id") int id);
 	
+	@Query("select new com.demo.models.BannerInfo(id, caption, description, link, created, updated, status, usersByCreaterId.id, usersByUpdaterId.id) from Banners where status = 1")
+	public BannerInfo findInfoActive();
+	
 	@Modifying
 	@Transactional
 	@Query("update Banners b set b.status = 0 where b.id <> :id")

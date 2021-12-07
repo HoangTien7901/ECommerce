@@ -12,8 +12,8 @@ public interface ICategoryRepository extends CrudRepository<Categories, Integer>
 	@Query("select new com.demo.models.CategoryInfo(id, name, discountPercent, categories.id, status, level) from Categories")
 	public Iterable<CategoryInfo> findAllInfo();
 	
-	@Query("select new com.demo.models.CategoryInfo(id, name, discountPercent, categories.id, status, level) from Categories where status = true")
-	public Iterable<CategoryInfo> findAllActiveInfo();
+	@Query("select new com.demo.models.CategoryInfo(id, name, discountPercent, categories.id, status, level) from Categories where level <= 2")
+	public Iterable<CategoryInfo> findAllForSelection();
 	
 	@Query("select new com.demo.models.CategoryInfo(id, name, discountPercent, categories.id, status, level) from Categories where id <> :id and level <= :level")
 	public Iterable<CategoryInfo> findAllActiveExcept(@Param("id") int id, @Param("level") int level);

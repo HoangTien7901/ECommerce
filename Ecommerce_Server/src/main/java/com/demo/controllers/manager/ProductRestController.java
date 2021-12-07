@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.models.ProductInfo;
+import com.demo.models.ServiceInfo;
 import com.demo.services.manager.IProductService;
 
 @RestController
-@RequestMapping(value = {"api/manager/product", "api/product"})
+@RequestMapping(value = {"api/product", "api/manager/product"})
 public class ProductRestController {
 	
 	@Autowired
@@ -56,10 +57,55 @@ public class ProductRestController {
 		}
 	}
 	
+	@RequestMapping(value = "searchWithCategory/{keyword}/{min}/{max}/{categoryId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Iterable<ProductInfo>> searchWithCategory(@PathVariable("keyword") String _keyword
+			, @PathVariable("min") double _min
+			, @PathVariable("max") double _max
+			, @PathVariable("categoryId") int _categoryId) {
+		try {
+			String keyword = _keyword;
+			if (keyword.equals("tmp")) {
+				keyword = "";
+			}
+			
+			return new ResponseEntity<Iterable<ProductInfo>>(productService.searchWithCategory(keyword, _min, _max, _categoryId), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Iterable<ProductInfo>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "search/{keyword}/{min}/{max}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Iterable<ProductInfo>> search(@PathVariable("keyword") String _keyword
+			, @PathVariable(name =  "min", required = false) double _min
+			, @PathVariable(name = "max", required = false) double _max) {
+		try {
+			String keyword = _keyword;
+			if (keyword.equals("tmp")) {
+				keyword = "";
+			}
+			
+			return new ResponseEntity<Iterable<ProductInfo>>(productService.search(keyword, _min, _max), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Iterable<ProductInfo>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@RequestMapping(value = "findInfoById/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ProductInfo> findInfoUserById(@PathVariable("id") int id) {
 		try {
 			return new ResponseEntity<ProductInfo>(productService.findInfoById(id), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<ProductInfo>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value= {"create"} , method = RequestMethod.POST,
+			produces = MimeTypeUtils.APPLICATION_JSON_VALUE , 
+			consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ProductInfo> create(@RequestBody ProductInfo object) {
+		try {
+			System.out.println("Server: product name: " + object.getName());;
+			return new ResponseEntity<ProductInfo>(productService.add(object), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<ProductInfo>(HttpStatus.BAD_REQUEST);
 		}

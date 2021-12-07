@@ -40,7 +40,6 @@
 										data-card-widget="maximize">
 											<i class="fas fa-expand"></i>
 										</button>
-										<!-- This will cause the card to collapse when clicked -->
 										<a href="${pageContext.request.contextPath }/manager/service/add">
 											<button type="button" class="btn btn-primary">Add</button>
 										</a>

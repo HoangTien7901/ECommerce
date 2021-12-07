@@ -31,7 +31,7 @@ public class M_ContactController {
 	public String index(ModelMap modelMap) {
 		ResponseEntity<Contacts> responseEntity = contactService.getContact();
 		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
-			modelMap.put("title", "Manage tag");
+			modelMap.put("title", "Manage contact");
 			modelMap.put("contactActive", "active");
 
 			modelMap.put("adminOpen", true);
@@ -53,7 +53,7 @@ public class M_ContactController {
 
 		validator.validate(item, errors);
 		if (errors.hasErrors()) {
-			modelMap.put("title", "Manage tag");
+			modelMap.put("title", "Manage contact");
 			modelMap.put("contactActive", "active");
 
 			modelMap.put("pageTitle", "Contact info");

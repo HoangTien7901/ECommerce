@@ -29,6 +29,11 @@ public class BannerService implements IBannerService {
 	public BannerInfo findInfoById(int id) {
 		return bannerRepos.findInfoById(id);
 	}
+	
+	@Override
+	public BannerInfo findInfoActive() {
+		return bannerRepos.findInfoActive();
+	}
 
 	@Override
 	public Banners findById(int id) {

@@ -99,7 +99,7 @@ public class TransactionDetails implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "payment", nullable = false, length = 100)
+	@Column(name = "payment", length = 100)
 	public String getPayment() {
 		return this.payment;
 	}
@@ -108,7 +108,7 @@ public class TransactionDetails implements java.io.Serializable {
 		this.payment = payment;
 	}
 
-	@Column(name = "address", nullable = false, length = 500)
+	@Column(name = "address", length = 500)
 	public String getAddress() {
 		return this.address;
 	}
@@ -117,7 +117,7 @@ public class TransactionDetails implements java.io.Serializable {
 		this.address = address;
 	}
 
-	@Column(name = "quantity", nullable = false)
+	@Column(name = "quantity", nullable = true)
 	public int getQuantity() {
 		return this.quantity;
 	}
@@ -126,7 +126,7 @@ public class TransactionDetails implements java.io.Serializable {
 		this.quantity = quantity;
 	}
 
-	@Column(name = "discount", nullable = false, precision = 22, scale = 0)
+	@Column(name = "discount", precision = 22, scale = 0)
 	public double getDiscount() {
 		return this.discount;
 	}
@@ -135,7 +135,7 @@ public class TransactionDetails implements java.io.Serializable {
 		this.discount = discount;
 	}
 
-	@Column(name = "vat", nullable = false, precision = 22, scale = 0)
+	@Column(name = "vat", precision = 22, scale = 0)
 	public double getVat() {
 		return this.vat;
 	}

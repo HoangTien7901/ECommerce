@@ -1,13 +1,30 @@
 package com.demo.services.user;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.demo.models.CategoryInfor;
+import com.demo.models.CategoryInfo;
+import com.demo.repositories.user.ICategoryRepository;
 
-public interface CategoryService {
+@Service("userCategory")
+public class CategoryService implements ICategoryService {
 
-	public List<CategoryInfor> getAll();
+	@Autowired
+	private ICategoryRepository repos;
 	
-	public List<CategoryInfor> getByParent(int id);
+	@Override
+	public Iterable<CategoryInfo> findAllInfo() {
+		return repos.findAllInfo();
+	}
+
+	@Override
+	public Iterable<CategoryInfo> findAllByParentId(int parentId) {
+		return repos.findAllByParentId(parentId);
+	}
+
+	@Override
+	public Iterable<CategoryInfo> findAllYoungestChildren() {
+		return repos.findYoungestChildrenInfo();
+	}
 	
 }

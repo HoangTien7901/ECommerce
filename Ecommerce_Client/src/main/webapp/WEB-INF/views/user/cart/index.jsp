@@ -13,7 +13,11 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <h1 class="cart-heading">Cart</h1>
-                        <form action="#">
+                        <form method="post" action="${postUrl }">
+                        <input type="hidden" name="upload" value="1" /> 
+						<input type="hidden" name="return" value="${returnUrl }" /> 
+						<input type="hidden" name="cmd" value="_cart" /> 
+						<input type="hidden" name="business" value="${business }" />
                             <div class="table-content table-responsive">
                                 <table>
                                     <thead>
@@ -26,8 +30,8 @@
                                             <th>Total</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                    	<c:forEach var="item" items="${products }">
+                                    <tbody id="products-in-cart">
+                                    	<c:forEach var="item" items="${products }" varStatus="i">
                                         <tr id="product-in-cart-row-${item.id }">
                                             <td class="product-remove"><a
 												class="remove-product-in-cart" data-id="${item.id }"><i class="pe-7s-close"></i></a></td>
@@ -48,7 +52,12 @@
                                                 <input value="${item.quantity }"
 												type="number" id="quantity${item.id }" class="product-quantity-input" data-id="${item.id }" min="1">
                                             </td>
-                                            <td class="product-subtotal" id="subtotal${item.id }">${item.quantity * item.price }</td>
+                                            <td class="product-subtotal" id="subtotal${item.id }">${item.quantity * item.price }
+                                        	<input type="hidden" name="item_number_${i.index + 1 }" value="${item.id }">
+											<input type="hidden" name="item_name_${i.index + 1 }" value="${item.name }">
+											<input type="hidden" name="amount_${i.index + 1 }" value="${item.price }">
+											<input type="hidden" name="quantity_${i.index + 1 }" value="${item.quantity}">
+											</td>
                                         </tr>
                                         </c:forEach>
                                     </tbody>
@@ -61,7 +70,7 @@
                                         <ul>
                                             <li>Total<span id="cart-total">${cartTotal }</span></li>
                                         </ul>
-                                        <a href="#">Proceed to checkout</a>
+                                        <input type="submit" value="Proceed to checkout" id="checkoutButton" disabled="${disableCheckout }" >
                                     </div>
                                 </div>
                             </div>

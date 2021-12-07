@@ -35,7 +35,7 @@ import com.demo.services.manager.IStoreService;
 import com.demo.services.manager.ISystemService;
 
 @Controller
-@RequestMapping(value = {"manager/product" })
+@RequestMapping(value = { "manager/product" })
 public class ProductController implements ServletContextAware {
 
 	private ServletContext servletContext;
@@ -123,47 +123,6 @@ public class ProductController implements ServletContextAware {
 		return "manager/product/edit";
 	}
 
-	@RequestMapping(value = { "lock/{id}" }, method = RequestMethod.GET)
-	public String lock(@PathVariable("id") int id, ModelMap modelMap) {
-		ResponseEntity<ProductInfo> responseEntity = productService.findInfoById(id);
-
-		ProductInfo result = responseEntity.getBody();
-
-		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-			modelMap.put("title", "Lock product");
-			modelMap.put("productActive", "active");
-
-			modelMap.put("id", result.getId());
-			modelMap.put("productName", result.getName());
-			modelMap.put("pageTitle", "Lock");
-			modelMap.put("parentPageTitle", "Product");
-		} else {
-			System.out.println("Client - Update get product result" + responseEntity == null ? "null"
-					: responseEntity.getStatusCode());
-		}
-		return "manager/product/lock";
-	}
-
-	@RequestMapping(value = { "lock" }, method = RequestMethod.POST)
-	public String lock(@RequestParam("banReason") String banReason, @RequestParam("id") int id) {
-
-		ResponseEntity<Void> responseEntity = productService.toggleStatus(id);
-		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-			responseEntity = productService.updateBanReason(id, banReason);
-
-			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
-
-			} else {
-				System.out.println("Client - Update lock product(ban reason) result" + responseEntity == null ? "null"
-						: responseEntity.getStatusCode());
-			}
-		} else {
-			System.out.println("Client - Update lock product(status) result" + responseEntity == null ? "null"
-					: responseEntity.getStatusCode());
-		}
-		return "redirect:/manager/product/index";
-	}
-
 	@RequestMapping(value = { "save" }, method = RequestMethod.POST)
 	public String save(@ModelAttribute("item") @Valid ProductInfo item, BindingResult errors,
 			@RequestParam(name = "newAvatar", required = false) MultipartFile newAvatar, ModelMap modelMap,
@@ -243,6 +202,149 @@ public class ProductController implements ServletContextAware {
 		}
 	}
 
+	@RequestMapping(value = { "add" }, method = RequestMethod.GET)
+	public String add(ModelMap modelMap) {
+		modelMap.put("title", "Add product");
+		modelMap.put("productActive", "active");
+
+		modelMap.put("pageTitle", "Add");
+		modelMap.put("parentPageTitle", "Product");
+
+		ProductInfo result = new ProductInfo();
+		
+		result.setIsNewProduct(true);
+		result.setSaleOffPercent(0);
+		result.setStoreId(1);
+		result.setStatus(true);
+		
+		ResponseEntity<Iterable<CategoryInfo>> categoryRespone = categoryService.findAllInfo();
+		ResponseEntity<Iterable<BranchInfo>> branchRespone = branchService.findAllInfo();
+
+		if (!(categoryRespone == null || categoryRespone.getStatusCode() != HttpStatus.OK)) {
+			if (!(branchRespone == null || branchRespone.getStatusCode() != HttpStatus.OK)) {
+				modelMap.put("categories", categoryRespone.getBody());
+				modelMap.put("branches", branchRespone.getBody());
+
+				modelMap.put("item", result);
+			} else {
+				modelMap.put("msg", "Server - Get branches result "
+						+ (branchRespone == null ? "null" : branchRespone.getStatusCode()));
+				modelMap.put("msgType", "danger");
+			}
+		} else {
+			modelMap.put("msg", "Server - Get categories result "
+					+ (categoryRespone == null ? "null" : categoryRespone.getStatusCode()));
+			modelMap.put("msgType", "danger");
+		}
+
+		return "manager/product/add";
+	}
+
+	@RequestMapping(value = { "create" }, method = RequestMethod.POST)
+	public String add(@ModelAttribute("item") @Valid ProductInfo item, BindingResult errors,
+			@RequestParam(name = "newAvatar", required = false) MultipartFile newAvatar, ModelMap modelMap,
+			RedirectAttributes redirectAttr) {
+		ResponseEntity<com.demo.models.System> systemResponse = systemService.getSystem();
+		com.demo.models.System system = systemResponse.getBody();
+
+		if (errors.hasErrors()) {
+			ResponseEntity<Iterable<CategoryInfo>> categoryRespone = categoryService.findAllInfo();
+			ResponseEntity<Iterable<BranchInfo>> branchRespone = branchService.findAllInfo();
+
+				if (!(categoryRespone == null || categoryRespone.getStatusCode() != HttpStatus.OK)) {
+					if (!(branchRespone == null || branchRespone.getStatusCode() != HttpStatus.OK)) {
+						modelMap.put("categories", categoryRespone.getBody());
+						modelMap.put("branches", branchRespone.getBody());
+
+						modelMap.put("title", "Add product");
+						modelMap.put("productActive", "active");
+
+						modelMap.put("pageTitle", "Add");
+						modelMap.put("parentPageTitle", "Product");
+					} else {
+						modelMap.put("msg", "Server - Get branches result "
+								+ (branchRespone == null ? "null" : branchRespone.getStatusCode()));
+						modelMap.put("msgType", "danger");
+					}
+				} else {
+					redirectAttr.addFlashAttribute("msg", "Server - Get categories result "
+							+ (categoryRespone == null ? "null" : categoryRespone.getStatusCode()));
+					redirectAttr.addFlashAttribute("msgType", "danger");
+				}
+
+			return "redirect:/manager/product/index";
+		} else {
+			// upload new avatar
+			if (!newAvatar.isEmpty()) {
+				if (newAvatar.getSize() / 1024 / 1024 > system.getMaxBannerPhotoSize()) {
+					redirectAttr.addFlashAttribute("msg", "File is too large: " + (newAvatar.getSize() / 1024 / 1024)
+							+ ". Maximum file size is: " + system.getMaxBannerPhotoSize());
+					redirectAttr.addFlashAttribute("msgType", "danger");
+					
+					return "redirect:/manager/product/index";
+				} else {
+					String fileName = FileUploadHelper.upload(newAvatar, servletContext);
+					item.setAvatar(fileName);
+				}
+			} else {
+				item.setAvatar("defaultPreviewImg.png");
+			}
+
+			ResponseEntity<ProductInfo> responseEntity = productService.create(item);
+			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
+				redirectAttr.addFlashAttribute("msg", "Create product success!");
+				redirectAttr.addFlashAttribute("msgType", "success");
+			} else {
+				redirectAttr.addFlashAttribute("msg", "Server - Create product result "
+						+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+				redirectAttr.addFlashAttribute("msgType", "danger");
+			}
+
+			return "redirect:/manager/product/index";
+		}
+	}
+
+	@RequestMapping(value = { "lock/{id}" }, method = RequestMethod.GET)
+	public String lock(@PathVariable("id") int id, ModelMap modelMap) {
+		ResponseEntity<ProductInfo> responseEntity = productService.findInfoById(id);
+
+		ProductInfo result = responseEntity.getBody();
+
+		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
+			modelMap.put("title", "Lock product");
+			modelMap.put("productActive", "active");
+
+			modelMap.put("id", result.getId());
+			modelMap.put("productName", result.getName());
+			modelMap.put("pageTitle", "Lock");
+			modelMap.put("parentPageTitle", "Product");
+		} else {
+			System.out.println("Client - Update get product result" + responseEntity == null ? "null"
+					: responseEntity.getStatusCode());
+		}
+		return "manager/product/lock";
+	}
+
+	@RequestMapping(value = { "lock" }, method = RequestMethod.POST)
+	public String lock(@RequestParam("banReason") String banReason, @RequestParam("id") int id) {
+
+		ResponseEntity<Void> responseEntity = productService.toggleStatus(id);
+		if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
+			responseEntity = productService.updateBanReason(id, banReason);
+
+			if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
+
+			} else {
+				System.out.println("Client - Update lock product(ban reason) result" + responseEntity == null ? "null"
+						: responseEntity.getStatusCode());
+			}
+		} else {
+			System.out.println("Client - Update lock product(status) result" + responseEntity == null ? "null"
+					: responseEntity.getStatusCode());
+		}
+		return "redirect:/manager/product/index";
+	}
+
 	@RequestMapping(value = { "delete/{id}" }, method = RequestMethod.GET)
 	public String delete(@PathVariable("id") int id, RedirectAttributes redirectAttr) {
 		ResponseEntity<Void> responseEntity = productService.delete(id);
@@ -261,9 +363,10 @@ public class ProductController implements ServletContextAware {
 	public String toggleStatus(@PathVariable("id") int id, RedirectAttributes redirectAttr) {
 		ResponseEntity<Void> responseEntity = productService.toggleStatus(id);
 		if (!(responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK)) {
-			
+
 		} else {
-			redirectAttr.addFlashAttribute("msg", "Server - Toggle product status result " + (responseEntity == null ? "null" : responseEntity.getStatusCode()));
+			redirectAttr.addFlashAttribute("msg", "Server - Toggle product status result "
+					+ (responseEntity == null ? "null" : responseEntity.getStatusCode()));
 			redirectAttr.addFlashAttribute("msgType", "danger");
 		}
 		return "redirect:/manager/product/index";

@@ -8,4 +8,6 @@ public interface UserService {
 	
 	public UserInfo create(UserInfo _object);
 	
+	public UserInfo update(int id, UserInfo _object);
+	
 }

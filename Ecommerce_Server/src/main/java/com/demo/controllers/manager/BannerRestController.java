@@ -56,6 +56,21 @@ public class BannerRestController {
 			return new ResponseEntity<BannerInfo>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@RequestMapping(value = "findInfoActive", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<BannerInfo> findInfoActive() {
+		try {
+
+			BannerInfo banner = service.findInfoActive();
+
+			banner.setImgs(imgService.findAllInfoByBannerId(banner.getId()));
+
+			return new ResponseEntity<BannerInfo>(banner, HttpStatus.OK);
+
+		} catch (Exception e) {
+			return new ResponseEntity<BannerInfo>(HttpStatus.BAD_REQUEST);
+		}
+	}
 
 	@RequestMapping(value = {
 			"create" }, method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE, consumes = MimeTypeUtils.APPLICATION_JSON_VALUE)

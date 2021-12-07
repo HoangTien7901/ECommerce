@@ -30,6 +30,8 @@ public class UserInfo {
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date banTerm;
 	
+	private String address;
+	
 	private boolean status;
 
 	public int getId() {
@@ -103,6 +105,14 @@ public class UserInfo {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public String getUsername() {
 		return username;
@@ -150,7 +160,8 @@ public class UserInfo {
 		this.status = status;
 	}
 	
-	public UserInfo(int id, String username, String password, Integer roleId, String fullname, Date birthday, String phone, String email, boolean status) {
+	public UserInfo(int id, String username, String password, Integer roleId, String fullname, Date birthday, String phone, String email, boolean status
+			,String address) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -161,5 +172,6 @@ public class UserInfo {
 		this.phone = phone;
 		this.email = email;
 		this.status = status;
+		this.address = address;
 	}
 }
